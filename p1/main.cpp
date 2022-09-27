@@ -1,5 +1,6 @@
 #include "Direccion.h"
-#include "coordenadasHomogeneas.h"
+#include "CoordenadasHomogeneas.h"
+#include "Matrix4.h"
 #include <iostream>
 #include <stdlib.h>
 
@@ -50,7 +51,15 @@ int main(){
 
     cout << res1.coord[0] << " " << res1.coord[1] << " " << res1.coord[2] << endl;
 
+    // MATRIX 4 x 4
+    float v[4][4] = {{1,2,0,0},{3,0,0,0},{0,0,0,0},{0,0,0,0}};
+    Matrix4 m1(v), m2;
 
+    cout << m1 << endl;
+    Matrix4 m3 = m1 + m2;
+    cout << m3 << endl;
+    Matrix4 m4 = m1*m3;
+    cout << m4 << endl;
 
     //SCALE
     CoordenadasHomogeneas c2 = CoordenadasHomogeneas(p2);
