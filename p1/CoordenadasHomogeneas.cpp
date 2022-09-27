@@ -1,4 +1,4 @@
-#include "coordenadasHomogeneas.h"
+#include "CoordenadasHomogeneas.h"
 
 CoordenadasHomogeneas::CoordenadasHomogeneas(Punto p){
     coord[0] = p.x;
