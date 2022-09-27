@@ -36,9 +36,13 @@ class Direccion{
     float modulo();
 
     Direccion normalizar();
+    //DOT PRODUCT
+    float operator *(Direccion d);    
 
     
 
 };
+
+Direccion crossProduct(Direccion d1, Direccion d2);
 
 #endif

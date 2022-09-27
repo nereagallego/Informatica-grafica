@@ -35,3 +35,11 @@ Direccion Direccion::normalizar(){
     float modulo = this->modulo();
     return Direccion(x/modulo,y/modulo,z/modulo);
 }
+
+float Direccion::operator *(Direccion d){
+    return x*d.x+y*d.y+z*d.z;
+}
+
+Direccion crossProduct(Direccion d1, Direccion d2){
+    return Direccion(d1.y*d2.z-d1.z*d2.y,d1.z*d2.x-d1.x*d2.z,d1.x*d2.y-d1.y*d2.x);
+}
