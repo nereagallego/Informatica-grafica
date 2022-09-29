@@ -22,6 +22,7 @@ CoordenadasHomogeneas::CoordenadasHomogeneas(float x, float y, float z, float w)
 }
 
 CoordenadasHomogeneas CoordenadasHomogeneas::translacion(float x, float y, float z){
+
     return CoordenadasHomogeneas(coord[0]+coord[3]*x,coord[1]+coord[3]*y,coord[2]+coord[3]*z,coord[3]);
 }
 
@@ -40,4 +41,14 @@ CoordenadasHomogeneas CoordenadasHomogeneas::rotacionY(float rad){
 
 CoordenadasHomogeneas CoordenadasHomogeneas::rotacionZ(float rad){
     return CoordenadasHomogeneas(coord[0]*cos(rad)-coord[1]*sin(rad),coord[0]*sin(rad)+coord[1]*cos(rad),coord[2],coord[3]);
+}
+
+CoordenadasHomogeneas CoordenadasHomogeneas::cambioBase(Matrix4 m){
+    vector<float> result = m*coord; 
+    return CoordenadasHomogeneas(result[0],result[1],result[2],result[3]);
+}
+
+CoordenadasHomogeneas CoordenadasHomogeneas::combinaciones(Matrix4 m){
+    vector<float> result = m*coord;
+    return CoordenadasHomogeneas(result[0],result[1],result[2],result[3]);
 }

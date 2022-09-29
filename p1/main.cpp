@@ -45,15 +45,19 @@ int main(){
 
     cout << cross.x << " " << cross.y << " " << cross.z << endl;
 
-    CoordenadasHomogeneas c1 = CoordenadasHomogeneas(d5);
+    CoordenadasHomogeneas c1 = CoordenadasHomogeneas(p2);
 
+
+    //float v[4][4] = {{1,0,0,2},{0,1,0,2},{0,0,1,2},{0,0,0,1}};
+    //Matrix4 m(v);
+    cout << "Coordenada " << c1.coord[0] << " " << c1.coord[1] << " " << c1.coord[2] << endl;
     CoordenadasHomogeneas res1 = c1.translacion(2,2,2);
 
-    cout << res1.coord[0] << " " << res1.coord[1] << " " << res1.coord[2] << endl;
+    cout << "Translacion " << res1.coord[0] << " " << res1.coord[1] << " " << res1.coord[2] << endl;
 
     // MATRIX 4 x 4
-    float v[4][4] = {{1,2,0,0},{3,0,0,0},{0,0,0,0},{0,0,0,0}};
-    Matrix4 m1(v), m2;
+  //  float v[4][4] = {{1,2,0,0},{3,0,0,0},{0,0,0,0},{0,0,0,0}};
+/*    Matrix4 m1(v), m2;
 
     cout << m1 << endl;
     Matrix4 m3 = m1 + m2;
@@ -74,7 +78,17 @@ int main(){
 
     CoordenadasHomogeneas res3 = c3.rotacionZ(3.141592);
 
-    cout << res3.coord[0] << " " << res3.coord[1] << " " << res3.coord[2] << endl;
+    cout << res3.coord[0] << " " << res3.coord[1] << " " << res3.coord[2] << endl;*/
+
+
+    //CHANGE OF BASIS
+
+    float v[4][4] = {{1,2,3,0},{2,2,2,0},{0,0,0,0},{0,0,0,1}};
+   Matrix4 m1(v);
+    CoordenadasHomogeneas r5 = c1.cambioBase(m1);
+
+    cout << "El cambio de base es " << r5.coord[0] <<" " <<  r5.coord[1]<<" "   << r5.coord[2] <<" " << r5.coord[3] << endl;
+
 
     return 0;
 }

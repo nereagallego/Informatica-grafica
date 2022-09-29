@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "Punto.h"
 #include "Direccion.h"
+#include "Matrix4.h"
+#include "vector"
 
 class CoordenadasHomogeneas
 {
@@ -24,6 +26,8 @@ public:
     CoordenadasHomogeneas rotacionY(float rad);
 
     CoordenadasHomogeneas rotacionZ(float rad);
+
+    CoordenadasHomogeneas cambioBase(Matrix4 m);
 };
 
 
