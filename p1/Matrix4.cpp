@@ -77,5 +77,96 @@ Matrix4 Matrix4::inversa() const{
 
 float Matrix4::det() const {
 
- //   return mat[0][0] * mat[1][1] * mat[2][2] * mat[3][3] - mat[0][3] * mat[1][2] * mat[2][1] * mat[3][0] + mat[0][1] * mat[1][2] * mat[2][3]
+    return mat[0][0] * (mat[1][1] * mat[2][2] * mat[3][3] +  
+                        mat[2][1] * mat[3][2] * mat[1][3] +  
+                        mat[1][2] * mat[2][3] * mat[3][1] - 
+                        mat[1][3] * mat[2][2] * mat[3][1] - 
+                        mat[2][1] * mat[1][2] * mat[3][3] - 
+                        mat[3][2] * mat[2][3] * mat[1][1]) 
+         - mat[1][0] * (mat[0][1] * mat[2][2] * mat[3][3] + 
+                        mat[2][1] * mat[3][2] * mat[0][3] + 
+                        mat[0][2] * mat[2][3] * mat[3][1] - 
+                        mat[0][3] * mat[2][2] * mat[3][1] - 
+                        mat[2][1] * mat[0][2] * mat[3][3] - 
+                        mat[3][2] * mat[2][3] * mat[0][1]) 
+         + mat[2][0] * (mat[0][1] * mat[1][2] * mat[3][3] + 
+                        mat[1][1] * mat[3][2] * mat[0][3] + 
+                        mat[0][2] * mat[1][3] * mat[3][1] - 
+                        mat[0][3] * mat[1][2] * mat[3][1] - 
+                        mat[1][1] * mat[0][2] * mat[3][3] - 
+                        mat[3][2] * mat[1][3] * mat[0][1]) 
+         - mat[3][0] * (mat[0][1] * mat[1][2] * mat[2][3] + 
+                        mat[1][1] * mat[2][2] * mat[0][3] +
+                        mat[0][2] * mat[1][3] * mat[2][1] - 
+                        mat[0][3] * mat[1][2] * mat[2][1] -
+                        mat[1][1] * mat[0][2] * mat[2][3] - 
+                        mat[2][2] * mat[1][3] * mat[0][1]);
 }
+
+Matrix4 Matrix4::adjunta() const{
+    Matrix4 result;
+    result[0][0] = mat[1][1] * mat[2][2] * mat[3][3] +  
+                        mat[2][1] * mat[3][2] * mat[1][3] +  
+                        mat[1][2] * mat[2][3] * mat[3][1] - 
+                        mat[1][3] * mat[2][2] * mat[3][1] - 
+                        mat[2][1] * mat[1][2] * mat[3][3] - 
+                        mat[3][2] * mat[2][3] * mat[1][1];
+    result[1][0] = -(mat[0][1] * mat[2][2] * mat[3][3] + 
+                        mat[2][1] * mat[3][2] * mat[0][3] + 
+                        mat[0][2] * mat[2][3] * mat[3][1] - 
+                        mat[0][3] * mat[2][2] * mat[3][1] - 
+                        mat[2][1] * mat[0][2] * mat[3][3] - 
+                        mat[3][2] * mat[2][3] * mat[0][1]);
+    result[2][0] = mat[0][1] * mat[1][2] * mat[3][3] + 
+                        mat[1][1] * mat[3][2] * mat[0][3] + 
+                        mat[0][2] * mat[1][3] * mat[3][1] - 
+                        mat[0][3] * mat[1][2] * mat[3][1] - 
+                        mat[1][1] * mat[0][2] * mat[3][3] - 
+                        mat[3][2] * mat[1][3] * mat[0][1];
+    result[3][0] = -(mat[0][1] * mat[1][2] * mat[2][3] + 
+                        mat[1][1] * mat[2][2] * mat[0][3] +
+                        mat[0][2] * mat[1][3] * mat[2][1] - 
+                        mat[0][3] * mat[1][2] * mat[2][1] -
+                        mat[1][1] * mat[0][2] * mat[2][3] - 
+                        mat[2][2] * mat[1][3] * mat[0][1]);
+
+    result[0][1] = -(mat[1][0] * mat[2][2] * mat[3][3] + 
+                        mat[2][0] * mat[3][2] * mat[1][3] + 
+                        mat[1][2] * mat[2][3] * mat[3][0] - 
+                        mat[1][3] * mat[2][2] * mat[3][0] - 
+                        mat[2][0] * mat[1][2] * mat[3][3] - 
+                        mat[2][3] * mat[3][2] * mat[1][0]);
+    result[1][1] = mat[0][0] * mat[2][2] * mat[3][3] + 
+                        mat[2][0] * mat[3][2] * mat[0][3] + 
+                        mat[0][2] * mat[2][3] * mat[3][0] - 
+                        mat[0][3] * mat[2][2] * mat[3][0] - 
+                        mat[2][0] * mat[0][2] * mat[3][3] - 
+                        mat[2][3] * mat[3][2] * mat[0][0];
+    result[2][1] = mat[0][0] * mat[1][2] * mat[3][3] + 
+                        mat[1][0] * mat[3][2] * mat[0][3] + 
+                        mat[0][2] * mat[1][3] * mat[3][0] - 
+                        mat[0][3] * mat[1][2] * mat[3][0] - 
+                        mat[1][0] * mat[0][2] * mat[3][3] - 
+                        mat[1][3] * mat[3][2] * mat[0][0];
+    result[3][1] = mat[0][0] * mat[1][2] * mat[2][3] + 
+                        mat[1][0] * mat[2][2] * mat[0][3] + 
+                        mat[0][2] * mat[1][3] * mat[2][0] - 
+                        mat[0][3] * mat[1][2] * mat[2][0] - 
+                        mat[1][0] * mat[0][2] * mat[2][3] - 
+                        mat[1][3] * mat[2][2] * mat[0][0];
+    
+}
+
+
+
+
+
+//  a00 a01 a02 a03
+//  a10 a11 a12 a13
+//  a20 a21 a22 a23
+//  a30 a31 a32 a33
+
+
+//  a00 a02 a03
+//  a20 a22 a23
+//  a30 a32 a33

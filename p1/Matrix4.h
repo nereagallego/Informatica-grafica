@@ -12,7 +12,7 @@ private:
 
     float det() const;
     Matrix4 adjunta() const;
-    Matrix transpuesta() const;
+    Matrix4 transpuesta() const;
 
 public:
     Matrix4(): mat{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}} {}
