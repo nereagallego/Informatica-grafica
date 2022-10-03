@@ -233,23 +233,7 @@ Matrix4 Matrix4::transpuesta() const{
 
 Matrix4 Matrix4::inversa() const{
     float determinante = det();
-    cout << "Determinante: " << determinante << endl;
     Matrix4 aux = adjunta();
-    cout << "Adjunta: " << aux << endl;
     Matrix4 res = aux.transpuesta();
-    cout << "Transpuesta: " << res << endl;
     return res * (1/determinante);
 }
-
-
-
-
-
-//  a00 a01 a02 a03
-//  a10 a11 a12 a13
-//  a20 a21 a22 a23
-//  a30 a31 a32 a33
-
-//  a10 a11 a12 
-//  a20 a21 a22 
-//  a30 a31 a32 
