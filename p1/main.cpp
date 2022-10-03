@@ -92,7 +92,5 @@ int main(){
     cout << m1 << endl;
     cout << "Matriz inversa: " << m1.inversa() << endl;
 
-
-
     return 0;
 }
