@@ -83,11 +83,15 @@ int main(){
 
     //CHANGE OF BASIS
 
-    float v[4][4] = {{1,2,3,0},{2,2,2,0},{0,0,0,0},{0,0,0,1}};
-   Matrix4 m1(v);
+    float v[4][4] = {{1,2,3,0},{2,2,2,0},{8,0,1,0},{0,4,0,1}};
+    Matrix4 m1(v);
     CoordenadasHomogeneas r5 = c1.cambioBase(m1);
 
     cout << "El cambio de base es " << r5.coord[0] <<" " <<  r5.coord[1]<<" "   << r5.coord[2] <<" " << r5.coord[3] << endl;
+
+    cout << m1 << endl;
+    cout << "Matriz inversa: " << m1.inversa() << endl;
+
 
 
     return 0;

@@ -23,6 +23,7 @@ public:
     Matrix4 operator -(const Matrix4 m) const;
 
     Matrix4 operator *(const Matrix4 m) const;
+    Matrix4 operator *(const float a) const;
     vector<float> operator *(const float v[4]);
     float* operator[](const int &index) ;
 
