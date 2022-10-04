@@ -5,6 +5,7 @@
 #include "Direccion.h"
 #include <cmath>
 #include <iostream>
+#include "CoordenadasHomogeneas.h"
 
 class Punto;
 class Direccion;

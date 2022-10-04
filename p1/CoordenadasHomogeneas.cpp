@@ -52,3 +52,12 @@ CoordenadasHomogeneas CoordenadasHomogeneas::combinaciones(Matrix4 m){
     vector<float> result = m*coord;
     return CoordenadasHomogeneas(result[0],result[1],result[2],result[3]);
 }
+
+// fala¡ta comprobar que es
+Punto CoordenadasHomogeneas::punto(){
+    return Punto(coord[0],coord[1],coord[2]);
+}
+
+Direccion CoordenadasHomogeneas::direccion(){
+    return Direccion(coord[0], coord[1],coord[2]);
+}

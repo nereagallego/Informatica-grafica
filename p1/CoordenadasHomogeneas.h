@@ -30,6 +30,10 @@ public:
     CoordenadasHomogeneas cambioBase(Matrix4 m);
 
     CoordenadasHomogeneas combinaciones(Matrix4 m);
+
+    Punto punto();
+
+    Direccion direccion();
 };
 
 
