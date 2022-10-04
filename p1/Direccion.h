@@ -22,6 +22,7 @@ class Direccion{
     public:
     float x, y ,z;
     Direccion(float x_, float y_, float z_);   
+    Direccion(): x(0), y(0), z(0) {};
 
     Direccion operator +(Direccion d2);
 

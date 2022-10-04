@@ -1,6 +1,7 @@
 #include "Direccion.h"
 #include "CoordenadasHomogeneas.h"
 #include "Matrix4.h"
+#include "Esfera.h"
 #include <iostream>
 #include <stdlib.h>
 
@@ -91,6 +92,18 @@ int main(){
 
     cout << m1 << endl;
     cout << "Matriz inversa: " << m1.inversa() << endl;
+
+
+
+    //PLANETA Y CIUDAD
+    Punto centro(-041.000, 013.000, -020.000);
+    Direccion eje(-008.000, 005.000, -009.000);
+    Punto ciudad_ref(-041.000, 013.000, -013.481);
+
+    Esfera planeta(eje,centro,ciudad_ref);
+    Punto nuevo_planeta = planeta.pointDefinition(1.39273389213937,0.1876455151837971);
+
+    cout << "El nuevo planeta esta en: " << nuevo_planeta.x << " " << nuevo_planeta.y << " " << nuevo_planeta.z << endl;
 
     return 0;
 }

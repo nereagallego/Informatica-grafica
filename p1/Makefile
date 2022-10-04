@@ -22,14 +22,15 @@ PUNTO=Punto
 DIRECCION=Direccion
 MATRIZ=Matrix4
 COORD=CoordenadasHomogeneas
+ESFERA=Esfera
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o 
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -49,7 +50,10 @@ ${COORD}.o: ${COORD}.h ${COORD}.cpp
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 
+${ESFERA}.o: ${ESFERA}.cpp 
+	${CC} -c ${ESFERA}.cpp ${CPPFLAGS}
+
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC}
+	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o

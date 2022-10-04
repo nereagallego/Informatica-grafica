@@ -14,7 +14,8 @@ class Punto{
     
     public:
     float x, y ,z;
-    Punto(float x_, float y_, float z_);   
+    Punto(float x_, float y_, float z_);  
+    Punto(): x(0), y(0), z(0) {}; 
 
     Punto operator +(Direccion d);
 

@@ -26,7 +26,6 @@ Punto Direccion::operator +(Punto p){
     return Punto(x+p.x, y + p.y, z +p.z);
 }
 
-
 float Direccion::modulo(){
     return sqrt(x*x+y*y+z*z);
 }
