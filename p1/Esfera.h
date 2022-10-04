@@ -3,6 +3,7 @@
 
 #include "Punto.h"
 #include "Direccion.h"
+#include <iostream>
 
 class Esfera {
 private:
