@@ -15,9 +15,20 @@ Punto Esfera::pointDefinition(float incl, float azim){
     if(incl < 0 or incl > M_PI or azim < - M_PI or azim > M_PI){
         cout << "Parametros no válidos." << endl;
     }
-    // float r = eje.modulo()/2;
-    // return Punto(r*sin(incl)*cos(azim), r*sin(incl)*sin(azim), r * cos(incl));
-    CoordenadasHomogeneas c(referencia);
+    float r = eje.modulo()/2;
+    Punto point(r*sin(incl)*cos(azim), r*sin(incl)*sin(azim), r * cos(incl));
+    // Se obtiene la normal a la superficie restando la ciudad de la referencia - centro
+    Direccion normal(centro - referencia);
+    Direccion producto = crossProduct(eje,normal);
+    float v[4][4] = {{eje.x,normal.x,producto.x,centro.x},{eje.y,normal.y,producto.y,centro.y},{eje.z,normal.z,producto.z,centro.z},{0,0,0,1}};
+    Matrix4 m1(v);
+
+    CoordenadasHomogeneas T(point);
+    return T.cambioBase(m1).punto();
+
+
+
+   /* CoordenadasHomogeneas c(referencia);
     Direccion ref = referencia - centro;
     // float producto = ref*eje/(ref.modulo()*eje.modulo());
     // cout << "El producto es: " << producto << endl;
@@ -37,4 +48,5 @@ Punto Esfera::pointDefinition(float incl, float azim){
     ref = p - centro;
     cout << " y es " << ref.modulo() << endl;
     return c2.punto();
+    */
 }
