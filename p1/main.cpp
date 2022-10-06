@@ -96,9 +96,9 @@ int main(){
 
 
     //PLANETA Y CIUDAD
-    Punto centro(1, 1, 1);
-    Direccion eje(0, 2, 0);
-    Punto ciudad_ref(2, 1, 1);
+    Punto centro(3, 3, 3);
+    Direccion eje(0, 2, 2);
+    Punto ciudad_ref(4, 3, 3);
 
     Esfera planeta(eje,centro,ciudad_ref);
     Punto nuevo_planeta = planeta.pointDefinition(M_PI/2,M_PI/2);
