@@ -3,28 +3,36 @@
 Esfera::Esfera(Direccion _eje, Punto _centro, Punto _referencia){
     
     Direccion rad = _centro - _referencia;
-    if(abs(rad.modulo() - _eje.modulo()/2) < 0.000006){
+    radio = _eje.modulo()/2;
+    if(abs(rad.modulo() - radio) > 10E-6){
         cerr << "Parámetros incorrectos " << endl;
+        cerr << "Radio: "  << radio << " distancia del centro a la ciudad de referencia "  << rad.modulo() << endl;
     }
     centro = _centro;
-    eje = _eje;
+    ejeY = _eje.normalizar();
     referencia = _referencia;
+    ejeZ = rad.normalizar();
+    ejeX = crossProduct(ejeY,ejeZ).normalizar();
+
 }
 
 Punto Esfera::pointDefinition(float incl, float azim){
     if(incl < 0 or incl > M_PI or azim < - M_PI or azim > M_PI){
         cout << "Parametros no válidos." << endl;
     }
-    float r = eje.modulo()/2;
-    Punto point(r*sin(incl)*cos(azim), r*sin(incl)*sin(azim), r * cos(incl));
+    Punto point(radio*sin(incl)*cos(azim), radio*sin(incl)*sin(azim), radio * cos(incl));
     // Se obtiene la normal a la superficie restando la ciudad de la referencia - centro
-    Direccion normal(centro - referencia);
-    Direccion producto = crossProduct(eje,normal);
-    float v[4][4] = {{eje.x,normal.x,producto.x,centro.x},{eje.y,normal.y,producto.y,centro.y},{eje.z,normal.z,producto.z,centro.z},{0,0,0,1}};
-    Matrix4 m1(v);
+    float v[4][4] = {{ejeX.x,ejeY.x,ejeZ.x,centro.x},{ejeX.y,ejeY.y,ejeZ.y,centro.y},{ejeX.z,ejeY.z,ejeZ.z,centro.z},{0,0,0,1}};
+    Matrix4 T(v);
 
-    CoordenadasHomogeneas T(point);
-    return T.cambioBase(m1).punto();
+    CoordenadasHomogeneas w(point);
+    // Direccion ciudad_ref(referencia - centro);
+    // cout << "Distancia al centro deberia ser " << ciudad_ref.modulo(); 
+    // Direccion ref(w.cambioBase(T).punto() - centro);
+    // cout << " y es " << ref.modulo() << endl;
+    
+    
+    return w.cambioBase(T).punto();
 
 
 

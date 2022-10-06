@@ -12,9 +12,10 @@ class Direccion;
 
 class Esfera {
 private:
-    Direccion eje;
+    Direccion ejeY,ejeX,ejeZ;
     Punto centro;
     Punto referencia;
+    float radio;
 public:
     Esfera(Direccion _eje, Punto _centro, Punto _referencia);
 

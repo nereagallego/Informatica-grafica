@@ -12,7 +12,7 @@ RM = /bin/rm -f  # para limpiar
 CC = g++         # compilador
 #---------------------------------------------------------
 # opciones compilación y enlazado ("linkado")
-CPPFLAGS = -std=c++11 # opciones compilación  # opciones de "linkado"
+CPPFLAGS = -fno-stack-protector -std=c++11 # opciones compilación  # opciones de "linkado"
 #---------------------------------------------------------
 # vars
 EJEC = main
