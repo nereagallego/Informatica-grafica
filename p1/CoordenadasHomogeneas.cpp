@@ -1,16 +1,16 @@
 #include "CoordenadasHomogeneas.h"
 
 CoordenadasHomogeneas::CoordenadasHomogeneas(Punto p){
-    coord[0] = p.x;
-    coord[1] = p.y;
-    coord[2] = p.z;
+    coord[0] = p.getX();
+    coord[1] = p.getY();
+    coord[2] = p.getZ();
     coord[3] = 1;
 }
 
 CoordenadasHomogeneas::CoordenadasHomogeneas(Direccion d){
-    coord[0] = d.x;
-    coord[1] = d.y;
-    coord[2] = d.z;
+    coord[0] = d.getX();
+    coord[1] = d.getY();
+    coord[2] = d.getZ();
     coord[3] = 0;
 }
 

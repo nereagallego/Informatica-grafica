@@ -16,32 +16,63 @@ class Punto{
         float x, y ,z;
     public:
     
-    // Constructor de un punto dadas sus coordenadas
+    /**
+     * @brief Construct a new Punto object
+     * 
+     * @param x_ coordenada x
+     * @param y_ coordenada y
+     * @param z_ coordenada z
+     */
     Punto(float x_, float y_, float z_);  
-    // Constructor de un punto en las coordenadas (0,0,0)
+    /**
+     * @brief Construct a new Punto object with coordinates (0,0,0)
+     * 
+     */
     Punto(): x(0), y(0), z(0) {}; 
 
-    // Suma de un punto con una dirección resulta un punto
-    // Equivale a mover un punto en la dirección d una distancia |d|
-    // siendo |d| el módulo del vector d
+    /**
+     * 
+     * @brief Devuelve el resultado de sumar la dirección d al punto
+     * Equivale a mover un punto en la dirección d una distancia |d| 
+     * siendo |d| el módulo del vector d
+     * 
+     * @param d dirección a sumar
+     * @return Punto 
+     */
     Punto operator +(const Direccion d) const;
 
-    // Resta de dos puntos
-    // Devuelve la dirección resultante de ir desde el punto p hasta este punto
+    /**
+     * @brief Devuelve la dirección resultante de restar dos puntos
+     * 
+     * @param p 
+     * @return Direccion 
+     */
     Direccion operator -(const Punto p) const;
 
     // pretty stdout
     friend ostream& operator<<(ostream& os, const Punto p);
 
-    // Devuelve la coordenada x del punto
+    /**
+     * @brief Devuelve la coordenada X del punto
+     * 
+     * @return float 
+     */
     float getX() const;
 
-    // Devuelve la coordenada y del punto
+    /**
+     * @brief Devuelve la coordenada Y del punto
+     * 
+     * @return float 
+     */
     float getY() const;
 
-    // Devuelve la coordenada z del punto
+    /**
+     * @brief Devuelve la coordenada Z del punto
+     * 
+     * @return float 
+     */
     float getZ() const;
-    
+
 };
 
 #endif

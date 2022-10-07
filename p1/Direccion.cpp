@@ -7,22 +7,24 @@ Direccion::Direccion(float x_, float y_, float z_){
     z = z_;
 }
 
-Direccion Direccion::operator +(Direccion d2){
+Direccion Direccion::operator +(const Direccion d2){
     return Direccion(x + d2.x, y + d2.y, z + d2.z);
    
 }
 
-Direccion Direccion::operator -(Direccion d2){
+Direccion Direccion::operator -(const Direccion d2){
     return  Direccion(x-d2.x, y - d2.y, z - d2.z);
 }
-Direccion Direccion::operator *(float d2){
+
+Direccion Direccion::operator *(const float d2){
     return Direccion(x*d2, y*d2 ,z*d2);
 }
-Direccion Direccion::operator /(float d2){
+
+Direccion Direccion::operator /(const float d2){
     return Direccion(x/d2, y/d2 ,z/d2);
 }
 
-Punto Direccion::operator +(Punto p){
+Punto Direccion::operator +(const Punto p){
     return Punto(x+p.getX(), y + p.getY(), z +p.getZ());
 }
 
@@ -35,7 +37,7 @@ Direccion Direccion::normalizar(){
     return Direccion(x/modulo,y/modulo,z/modulo);
 }
 
-float Direccion::operator *(Direccion d){
+float Direccion::operator *(const Direccion d) {
     return x*d.x+y*d.y+z*d.z;
 }
 
@@ -53,4 +55,10 @@ float Direccion::getZ() const{
 
 Direccion crossProduct(Direccion d1, Direccion d2){
     return Direccion(d1.getY()*d2.getZ()-d1.getZ()*d2.getY(),d1.getZ()*d2.getX()-d1.getX()*d2.getZ(),d1.getX()*d2.getY()-d1.getY()*d2.getX());
+}
+
+// Pretty stdout
+ostream& operator<<(ostream& os, const Direccion p) {
+    os << "direction: (" << p.x  << ", " << p.y << ", " << p.z << ")" ;
+    return os;
 }

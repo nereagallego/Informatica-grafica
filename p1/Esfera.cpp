@@ -22,7 +22,7 @@ Punto Esfera::pointDefinition(float incl, float azim){
     }
     Punto point(radio*sin(incl)*cos(azim), radio*sin(incl)*sin(azim), radio * cos(incl));
     // Se obtiene la normal a la superficie restando la ciudad de la referencia - centro
-    float v[4][4] = {{ejeX.x,ejeY.x,ejeZ.x,centro.x},{ejeX.y,ejeY.y,ejeZ.y,centro.y},{ejeX.z,ejeY.z,ejeZ.z,centro.z},{0,0,0,1}};
+    float v[4][4] = {{ejeX.getX(),ejeY.getX(),ejeZ.getX(),centro.getX()},{ejeX.getY(),ejeY.getY(),ejeZ.getY(),centro.getY()},{ejeX.getZ(),ejeY.getZ(),ejeZ.getZ(),centro.getZ()},{0,0,0,1}};
     Matrix4 T(v);
 
     CoordenadasHomogeneas w(point);

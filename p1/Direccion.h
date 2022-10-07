@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "Punto.h"
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
@@ -28,13 +29,14 @@ class Direccion{
      * 
      */
     Direccion(): x(0), y(0), z(0) {};
+
     /**
-     * @brief Devuelve la duma de dos direcciones
+     * @brief Devuelve la suma de dos direcciones
      * 
      * @param d2 dirección a sumar
      * @return Direccion 
      */
-    Direccion operator +(Direccion d2);
+    Direccion operator +(const Direccion d2);
 
     /**
      * @brief Devuelve la resta de dos direcciones
@@ -42,7 +44,7 @@ class Direccion{
      * @param d2 dirección a restar
      * @return Direccion 
      */
-    Direccion operator -(Direccion d2);
+    Direccion operator -(const Direccion d2);
 
     /**
      * @brief Devuelve el resultado de escalar la dirección d2 veces (más 
@@ -51,7 +53,7 @@ class Direccion{
      * @param d2 coeficiente de escalado
      * @return Direccion 
      */
-    Direccion operator *(float d2);
+    Direccion operator *(const float d2);
 
     /**
      * @brief Devuelve el resultado de escalar la dirección d2 veces (más 
@@ -60,15 +62,17 @@ class Direccion{
      * @param d2 coeficiente de escalado
      * @return Direccion 
      */
-    Direccion operator /(float d2);
+    Direccion operator /(const float d2);
 
     /**
      * @brief Devuelve el resultado de sumar la dirección a un punto p
+     * Equivale a mover un punto en la dirección d una distancia |d| 
+     * siendo |d| el módulo del vector d 
      * 
      * @param p punto desde el que se suma la dirección
      * @return Punto 
      */
-    Punto operator +(Punto p);
+    Punto operator +(const Punto p);
 
     /**
      * @brief Devuelve el módulo del vector
@@ -112,6 +116,9 @@ class Direccion{
      * @return float 
      */
     float getZ() const;
+
+    // pretty stdout
+    friend ostream& operator<<(ostream& os, const Direccion p);
 
 };
 
