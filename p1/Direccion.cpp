@@ -23,7 +23,7 @@ Direccion Direccion::operator /(float d2){
 }
 
 Punto Direccion::operator +(Punto p){
-    return Punto(x+p.x, y + p.y, z +p.z);
+    return Punto(x+p.getX(), y + p.getY(), z +p.getZ());
 }
 
 float Direccion::modulo(){

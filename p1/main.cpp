@@ -11,7 +11,9 @@ int main(){
 
 //     Direccion d1(1,2,3);
 //     Direccion d4(1,2,3);
-//     Punto d2(1,2,3);
+        Punto d2(1,2,3);
+
+        cout << d2 << endl;
 
 //     Punto d3 = d1 + d2;
 
@@ -103,7 +105,7 @@ int main(){
     Esfera planeta(eje,centro,ciudad_ref);
     Punto nuevo_planeta = planeta.pointDefinition(M_PI/2,M_PI/2);
 
-    cout << "El nuevo planeta esta en: " << nuevo_planeta.x << " " << nuevo_planeta.y << " " << nuevo_planeta.z << endl;
+    cout << "El nuevo planeta esta en: " << nuevo_planeta << endl;
 
     return 0;
 }
