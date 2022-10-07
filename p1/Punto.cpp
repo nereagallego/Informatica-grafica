@@ -11,7 +11,7 @@ Punto::Punto(float x_, float y_, float z_){
 // Equivale a mover un punto en la dirección d una distancia |d|
 // siendo |d| el módulo del vector d
 Punto Punto::operator +(const Direccion d) const{
-    return Punto(x+d.x, y + d.y, z + d.y);
+    return Punto(x+d.getX(), y + d.getY(), z + d.getZ());
 }
 
 // Resta de dos puntos
