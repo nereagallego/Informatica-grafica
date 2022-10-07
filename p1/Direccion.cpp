@@ -39,6 +39,18 @@ float Direccion::operator *(Direccion d){
     return x*d.x+y*d.y+z*d.z;
 }
 
+float Direccion::getX() const{
+    return x;
+}
+
+float Direccion::getY() const{
+    return y;
+}
+
+float Direccion::getZ() const{
+    return z;
+}
+
 Direccion crossProduct(Direccion d1, Direccion d2){
-    return Direccion(d1.y*d2.z-d1.z*d2.y,d1.z*d2.x-d1.x*d2.z,d1.x*d2.y-d1.y*d2.x);
+    return Direccion(d1.getY()*d2.getZ()-d1.getZ()*d2.getY(),d1.getZ()*d2.getX()-d1.getX()*d2.getZ(),d1.getX()*d2.getY()-d1.getY()*d2.getX());
 }
