@@ -15,31 +15,59 @@ class Direccion{
     private:
     float x, y ,z;
     public:
-    // Constructor de un vector dadas sus coordenadas
-    Direccion(float x_, float y_, float z_);   
-    // Constructor vacío de un vector
-    // Le sasigna las coordenadas (0,0,0)
+    /**
+     * @brief Construct a new Direccion object
+     * 
+     * @param x_ coordenada X
+     * @param y_ coordenada y
+     * @param z_ coordenada z
+     */
+    Direccion(float x_, float y_, float z_);
+    /**
+     * @brief Construct a new Direccion object with coordinates (0,0,0)
+     * 
+     */
     Direccion(): x(0), y(0), z(0) {};
-
-    // Suma de dos direcciones
-    // Devuelve la dirección resultante
+    /**
+     * @brief Devuelve la duma de dos direcciones
+     * 
+     * @param d2 dirección a sumar
+     * @return Direccion 
+     */
     Direccion operator +(Direccion d2);
 
-    // Resta de dos direcciones
-    // Devuelve la dirección resultante
+    /**
+     * @brief Devuelve la resta de dos direcciones
+     * 
+     * @param d2 dirección a restar
+     * @return Direccion 
+     */
     Direccion operator -(Direccion d2);
 
-    // Multiplicación de una dirección por un número real
-    // Devuelve el resultado de escalar ese vector (se hace d2 veces más grande)
+    /**
+     * @brief Devuelve el resultado de escalar la dirección d2 veces (más 
+     * grande)
+     * 
+     * @param d2 coeficiente de escalado
+     * @return Direccion 
+     */
     Direccion operator *(float d2);
 
-    // División de un vector por un real
-    // Devuelve el resultado de escalar ese vector (se hace d2 veces más pequeño)
+    /**
+     * @brief Devuelve el resultado de escalar la dirección d2 veces (más 
+     * pequeño)
+     * 
+     * @param d2 coeficiente de escalado
+     * @return Direccion 
+     */
     Direccion operator /(float d2);
 
-    // Suma de una dirección con un punto
-    // Devuelve el punto resultante de mover el punto p en la dirección dada una distancia de |d|
-    // Siendo |d| el módulo del vector d
+    /**
+     * @brief Devuelve el resultado de sumar la dirección a un punto p
+     * 
+     * @param p punto desde el que se suma la dirección
+     * @return Punto 
+     */
     Punto operator +(Punto p);
 
     /**
