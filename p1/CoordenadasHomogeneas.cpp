@@ -62,3 +62,9 @@ Direccion CoordenadasHomogeneas::direccion(){
     if(coord[3]!=1) throw new logic_error("No es un vector");
     return Direccion(coord[0], coord[1],coord[2]);
 }
+
+// Pretty stdout
+ostream& operator<<(ostream& os, const CoordenadasHomogeneas c) {
+    os << "(" << c.coord[0]  << ", " << c.coord[1] << ", " << c.coord[2] << ", " << c.coord[3] << ")" ;
+    return os;
+}

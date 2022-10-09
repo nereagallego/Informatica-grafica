@@ -116,6 +116,9 @@ public:
      * @return Direccion 
      */
     Direccion direccion();
+
+    // pretty stdout
+    friend ostream& operator<<(ostream& os, const CoordenadasHomogeneas c);
 };
 
 
