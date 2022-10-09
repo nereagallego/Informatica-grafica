@@ -1,45 +1,45 @@
 #include "CoordenadasHomogeneas.h"
 
-CoordenadasHomogeneas::CoordenadasHomogeneas(Punto p){
+CoordenadasHomogeneas::CoordenadasHomogeneas(const Punto p){
     coord[0] = p.getX();
     coord[1] = p.getY();
     coord[2] = p.getZ();
     coord[3] = 1;
 }
 
-CoordenadasHomogeneas::CoordenadasHomogeneas(Direccion d){
+CoordenadasHomogeneas::CoordenadasHomogeneas(const Direccion d){
     coord[0] = d.getX();
     coord[1] = d.getY();
     coord[2] = d.getZ();
     coord[3] = 0;
 }
 
-CoordenadasHomogeneas::CoordenadasHomogeneas(float x, float y, float z, float w){
+CoordenadasHomogeneas::CoordenadasHomogeneas(const float x, const float y, const float z, const float w){
     coord[0] = x;
     coord[1] = y;
     coord[2] = z;
     coord[3] = w;
 }
 
-CoordenadasHomogeneas CoordenadasHomogeneas::translacion(float x, float y, float z){
+CoordenadasHomogeneas CoordenadasHomogeneas::translacion(const float x, const float y, const float z) {
 
     return CoordenadasHomogeneas(coord[0]+coord[3]*x,coord[1]+coord[3]*y,coord[2]+coord[3]*z,coord[3]);
 }
 
-CoordenadasHomogeneas CoordenadasHomogeneas::escala(float x, float y, float z){
+CoordenadasHomogeneas CoordenadasHomogeneas::escala(const float x, const float y, const float z){
     return CoordenadasHomogeneas(coord[0]*x,coord[1]*y,coord[2]*z,coord[3]);
 }
 
 
-CoordenadasHomogeneas CoordenadasHomogeneas::rotacionX(float rad){
+CoordenadasHomogeneas CoordenadasHomogeneas::rotacionX(const float rad){
     return CoordenadasHomogeneas(coord[0],coord[1]*cos(rad)-coord[2]*sin(rad),coord[1]*sin(rad)+coord[2]*cos(rad),coord[3]);
 }
     
-CoordenadasHomogeneas CoordenadasHomogeneas::rotacionY(float rad){
+CoordenadasHomogeneas CoordenadasHomogeneas::rotacionY(const float rad){
     return CoordenadasHomogeneas(coord[0]*cos(rad)+coord[2]*sin(rad),coord[1],-coord[0]*sin(rad)+coord[2]*cos(rad),coord[3]);
 }
 
-CoordenadasHomogeneas CoordenadasHomogeneas::rotacionZ(float rad){
+CoordenadasHomogeneas CoordenadasHomogeneas::rotacionZ(const float rad){
     return CoordenadasHomogeneas(coord[0]*cos(rad)-coord[1]*sin(rad),coord[0]*sin(rad)+coord[1]*cos(rad),coord[2],coord[3]);
 }
 
@@ -55,9 +55,11 @@ CoordenadasHomogeneas CoordenadasHomogeneas::combinaciones(Matrix4 m){
 
 // fala¡ta comprobar que es
 Punto CoordenadasHomogeneas::punto(){
+    if(coord[3]!=1) throw new logic_error("No es un punto");
     return Punto(coord[0],coord[1],coord[2]);
 }
 
 Direccion CoordenadasHomogeneas::direccion(){
+    if(coord[3]!=1) throw new logic_error("No es un vector");
     return Direccion(coord[0], coord[1],coord[2]);
 }

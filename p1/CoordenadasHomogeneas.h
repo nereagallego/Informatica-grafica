@@ -6,6 +6,7 @@
 #include "Direccion.h"
 #include "Matrix4.h"
 #include "vector"
+#include <exception>
 
 class CoordenadasHomogeneas
 {
@@ -19,7 +20,7 @@ private:
      * @param z coordenada z
      * @param w tipo de dato
      */
-    CoordenadasHomogeneas(float x, float y, float z, float w);
+    CoordenadasHomogeneas(const float x, const float y, const float z, const float w);
 public:
     
     /**
@@ -28,14 +29,14 @@ public:
      * 
      * @param p punto desde el cual se construye la coordenada
      */
-    CoordenadasHomogeneas(Punto p);
+    CoordenadasHomogeneas(const Punto p);
     /**
      * @brief Construct a new Coordenadas Homogeneas object
      * Construye una coordenada homogenea a partir de una dirección
      * 
      * @param d dirección desde la cual se construye la coordenada
      */
-    CoordenadasHomogeneas(Direccion d);
+    CoordenadasHomogeneas(const Direccion d);
 
     /**
      * @brief Devuelve las coordenadas resultantes de realizar la operación de
@@ -46,7 +47,7 @@ public:
      * @param z movimiento en el eje z
      * @return CoordenadasHomogeneas 
      */
-    CoordenadasHomogeneas translacion(float x, float y, float z);
+    CoordenadasHomogeneas translacion(const float x, const float y, const float z);
 
     /**
      * @brief devuelve la coordenada resultante de escalar 
@@ -56,7 +57,7 @@ public:
      * @param z escalado en z
      * @return CoordenadasHomogeneas 
      */
-    CoordenadasHomogeneas escala(float x, float y, float z);
+    CoordenadasHomogeneas escala(const float x, const float y, const float z);
 
     /**
      * @brief devuelve las coordenadas resultado de rotar en el eje X rad 
@@ -65,7 +66,7 @@ public:
      * @param rad radianes a rotar
      * @return CoordenadasHomogeneas 
      */
-    CoordenadasHomogeneas rotacionX(float rad);
+    CoordenadasHomogeneas rotacionX(const float rad);
     
     /**
      * @brief devuelve las coordenadas resultado de rotar en el eje Y rad 
@@ -74,7 +75,7 @@ public:
      * @param rad radianes a rotar
      * @return CoordenadasHomogeneas 
      */
-    CoordenadasHomogeneas rotacionY(float rad);
+    CoordenadasHomogeneas rotacionY(const float rad);
 
     /**
      * @brief devuelve las coordenadas resultado de rotar en el eje Z rad
@@ -83,7 +84,7 @@ public:
      * @param rad radianes a rotar
      * @return CoordenadasHomogeneas 
      */
-    CoordenadasHomogeneas rotacionZ(float rad);
+    CoordenadasHomogeneas rotacionZ(const float rad);
 
     /**
      * @brief Realiza la operacion de cambio de base con la nuevabase contenida 
