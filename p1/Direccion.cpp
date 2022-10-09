@@ -21,6 +21,7 @@ Direccion Direccion::operator *(const float d2){
 }
 
 Direccion Direccion::operator /(const float d2){
+    if(d2==0) throw new logic_error("No se puede dividir por 0");
     return Direccion(x/d2, y/d2 ,z/d2);
 }
 
