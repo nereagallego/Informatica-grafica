@@ -53,7 +53,6 @@ CoordenadasHomogeneas CoordenadasHomogeneas::combinaciones(Matrix4 m){
     return CoordenadasHomogeneas(result[0],result[1],result[2],result[3]);
 }
 
-// fala¡ta comprobar que es
 Punto CoordenadasHomogeneas::punto(){
     if(coord[3]!=1) throw new logic_error("No es un punto");
     return Punto(coord[0],coord[1],coord[2]);
