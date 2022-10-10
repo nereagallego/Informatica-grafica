@@ -30,7 +30,7 @@ all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
 ${EJEC}: ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o -o ${EJEC} ${CPPFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -47,11 +47,13 @@ ${MATRIZ}.o: ${MATRIZ}.h ${MATRIZ}.cpp
 ${COORD}.o: ${COORD}.h ${COORD}.cpp
 	${CC} -c ${COORD}.cpp -o ${COORD}.o ${CPPFLAGS}
 
+${ESFERA}.o: ${ESFERA}.cpp 
+	${CC} -c ${ESFERA}.cpp -o ${COORD}.o ${CPPFLAGS}
+
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 
-${ESFERA}.o: ${ESFERA}.cpp 
-	${CC} -c ${ESFERA}.cpp ${CPPFLAGS}
+
 
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar

@@ -18,29 +18,31 @@ CPPFLAGS = -std=c++11 # opciones compilación  # opciones de "linkado"
 EJEC = main
 #---------------------------------------------------------
 # directorio y clase para semáfo
-PPM=Transformppm
+TRANSFORMPPM=Transformppm
+RGB=RGB
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
-
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${TRANSFORMPPM}.o
-	${CC} ${EJEC}.o  ${TRANSFORMPPM}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o ${RGB}.o ${TRANSFORMPPM}.o
+	${CC} ${EJEC}.o ${RGB}.o ${TRANSFORMPPM}.o -o ${EJEC} ${CPPFLAGS}
 
 #---------------------------------------------------------
 # compilar
+${RGB}.o: ${RGB}.h ${RGB}.cpp 
+	${CC} -c ${RGB}.cpp -o ${RGB}.o ${CPPFLAGS}
 
-
+${TRANSFORMPPM}.o: ${TRANSFORMPPM}.h ${TRANSFORMPPM}.cpp
+	${CC} -c ${TRANSFORMPPM}.cpp -o ${TRANSFORMPPM}.o ${CPPFLAGS}
 
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 
 
-	
-${TRANSFORMPPM}.o: ${TRANSFORMPPM}.cpp 
-	${CC} -c ${TRANSFORMPPM}.cpp ${CPPFLAGS}
+
+
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${TRANSFORMPPM}.o ${EJEC}
+	$(RM) ${EJEC}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC}

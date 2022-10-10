@@ -1,8 +1,11 @@
 #include "Transformppm.h"
+#include "RGB.h"
 
 using namespace std;
 int main(){
     ifstream in;
     Transformppm prueba;
-    prueba.savingFile("forest_path.ppm");
+    prueba.readingFile("fichpequeño.ppm");
+
+    prueba.savingFile("prueba.txt");
 }
