@@ -8,4 +8,7 @@ int main(){
     prueba.readingFile("fichpequeño.ppm");
 
     prueba.savingFile("prueba.txt");
+
+    diff("fichpequeño.ppm", "prueba.txt");
+    return 0;
 }

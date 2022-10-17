@@ -5,19 +5,23 @@
 #include <fstream>
 #include <vector>
 #include <cstring>
+#include <iomanip>
 #include "RGB.h"
 
 using namespace std;
 
 class Transformppm{
 private:
-//    float mat[4][4];
     string _format, _max, _comment, _sizeResolution, _colorResolution; 
     vector<RGB> _imagenHDR;
+    int _colorResolutionNumber;
+    float _MAX;
 public:
     Transformppm();
     void readingFile(string PPMfile);
     void savingFile(string fichero);
 };
+
+void diff(string file1, string file2);
 
 #endif
