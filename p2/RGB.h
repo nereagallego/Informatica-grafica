@@ -14,6 +14,10 @@ class RGB{
     float getRed();
     float getGreen();
     float getBlue();
+
+    void setRed(float Red_);
+    void setGreen(float Green_);
+    void setBlue(float Blue_);
 };
 
 #endif

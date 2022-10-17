@@ -17,3 +17,15 @@ float RGB::getRed(){
 float RGB::getBlue(){
     return Blue;
 }
+
+void RGB::setGreen(float green_){
+    Green=green_;
+}
+
+void RGB::setRed(float red_){
+    Red = red_;
+}
+
+void RGB::setBlue(float blue_){
+     Blue = blue_;
+}

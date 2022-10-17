@@ -18,8 +18,10 @@ private:
     float _MAX;
 public:
     Transformppm();
+    Transformppm(vector<RGB> ImagenHDR_);
     void readingFile(string PPMfile);
     void savingFile(string fichero);
+    vector<RGB> getImagen();
 };
 
 void diff(string file1, string file2);
