@@ -13,7 +13,7 @@ class Direccion;
 // Clase Punto
 class Punto{
     protected:
-        float x, y ,z;
+        float _x, _y ,_z;
     public:
     
     /**
@@ -28,7 +28,7 @@ class Punto{
      * @brief Construct a new Punto object with coordinates (0,0,0)
      * 
      */
-    Punto(): x(0), y(0), z(0) {}; 
+    Punto(): _x(0), _y(0), _z(0) {}; 
 
     /**
      * 
