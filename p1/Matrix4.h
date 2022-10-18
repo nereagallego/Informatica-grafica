@@ -8,7 +8,7 @@ using namespace std;
 
 class Matrix4{
 private:
-    float mat[4][4];
+    float _mat[4][4];
 
     /**
      * @brief devuelve el determinante de la matriz
@@ -37,7 +37,7 @@ public:
      * Construye la matriz vacía (todas sus componentes son 0)
      * 
      */
-    Matrix4(): mat{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}} {}
+    Matrix4(): _mat{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}} {}
 
     /**
      * @brief Construct a new Matrix 4 object
