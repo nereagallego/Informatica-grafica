@@ -11,7 +11,7 @@
 class CoordenadasHomogeneas
 {
 private:
-    float coord[4];
+    float _coord[4];
     /**
      * @brief Construct a new Coordenadas Homogeneas object
      * 
