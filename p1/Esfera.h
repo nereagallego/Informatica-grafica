@@ -12,19 +12,19 @@ class Direccion;
 
 class Esfera {
 private:
-    Direccion ejeY,ejeX,ejeZ;
-    Punto centro;
-    Punto referencia;
-    float radio;
+    Direccion _ejeY,_ejeX,_ejeZ;
+    Punto _centro;
+    Punto _referencia;
+    float _radio;
 public:
     /**
      * @brief Construct a new Esfera object
      * 
-     * @param _eje eje de la esfera
-     * @param _centro centro de la esfera
-     * @param _referencia punto de referencia de la esfera
+     * @param eje eje de la esfera
+     * @param centro centro de la esfera
+     * @param referencia punto de referencia de la esfera
      */
-    Esfera(Direccion _eje, Punto _centro, Punto _referencia);
+    Esfera(Direccion eje, Punto centro, Punto referencia);
 
     /**
      * @brief devuelve el punto dado su azimuth y su inclinación
