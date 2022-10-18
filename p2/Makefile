@@ -20,13 +20,14 @@ EJEC = main
 # directorio y clase para semáfo
 TRANSFORMPPM=Transformppm
 RGB=RGB
+TONE=ToneMapping
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o ${RGB}.o ${TRANSFORMPPM}.o
-	${CC} ${EJEC}.o ${RGB}.o ${TRANSFORMPPM}.o -o ${EJEC} ${CPPFLAGS}
+${EJEC}: ${EJEC}.o ${RGB}.o ${TRANSFORMPPM}.o ${TONE}.o
+	${CC} ${EJEC}.o ${RGB}.o ${TRANSFORMPPM}.o ${TONE}.o -o ${EJEC} ${CPPFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -39,9 +40,8 @@ ${TRANSFORMPPM}.o: ${TRANSFORMPPM}.h ${TRANSFORMPPM}.cpp
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 
-
-
-
+${TONE}.o: ${TONE}.h ${TONE}.cpp
+	${CC} -c ${TONE}.cpp -o ${TONE}.o ${CPPFLAGS}
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:

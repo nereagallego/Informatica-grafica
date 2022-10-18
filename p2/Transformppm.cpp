@@ -9,6 +9,7 @@ Transformppm::Transformppm(){
     _colorResolution = "";
     _colorResolutionNumber = 0;
     _MAX = 0.0;
+  //  _imagenHDR = new vector<RGB>();
 }
 
 Transformppm::Transformppm(vector<RGB> ImagenHDR_){
@@ -22,6 +23,17 @@ Transformppm::Transformppm(vector<RGB> ImagenHDR_){
     _imagenHDR = ImagenHDR_;
 
 }
+
+Transformppm::Transformppm(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m){
+    _format = format;
+    _max = max;
+    _comment = comment;
+    _sizeResolution = sizeResolution;
+    _colorResolution = colorResolution;
+    _colorResolutionNumber = c;
+    _MAX = m;
+}
+
 void diff(string file1, string file2){
     ifstream f1;
     f1.open(file1);
@@ -145,4 +157,39 @@ void Transformppm::savingFile(string fichero){
 
 vector<RGB> Transformppm::getImagen(){
     return _imagenHDR;
+}
+
+// pretty stdout
+ostream& operator<<(ostream& os, const Transformppm& t){
+    for(RGB aux: t._imagenHDR){
+        os << "R: " << aux.getRed() << "    G: " << aux.getGreen() << "    B: " << aux.getBlue() << endl; 
+    }
+    return os;
+}
+
+ void Transformppm::setImagen(vector<RGB> Imagen){
+    _imagenHDR = Imagen;
+ }
+
+ string Transformppm::getFormat(){
+    return _format;
+ }
+
+ string Transformppm::getComment(){
+    return _comment;
+ }
+
+
+ float Transformppm::getMax(){
+    return _MAX;
+ }
+
+
+
+string Transformppm::getSizeResolution(){
+    return _sizeResolution;
+}
+
+int Transformppm::getColorResolution(){
+    return _colorResolutionNumber;
 }

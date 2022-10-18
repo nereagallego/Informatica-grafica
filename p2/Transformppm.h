@@ -19,9 +19,22 @@ private:
 public:
     Transformppm();
     Transformppm(vector<RGB> ImagenHDR_);
+    Transformppm(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m);
+    string getFormat();
+    string getComment();
+    string getSizeResolution();
+    
+    
+    int getColorResolution();
+    float getMax();
     void readingFile(string PPMfile);
     void savingFile(string fichero);
     vector<RGB> getImagen();
+    void setImagen(vector<RGB> Imagen);
+    // pretty stdout
+    friend ostream& operator<<(ostream& os, const Transformppm& t);
+
+    
 };
 
 void diff(string file1, string file2);
