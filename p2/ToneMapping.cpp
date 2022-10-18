@@ -87,7 +87,22 @@ Transformppm ToneMapping::gammaCurve(Transformppm Image, float gamma){
 }
 
 Transformppm ToneMapping::clampGamma(Transformppm Image, float gamma, float clamp_){
-    Transformppm aux = clamp(Image,clamp_);
-    Transformppm result = gammaCurve(aux,gamma);
+    Transformppm aux = clampEqualize(Image,clamp_);
+    vector<RGB> ImagenLocal = aux.getImagen();
+    Transformppm result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
+    vector<RGB> imagenFinal;
+    for(RGB x: ImagenLocal){
+        if(x.getRed() < aux.getMax()){
+            x.setRed(pow(x.getRed(),gamma));
+        }
+        if(x.getBlue() < aux.getMax()){
+            x.setBlue(pow(x.getBlue(),gamma));
+        }
+        if(x.getGreen() < aux.getMax()){
+            x.setGreen(pow(x.getGreen(),gamma));
+        }
+        imagenFinal.push_back(x);
+    } 
+    result.setImagen(imagenFinal);
     return result;
 }
