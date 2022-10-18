@@ -1,57 +1,57 @@
 #include "Direccion.h"
 
 
-Direccion::Direccion(float x_, float y_, float z_){
-    x = x_;
-    y = y_;
-    z = z_;
+Direccion::Direccion(float x, float y, float z){
+    _x = x;
+    _y = y;
+    _z = z;
 }
 
 Direccion Direccion::operator +(const Direccion d2){
-    return Direccion(x + d2.x, y + d2.y, z + d2.z);
+    return Direccion(_x + d2._x, _y + d2._y, _z + d2._z);
    
 }
 
 Direccion Direccion::operator -(const Direccion d2){
-    return  Direccion(x-d2.x, y - d2.y, z - d2.z);
+    return  Direccion(_x-d2._x, _y - d2._y, _z - d2._z);
 }
 
 Direccion Direccion::operator *(const float d2){
-    return Direccion(x*d2, y*d2 ,z*d2);
+    return Direccion(_x*d2, _y*d2 ,_z*d2);
 }
 
 Direccion Direccion::operator /(const float d2){
     if(d2==0) throw new logic_error("No se puede dividir por 0");
-    return Direccion(x/d2, y/d2 ,z/d2);
+    return Direccion(_x/d2, _y/d2 ,_z/d2);
 }
 
 Punto Direccion::operator +(const Punto p){
-    return Punto(x+p.getX(), y + p.getY(), z +p.getZ());
+    return Punto(_x+p.getX(), _y + p.getY(), _z +p.getZ());
 }
 
 float Direccion::modulo(){
-    return sqrt(x*x+y*y+z*z);
+    return sqrt(_x*_x+_y*_y+_z*_z);
 }
 
 Direccion Direccion::normalizar(){
     float modulo = this->modulo();
-    return Direccion(x/modulo,y/modulo,z/modulo);
+    return Direccion(_x/modulo,_y/modulo,_z/modulo);
 }
 
 float Direccion::operator *(const Direccion d) {
-    return x*d.x+y*d.y+z*d.z;
+    return _x*d._x+_y*d._y+_z*d._z;
 }
 
 float Direccion::getX() const{
-    return x;
+    return _x;
 }
 
 float Direccion::getY() const{
-    return y;
+    return _y;
 }
 
 float Direccion::getZ() const{
-    return z;
+    return _z;
 }
 
 Direccion crossProduct(Direccion d1, Direccion d2){
@@ -60,6 +60,6 @@ Direccion crossProduct(Direccion d1, Direccion d2){
 
 // Pretty stdout
 ostream& operator<<(ostream& os, const Direccion p) {
-    os << "direction: (" << p.x  << ", " << p.y << ", " << p.z << ")" ;
+    os << "direction: (" << p._x  << ", " << p._y << ", " << p._z << ")" ;
     return os;
 }

@@ -14,21 +14,21 @@ class Punto;
 
 class Direccion{
     private:
-    float x, y ,z;
+    float _x, _y ,_z;
     public:
     /**
      * @brief Construct a new Direccion object
      * 
-     * @param x_ coordenada X
-     * @param y_ coordenada y
-     * @param z_ coordenada z
+     * @param x coordenada X
+     * @param y coordenada y
+     * @param z coordenada z
      */
-    Direccion(float x_, float y_, float z_);
+    Direccion(float x, float y, float z);
     /**
      * @brief Construct a new Direccion object with coordinates (0,0,0)
      * 
      */
-    Direccion(): x(0), y(0), z(0) {};
+    Direccion(): _x(0), _y(0), _z(0) {};
 
     /**
      * @brief Devuelve la suma de dos direcciones
