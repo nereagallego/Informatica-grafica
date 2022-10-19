@@ -6,16 +6,18 @@ using namespace std;
 int main(){
     ifstream in;
     Transformppm prueba;
-    prueba.readingFile("fichpequeño.ppm");
-
-    prueba.savingFile("prueba.txt");
-
-    cout << prueba << endl;
     ToneMapping operaciones;
-    Transformppm resul;
-    resul = operaciones.clampGamma(prueba,2.2,1);
+    prueba.readingFile("forest_path.ppm");
+    Transformppm salida = operaciones.equalize(prueba);
+    cout << salida.getMax();
+    salida.savingFile("prueba.ppm");
 
-    cout << resul;
+    // cout << prueba << endl;
+    
+    // Transformppm resul;
+    // resul = operaciones.clampGamma(prueba,2.2,1);
+
+    // cout << resul;
    /* resul = operaciones.equalize(prueba.getImagen(),48);
     prueba.setImagen(resul);
     cout << prueba;

@@ -127,9 +127,13 @@ void Transformppm::savingFile(string fichero){
 
 
     string delimiter = "=";
-    string token = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
-    int col=0;
+    string token;// = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
    // bool first = true;
+    int i = 0;
+    delimiter = " ";
+    token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
+    int max_col = stoi(token);
+    cout << max_col << endl;
 
     for(RGB aux: _imagenHDR){
        // if(first) first = false;
@@ -138,13 +142,13 @@ void Transformppm::savingFile(string fichero){
         ofdata << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << "     ";
         //cout << aux.getRed() << " " << aux.getGreen() << " " << aux.getBlue() << endl;
         //cout << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << endl;
-        // if(col == 2050){
-        //     ofdata << endl;
-        //     col = 0;
-        // }
+        if(i >= max_col){
+             ofdata << "\n";
+             i = 0;
+        }
         //cout << col << endl;
 
-        col++;
+        i++;
         
     }
     ofdata << endl ;
