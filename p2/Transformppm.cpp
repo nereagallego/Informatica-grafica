@@ -72,25 +72,17 @@ void Transformppm::readingFile(string PPMfile){
    }
 
     getline(indata,_format);
-    //cout << _format << endl;
     getline(indata,_max);
-    //cout << _max << endl;
     getline(indata,_comment);
-    //cout << _comment << endl;
     getline(indata,_sizeResolution);
-    //cout << _sizeResolution << endl;
     getline(indata,_colorResolution);
-    //cout << _colorResolution << endl;
 
     _colorResolutionNumber = stoi(_colorResolution);
-    //cout << _colorResolutionNumber << endl;
     string delimiter = "=";
     string token = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
     
 
     _MAX = stoi(token);
-    //cout << _MAX << endl;
-    //cout << "Pasa de aqui " << endl;
     string red,green,blue;
     float num = 0;
     while(indata >> red){
@@ -102,14 +94,11 @@ void Transformppm::readingFile(string PPMfile){
         RGB tuple((stof(red)*_MAX)/_colorResolutionNumber,(stof(green)*_MAX)/_colorResolutionNumber,(stof(blue)*_MAX)/_colorResolutionNumber);
         //Hay que hacer la conversion de cada canal de cada pixel
         // get.red()...
-        //cout << (stof(red)*_MAX)/_colorResolutionNumber << " " << (stof(green)*_MAX)/_colorResolutionNumber << " " << (stof(blue)*_MAX)/_colorResolutionNumber << endl;
-      
+       
         _imagenHDR.push_back(tuple);
         num++;
     }
 
-   // cout << "Elementos procesados " << num << endl;
-    //cout << "Primer elemento " << _imagenHDR.front().getRed();
     indata.close();
 
 }
@@ -128,7 +117,6 @@ void Transformppm::savingFile(string fichero){
 
     string delimiter = "=";
     string token;// = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
-   // bool first = true;
     int i = 0;
     delimiter = " ";
     token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
@@ -136,27 +124,16 @@ void Transformppm::savingFile(string fichero){
     cout << max_col << endl;
 
     for(RGB aux: _imagenHDR){
-       // if(first) first = false;
-      //  else ofdata << "     ";
-
         ofdata << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << "     ";
-        //cout << aux.getRed() << " " << aux.getGreen() << " " << aux.getBlue() << endl;
-        //cout << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << endl;
+       
         if(i >= max_col){
              ofdata << "\n";
              i = 0;
         }
-        //cout << col << endl;
-
-        i++;
-        
+        i++;   
     }
     ofdata << endl ;
     ofdata.close();
-
-
-
-
 }
 
 vector<RGB> Transformppm::getImagen(){
@@ -171,23 +148,22 @@ ostream& operator<<(ostream& os, const Transformppm& t){
     return os;
 }
 
- void Transformppm::setImagen(vector<RGB> Imagen){
-    _imagenHDR = Imagen;
- }
+void Transformppm::setImagen(vector<RGB> Imagen){
+   _imagenHDR = Imagen;
+}
 
- string Transformppm::getFormat(){
-    return _format;
- }
+string Transformppm::getFormat(){
+   return _format;
+}
 
- string Transformppm::getComment(){
+string Transformppm::getComment(){
     return _comment;
- }
+}
 
 
- float Transformppm::getMax(){
-    return _MAX;
- }
-
+float Transformppm::getMax(){
+   return _MAX;
+}
 
 
 string Transformppm::getSizeResolution(){
@@ -196,4 +172,43 @@ string Transformppm::getSizeResolution(){
 
 int Transformppm::getColorResolution(){
     return _colorResolutionNumber;
+}
+
+
+void Transformppm::exportFile(string fichero){
+    _colorResolutionNumber = 255;
+    _colorResolution = "255";
+    cout << endl << endl << endl;
+    ofstream ofdata;
+    ofdata.open(fichero);
+    ofdata << _format << endl;
+    ofdata << _max << endl;
+    ofdata << _comment << endl;
+    ofdata << _sizeResolution << endl;
+    ofdata << _colorResolution << endl;
+
+
+    string delimiter = "=";
+    string token;// = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
+    int i = 0;
+    delimiter = " ";
+    token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
+    int max_col = stoi(token);
+    cout << max_col << endl;
+
+    for(RGB aux: _imagenHDR){
+        ofdata << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << "     ";
+       
+        if(i >= max_col){
+             ofdata << "\n";
+             i = 0;
+        }
+        i++;   
+    }
+    ofdata << endl ;
+    ofdata.close();
+
+
+
+
 }

@@ -69,6 +69,15 @@ public:
      * @param fichero 
      */
     void savingFile(string fichero);
+
+    /**
+     * @brief Guarda en el fichero fichero el contenido que hay en memoria
+     * sobre cierta imagen
+     * Deja el contenido de la imagen con valores máximos de 255
+     * 
+     * @param fichero 
+     */
+    void exportFile(string fichero);
     
     // pretty stdout
     friend ostream& operator<<(ostream& os, const Transformppm& t);
