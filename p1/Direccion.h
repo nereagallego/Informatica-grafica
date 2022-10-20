@@ -94,7 +94,15 @@ class Direccion{
      * @param d segundo vector con el que se va a calcular el producto escalar
      * @return float 
      */
-    float operator *(Direccion d);    
+    float operator *(const Direccion d);
+
+    /**
+     * @brief Devuelve el producto escalar de un punto y un vector
+     * 
+     * @param p punto con el que se va a calcular el producto escalar
+     * @return float 
+     */
+    float operator *(const Punto p);    
 
     /**
      * @brief Devuelve la coordenada X del vector

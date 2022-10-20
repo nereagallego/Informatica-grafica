@@ -31,3 +31,7 @@ float Punto::getY() const{
 float Punto::getZ() const{
     return _z;
 }
+
+float Punto::operator *(const Direccion d){
+    return _x*d.getX() + _y*d.getY() + _z*d.getZ();
+}

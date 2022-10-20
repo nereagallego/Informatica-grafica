@@ -42,6 +42,10 @@ float Direccion::operator *(const Direccion d) {
     return _x*d._x+_y*d._y+_z*d._z;
 }
 
+float Direccion::operator *(const Punto p){
+    return _x*p.getX()+ _y * p.getY() + _z*p.getZ();
+}
+
 float Direccion::getX() const{
     return _x;
 }

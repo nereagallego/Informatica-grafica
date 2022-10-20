@@ -73,6 +73,8 @@ class Punto{
      */
     float getZ() const;
 
+    float operator *(const Direccion d);
+
 };
 
 #endif

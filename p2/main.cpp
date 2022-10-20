@@ -7,8 +7,8 @@ int main(){
     ifstream in;
     Transformppm prueba;
     ToneMapping operaciones;
-    prueba.readingFile("nancy_church_2.ppm");
-    Transformppm salida = operaciones.clampGamma(prueba,0.4);
+    prueba.readingFile("forest_path.ppm");
+    Transformppm salida = operaciones.equalize(prueba);
     cout << salida.getMax();
     salida.exportFile("prueba.ppm");
 
