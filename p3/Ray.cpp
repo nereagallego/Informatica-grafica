@@ -24,3 +24,11 @@ float Ray::intersect(Esfera e){
     else if(r2 > 0) return r2;
     else return -1;
 }
+
+Punto Ray::getPunto(){
+    return _punto;
+}
+
+Direccion Ray::getDireccion(){
+    return _direccion;
+}

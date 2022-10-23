@@ -38,7 +38,8 @@ public:
      */
     float intersect(Esfera e);
 
-    
+    Punto getPunto();
+    Direccion getDireccion();    
 };
 
 #endif
