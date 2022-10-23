@@ -34,6 +34,13 @@ public:
      * @return Punto 
      */
     Punto pointDefinition(float incl, float azim);
+
+    Direccion getEjeY();
+    Direccion getEjeX();
+    Direccion getEjeZ();
+    Punto getCentro();
+    Punto getReferencia();
+    float getRadio();
 };
 
 #endif

@@ -29,3 +29,27 @@ Punto Esfera::pointDefinition(float incl, float azim){
     
     return w.cambioBase(T).punto();
 }
+
+Direccion Esfera::getEjeY(){
+    return _ejeY;
+}
+
+Direccion Esfera::getEjeX(){
+    return _ejeX;
+}
+
+Direccion Esfera::getEjeZ(){
+    return _ejeZ;
+}
+
+Punto Esfera::getCentro(){
+    return _centro;
+}
+
+Punto Esfera::getReferencia(){
+    return _referencia;
+}
+
+float Esfera::getRadio(){
+    return _radio;
+}
