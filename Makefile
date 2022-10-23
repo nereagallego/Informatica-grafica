@@ -24,6 +24,10 @@ DIRECCION=${P1_LIB}/Direccion
 MATRIZ=${P1_LIB}/Matrix4
 COORD=${P1_LIB}/CoordenadasHomogeneas
 ESFERA=${P1_LIB}/Esfera
+P2_LIB=./p2
+RGB=${P2_LIB}/RGB
+TONE=${P2_LIB}/ToneMapping
+TRANSFORM=${P2_LIB}/Transformppm
 P3_LIB=./p3
 RAY=${P3_LIB}/Ray
 PLANO=${P3_LIB}/Plano
@@ -32,8 +36,8 @@ PLANO=${P3_LIB}/Plano
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RAY}.o ${PLANO}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RAY}.o ${PLANO}.o -o ${EJEC} ${CPPFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o -o ${EJEC} ${CPPFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -52,6 +56,15 @@ ${COORD}.o: ${COORD}.h ${COORD}.cpp
 ${ESFERA}.o: ${ESFERA}.h ${ESFERA}.cpp 
 	${CC} -c ${ESFERA}.cpp -o ${ESFERA}.o ${CPPFLAGS}
 
+${RGB}.o: ${RGB}.h ${RGB}.cpp
+	${CC} -c ${RGB}.cpp -o ${RGB}.o ${CPPFLAGS}
+
+${TONE}.o: ${TONE}.h ${TONE}.cpp
+	${CC} -c ${TONE}.cpp -o ${TONE}.o ${CPPFLAGS}
+
+${TRANSFORM}.o: ${TRANSFORM}.h ${TRANSFORM}.cpp
+	${CC} -c ${TRANSFORM}.cpp -o ${TRANSFORM}.o ${CPPFLAGS}
+
 ${RAY}.o: ${RAY}.h ${RAY}.cpp
 	${CC} -c ${RAY}.cpp -o ${RAY}.o ${CPPFLAGS}
 
@@ -63,4 +76,4 @@ ${EJEC}.o: ${EJEC}.cpp
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC}
+	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o
