@@ -6,7 +6,7 @@
 #include "../p1/Direccion.h"
 #include "../p1/Punto.h"
 #include "Plano.h"
-#include "Esfera.h"
+#include "../p1/Esfera.h"
 
 
 class Ray {
