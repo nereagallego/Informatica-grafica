@@ -121,7 +121,6 @@ void Transformppm::savingFile(string fichero){
     delimiter = " ";
     token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
     int max_col = stoi(token);
-    cout << max_col << endl;
 
     for(RGB aux: _imagenHDR){
         ofdata << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << "     ";
