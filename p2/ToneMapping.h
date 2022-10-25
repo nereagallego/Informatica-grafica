@@ -63,7 +63,13 @@ public:
     */
    Transformppm clampGamma(Transformppm Image, float gamma, float clamp=1);
 
-
+   /**
+    * @brief Transformación reinhard sencilla de una imagen
+    * 
+    * @param Image imagen a modificar
+    * @param clamp valor del clamp
+    * @return Transformppm 
+    */
    Transformppm reinhard(Transformppm Image, float clamp);
     
    
