@@ -23,6 +23,20 @@ float Ray::intersect(Esfera e){
     else return -1;
 }
 
+
+float Ray::intersect(Triangulo t){
+    Plano p = Plano(t.getNormal(), t.getDistancia());
+    float dist = intersect(p);
+    if(dist == -1) return -1;
+    else{
+        Direccion d1 = t.getY()-t.getX();
+        Direccion d2 = t.getZ()-t.getX(); 
+        
+        
+    }
+    
+}
+
 Punto Ray::getPunto(){
     return _punto;
 }

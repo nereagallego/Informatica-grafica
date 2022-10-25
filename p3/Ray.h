@@ -7,6 +7,7 @@
 #include "../p1/Punto.h"
 #include "Plano.h"
 #include "../p1/Esfera.h"
+#include "Triangulo.h"
 
 
 class Ray {
@@ -37,6 +38,8 @@ public:
      * @return float 
      */
     float intersect(Esfera e);
+
+    float intersect(Triangulo t);
 
     Punto getPunto();
     Direccion getDireccion();    
