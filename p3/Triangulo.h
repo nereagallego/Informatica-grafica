@@ -11,7 +11,15 @@ private:
     Direccion _normal;
     float _distancia;
 public:
-    Triangulo(Punto x, Punto y, Punto z, float distancia);
+    /**
+     * @brief Construct a new Triangulo object
+     * Construye un triángulo dados tres puntos
+     * 
+     * @param x punto x
+     * @param y punto y
+     * @param z punto z
+     */
+    Triangulo(Punto x, Punto y, Punto z);
 
     Direccion getNormal();
     float getDistancia();

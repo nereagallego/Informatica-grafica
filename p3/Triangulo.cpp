@@ -1,6 +1,6 @@
 #include "Triangulo.h"
 
-Triangulo::Triangulo(Punto x, Punto y, Punto z, float distancia){
+Triangulo::Triangulo(Punto x, Punto y, Punto z){
     Direccion d1 = y-x;
     Direccion d2 = z-x;
     Direccion cross = crossProduct(d1,d2);
