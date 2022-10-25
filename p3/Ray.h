@@ -39,6 +39,12 @@ public:
      */
     float intersect(Esfera e);
 
+    /**
+     * @brief Devuelve la distancia de interseccion de un rayo con un triangulo
+     * 
+     * @param t triangulo con el que se calculala intersección
+     * @return float 
+     */
     float intersect(Triangulo t);
 
     Punto getPunto();

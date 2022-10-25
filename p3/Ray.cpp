@@ -25,15 +25,32 @@ float Ray::intersect(Esfera e){
 
 
 float Ray::intersect(Triangulo t){
-    Plano p = Plano(t.getNormal(), t.getDistancia());
-    float dist = intersect(p);
-    if(dist == -1) return -1;
-    else{
-        Direccion d1 = t.getY()-t.getX();
-        Direccion d2 = t.getZ()-t.getX(); 
-        
-        
-    }
+
+    Direccion d1 = t.getY()-t.getX();
+    Direccion d2 = t.getZ()-t.getX(); 
+    Direccion h = crossProduct(_direccion, d2);
+    float a = d1*h; // determinante
+
+    if (a > -0.00001 && a < 0.00001)
+    return(-1);
+
+    // distancia del vértice al origen
+    Direccion s = _punto - t.getX();
+
+    float u = (s * h);
+
+    if ((a > 0.00001 && (u < 0.0 || u > a)) || (a < -0.00001 && (u > 0.0 || u < a)))
+    return -1;
+
+    Direccion q = crossProduct(s, d1);
+
+    float v = (_direccion * q);
+
+    if ((a > 0.00001 && (v < 0.0 || u + v > a)) || a < -0.00001 && (v > 0.0 || u + v < a))
+    return -1;
+    
+    float tt = (d2 * q)/a;
+    return tt;
     
 }
 
