@@ -106,3 +106,18 @@ Transformppm ToneMapping::clampGamma(Transformppm Image, float gamma, float clam
     result.setImagen(imagenFinal);
     return result;
 }
+
+Transformppm ToneMapping::reinhard(Transformppm Image, float clamp){
+    Transformppm aux = clampEqualize(Image, clamp);
+    vector<RGB> ImagenLocal = aux.getImagen();
+    Transformppm result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
+    vector<RGB> imagenFinal;
+    for(RGB x: ImagenLocal){
+        x.setRed(x.getRed()/(1+x.getRed()));
+        x.setGreen(x.getGreen()/(1+x.getGreen()));
+        x.setBlue(x.getBlue()/(1+x.getBlue()));
+        imagenFinal.push_back(x);
+    } 
+    result.setImagen(imagenFinal);
+    return result;
+}

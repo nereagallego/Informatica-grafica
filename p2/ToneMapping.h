@@ -62,6 +62,9 @@ public:
     * @return Transformppm 
     */
    Transformppm clampGamma(Transformppm Image, float gamma, float clamp=1);
+
+
+   Transformppm reinhard(Transformppm Image, float clamp);
     
    
 };

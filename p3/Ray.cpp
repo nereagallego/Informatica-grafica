@@ -9,8 +9,6 @@ float Ray::intersect(Plano p){
     float denominador = _direccion*p.getNormal();
     if (denominador == 0) return -1;
     return -(p.getDistancia() + p.getNormal()*_punto)/(denominador); 
-    // Punto aux = _punto + _direccion*t;
-    // return aux;
 }
 
 float Ray::intersect(Esfera e){
