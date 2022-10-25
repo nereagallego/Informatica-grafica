@@ -3,6 +3,7 @@
 #include "p1/Punto.h"
 #include "p3/Plano.h"
 #include "p3/Ray.h"
+#include "p3/Triangulo.h"
 
 
 using namespace std;
@@ -25,6 +26,12 @@ int main(){
         Punto p = r.getPunto() + r.getDireccion() * t;
         cout << p << endl;
     } else cout << "No corta" << endl;
-     
+    
+    Triangulo tri(Punto(3,-2,-2), Punto(3,-2,2), Punto(3,1,1));
+    t = r.intersect(tri);
+    if (t != -1){
+        Punto p = r.getPunto() + r.getDireccion() * t;
+        cout << p << endl;
+    } else cout << "No corta" << endl;
     
 }
