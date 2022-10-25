@@ -11,10 +11,7 @@
 
 using namespace std;
 
-class ToneMapping{
-private:
-  
-public:
+namespace ToneMapping{
 
    /**
     * @brief Realiza la operación de clampeo

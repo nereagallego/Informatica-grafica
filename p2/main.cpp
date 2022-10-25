@@ -6,9 +6,9 @@ using namespace std;
 int main(){
     ifstream in;
     Transformppm prueba;
-    ToneMapping operaciones;
+   // ToneMapping operaciones;
     prueba.readingFile("seymour_park.ppm");
-    Transformppm salida = operaciones.reinhard(prueba,0.8);
+    Transformppm salida = ToneMapping::reinhard(prueba,0.8);
     salida.exportFile("seymour_reinhard.ppm");
 
     // cout << prueba << endl;
