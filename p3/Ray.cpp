@@ -54,6 +54,10 @@ float Ray::intersect(Triangulo t){
     
 }
 
+float Ray::intersect(Primitive p){
+    
+}
+
 Punto Ray::getPunto(){
     return _punto;
 }

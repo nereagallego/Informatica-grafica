@@ -18,6 +18,8 @@ class RGB{
      */
     RGB(float red_ ,float green_, float blue_);
 
+    RGB(): Red(0), Green(0), Blue(0){};
+
     float getRed();
     float getGreen();
     float getBlue();

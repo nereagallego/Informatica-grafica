@@ -47,6 +47,8 @@ public:
      */
     float intersect(Triangulo t);
 
+    float intersect(Primitive p);
+
     Punto getPunto();
     Direccion getDireccion();    
 };

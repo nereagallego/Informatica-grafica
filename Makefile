@@ -32,6 +32,7 @@ P3_LIB=./p3
 RAY=${P3_LIB}/Ray
 PLANO=${P3_LIB}/Plano
 TRI=${P3_LIB}/Triangulo
+PRIMITIVE=${P3_LIB}/Primitive
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 all: ${EJEC}
@@ -54,7 +55,7 @@ ${MATRIZ}.o: ${MATRIZ}.h ${MATRIZ}.cpp
 ${COORD}.o: ${COORD}.h ${COORD}.cpp
 	${CC} -c ${COORD}.cpp -o ${COORD}.o ${CPPFLAGS}
 
-${ESFERA}.o: ${ESFERA}.h ${ESFERA}.cpp 
+${ESFERA}.o: ${ESFERA}.h ${ESFERA}.cpp ${PRIMITIVE}.h
 	${CC} -c ${ESFERA}.cpp -o ${ESFERA}.o ${CPPFLAGS}
 
 ${RGB}.o: ${RGB}.h ${RGB}.cpp

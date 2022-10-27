@@ -1,10 +1,10 @@
 #include "Plano.h"
 
 
-Plano::Plano(Direccion n, float d){
-    _normal = n;
-    _distancia = d;
-}
+// Plano::Plano(Direccion n, float d){
+//     _normal = n;
+//     _distancia = d;
+// }
 
 float Plano::getDistancia(){
     return _distancia;

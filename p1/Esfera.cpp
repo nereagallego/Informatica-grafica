@@ -1,20 +1,19 @@
 #include "Esfera.h"
 
-Esfera::Esfera(Direccion eje, Punto centro, Punto referencia){
-    
-    Direccion rad = centro - referencia;
-    _radio = eje.modulo()/2;
-    if(abs(rad.modulo() - _radio) > 10E-6){
-        cerr << "Parámetros incorrectos " << endl;
-        cerr << "Radio: "  << _radio << " distancia del centro a la ciudad de referencia "  << rad.modulo() << endl;
-    }
-    _centro = centro;
-    _ejeY = eje.normalizar();
-    _referencia = referencia;
-    _ejeZ = rad.normalizar();
-    _ejeX = crossProduct(_ejeY,_ejeZ).normalizar();
+// Esfera::Esfera(Direccion eje, Punto centro, Punto referencia){
+//     Direccion rad = centro - referencia;
+//     _radio = eje.modulo()/2;
+//     if(abs(rad.modulo() - _radio) > 10E-6){
+//         cerr << "Parámetros incorrectos " << endl;
+//         cerr << "Radio: "  << _radio << " distancia del centro a la ciudad de referencia "  << rad.modulo() << endl;
+//     }
+//     _centro = centro;
+//     _ejeY = eje.normalizar();
+//     _referencia = referencia;
+//     _ejeZ = rad.normalizar();
+//     _ejeX = crossProduct(_ejeY,_ejeZ).normalizar();
 
-}
+// }
 
 Punto Esfera::pointDefinition(float incl, float azim){
     if(incl < 0 or incl > M_PI or azim < - M_PI or azim > M_PI){
