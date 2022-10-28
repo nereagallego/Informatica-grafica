@@ -1,15 +1,15 @@
 #include "Triangulo.h"
 
-Triangulo::Triangulo(Punto x, Punto y, Punto z){
-    Direccion d1 = y-x;
-    Direccion d2 = z-x;
-    Direccion cross = crossProduct(d1,d2);
-    _normal = cross / cross.modulo();
-    _distancia = -(_normal*x);
-    _x = x;
-    _y = y;
-    _z = z;
-}
+// Triangulo::Triangulo(Punto x, Punto y, Punto z){
+//     Direccion d1 = y-x;
+//     Direccion d2 = z-x;
+//     Direccion cross = crossProduct(d1,d2);
+//     _normal = cross / cross.modulo();
+//     _distancia = -(_normal*x);
+//     _x = x;
+//     _y = y;
+//     _z = z;
+// }
 
 Direccion Triangulo::getNormal(){
     return _normal;

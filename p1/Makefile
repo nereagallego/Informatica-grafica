@@ -47,7 +47,7 @@ ${MATRIZ}.o: ${MATRIZ}.h ${MATRIZ}.cpp
 ${COORD}.o: ${COORD}.h ${COORD}.cpp
 	${CC} -c ${COORD}.cpp -o ${COORD}.o ${CPPFLAGS}
 
-${ESFERA}.o: ${ESFERA}.cpp 
+${ESFERA}.o: ${ESFERA}.cpp ${ESFERA}.h
 	${CC} -c ${ESFERA}.cpp -o ${COORD}.o ${CPPFLAGS}
 
 ${EJEC}.o: ${EJEC}.cpp 

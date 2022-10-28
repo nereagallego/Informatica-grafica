@@ -67,10 +67,10 @@ ${TONE}.o: ${TONE}.h ${TONE}.cpp
 ${TRANSFORM}.o: ${TRANSFORM}.h ${TRANSFORM}.cpp
 	${CC} -c ${TRANSFORM}.cpp -o ${TRANSFORM}.o ${CPPFLAGS}
 
-${RAY}.o: ${RAY}.h ${RAY}.cpp
+${RAY}.o: ${RAY}.h ${RAY}.cpp ${PRIMITIVE}.h
 	${CC} -c ${RAY}.cpp -o ${RAY}.o ${CPPFLAGS}
 
-${PLANO}.o: ${PLANO}.h ${PLANO}.cpp
+${PLANO}.o: ${PLANO}.h ${PLANO}.cpp ${PRIMITIVE}.h
 	${CC} -c ${PLANO}.cpp -o ${PLANO}.o ${CPPFLAGS}
 
 ${TRI}.o:  ${TRI}.h ${TRI}.cpp

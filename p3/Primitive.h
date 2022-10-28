@@ -10,6 +10,7 @@ class Primitive{
 public:
     Primitive(RGB emision): _emision(emision){};
     Primitive(): _emision(RGB(0,0,0)) {}
+    virtual ~Primitive() = default;
 
     void setEmision(RGB emision) {
         _emision = emision;

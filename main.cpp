@@ -14,21 +14,35 @@ int main(){
     Plano plane(d,3);
     Ray r(Direccion(1,0,0),Punto(0,0,0));
     
-    float t = r.intersect(plane);
+    float t = r.intersect(&plane);
     if (t != -1){
         Punto p = r.getPunto() + r.getDireccion() * t;
         cout << p << endl;
     }
 
     Esfera e(Direccion(0,2,0),Punto(3,0,0), Punto(3,1,0));
-    t = r.intersect(e);
+    t = r.intersect(&e);
     if (t != -1){
         Punto p = r.getPunto() + r.getDireccion() * t;
         cout << p << endl;
     } else cout << "No corta" << endl;
     
     Triangulo tri(Punto(3,-2,-2), Punto(3,-2,2), Punto(3,1,1));
-    t = r.intersect(tri);
+    t = r.intersect(&tri);
+    if (t != -1){
+        Punto p = r.getPunto() + r.getDireccion() * t;
+        cout << p << endl;
+    } else cout << "No corta" << endl;
+
+    Primitive p = plane;
+    t = r.intersect(&plane);
+    if (t != -1){
+        Punto p = r.getPunto() + r.getDireccion() * t;
+        cout << p << endl;
+    } else cout << "No corta" << endl;
+
+    p = e;
+    t = r.intersect(&e);
     if (t != -1){
         Punto p = r.getPunto() + r.getDireccion() * t;
         cout << p << endl;
