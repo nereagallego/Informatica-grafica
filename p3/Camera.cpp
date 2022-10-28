@@ -26,6 +26,10 @@ Direccion Camera::getF(){
     return _F;
 }
 
+void Camera::getCuadricula(RGB vector[nPixels][nPixels]){
+    vector = cuadricula;
+}
+
 
 void Camera::dibujar(vector<Primitive> vector){
     for(int i = 0; i < nPixels; i ++){
@@ -35,7 +39,19 @@ void Camera::dibujar(vector<Primitive> vector){
             float t = 0.0;
             float intersect = 0.0;
             Primitive inter;
-            for(Primitive p )
+            for(Primitive p : vector){
+                intersect = rayo.intersect(&p);
+                if(intersect != -1 && intersect > t){
+                    intersect = t;
+                    inter = p;
+                }
+            }
+            if(t > 0){
+                cuadricula[i][j] = inter.getEmision();
+            } else {
+                cuadricula[i][j] = RGB(1,1,1);
+            }
+            
         }
     }
 }

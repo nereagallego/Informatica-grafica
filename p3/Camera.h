@@ -28,6 +28,7 @@ public:
     Direccion getU();
     Direccion getF();
     Punto getO();
+    void getCuadricula(RGB vector[nPixels][nPixels]);
 
     void dibujar(vector<Primitive> vector);
 };
