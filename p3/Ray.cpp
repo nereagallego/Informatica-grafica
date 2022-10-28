@@ -55,7 +55,23 @@ float Ray::intersect(Triangulo t){
 }
 
 float Ray::intersect(Primitive p){
-    
+    shared_ptr<Plano> plane = dynamic_pointer_cast<Plano>(make_shared<Primitive>(p));
+    if(plane != nullptr){ // es un plano
+        return intersect(*plane.get());
+    } else {
+        shared_ptr<Esfera> esfera = dynamic_pointer_cast<Esfera>(make_shared<Primitive>(p));
+        if(esfera != nullptr) {
+            return intersect(*esfera.get());
+        } else {
+            shared_ptr<Triangulo> triangulo = dynamic_pointer_cast<Triangulo>(make_shared<Primitive>(p));
+            if(triangulo!=nullptr){
+                return intersect(*triangulo.get());
+            } else {
+                return -1;
+            }
+        }
+    }
+
 }
 
 Punto Ray::getPunto(){

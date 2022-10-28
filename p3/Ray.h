@@ -8,6 +8,7 @@
 #include "Plano.h"
 #include "../p1/Esfera.h"
 #include "Triangulo.h"
+#include <memory>
 
 
 class Ray {
