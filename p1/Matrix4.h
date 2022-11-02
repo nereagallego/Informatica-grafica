@@ -57,7 +57,7 @@ public:
      * @param z 
      * @param o 
      */
-    Matrix4(Direccion x, Direccion y, Direccion z, Direccion o);
+    Matrix4(Direccion x, Direccion y, Direccion z, Punto o);
 
     /**
      * @brief devuelve la suma de dos matrices

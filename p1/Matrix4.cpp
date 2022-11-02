@@ -239,7 +239,7 @@ Matrix4 Matrix4::inversa() const{
 }
 
 
-Matrix4::Matrix4(Direccion x, Direccion y, Direccion z, Direccion o){
+Matrix4::Matrix4(Direccion x, Direccion y, Direccion z, Punto o){
     _mat[0][0] = x.getX();
     _mat[0][1] = y.getX();
     _mat[0][2] = z.getX();
