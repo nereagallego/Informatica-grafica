@@ -18,28 +18,31 @@ CPPFLAGS = -std=c++11 # opciones compilación  # opciones de "linkado"
 EJEC = main
 #---------------------------------------------------------
 # directorio y clase para semáfo
-P1_LIB=./p1
-PUNTO=${P1_LIB}/Punto
-DIRECCION=${P1_LIB}/Direccion
-MATRIZ=${P1_LIB}/Matrix4
-COORD=${P1_LIB}/CoordenadasHomogeneas
-ESFERA=${P1_LIB}/Esfera
-P2_LIB=./p2
-RGB=${P2_LIB}/RGB
-TONE=${P2_LIB}/ToneMapping
-TRANSFORM=${P2_LIB}/Imagen
-P3_LIB=./p3
-RAY=${P3_LIB}/Ray
-PLANO=${P3_LIB}/Plano
-TRI=${P3_LIB}/Triangulo
-PRIMITIVE=${P3_LIB}/Primitive
+COLOR=./color
+GEO=./geometry
+IMAGE=./image
+MATH=./math
+SCENE=./scene
+PUNTO=${MATH}/Punto
+DIRECCION=${MATH}/Direccion
+MATRIZ=${MATH}/Matrix4
+COORD=${MATH}/CoordenadasHomogeneas
+ESFERA=${GEO}/Esfera
+RGB=${COLOR}/RGB
+TONE=${IMAGE}/ToneMapping
+TRANSFORM=${IMAGE}/Imagen
+RAY=${GEO}/Ray
+PLANO=${GEO}/Plano
+TRI=${GEO}/Triangulo
+PRIMITIVE=${GEO}/Primitive
+CAMERA=${SCENE}/Camera
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o -o ${EJEC} ${CPPFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o -o ${EJEC} ${CPPFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -54,9 +57,6 @@ ${MATRIZ}.o: ${MATRIZ}.h ${MATRIZ}.cpp
 
 ${COORD}.o: ${COORD}.h ${COORD}.cpp
 	${CC} -c ${COORD}.cpp -o ${COORD}.o ${CPPFLAGS}
-
-${ESFERA}.o: ${ESFERA}.h ${ESFERA}.cpp ${PRIMITIVE}.h
-	${CC} -c ${ESFERA}.cpp -o ${ESFERA}.o ${CPPFLAGS}
 
 ${RGB}.o: ${RGB}.h ${RGB}.cpp
 	${CC} -c ${RGB}.cpp -o ${RGB}.o ${CPPFLAGS}
@@ -73,12 +73,18 @@ ${RAY}.o: ${RAY}.h ${RAY}.cpp ${PRIMITIVE}.h
 ${PLANO}.o: ${PLANO}.h ${PLANO}.cpp ${PRIMITIVE}.h
 	${CC} -c ${PLANO}.cpp -o ${PLANO}.o ${CPPFLAGS}
 
+${ESFERA}.o: ${ESFERA}.h ${ESFERA}.cpp ${PRIMITIVE}.h
+	${CC} -c ${ESFERA}.cpp -o ${ESFERA}.o ${CPPFLAGS}
+
 ${TRI}.o:  ${TRI}.h ${TRI}.cpp
 	${CC} -c ${TRI}.cpp -o ${TRI}.o ${CPPFLAGS}
+
+${CAMERA}.o:  ${CAMERA}.h ${CAMERA}.cpp
+	${CC} -c ${CAMERA}.cpp -o ${CAMERA}.o ${CPPFLAGS}
 
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o
+	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o
