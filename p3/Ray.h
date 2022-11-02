@@ -51,7 +51,9 @@ public:
     float intersect(Primitive *p);
 
     Punto getPunto();
-    Direccion getDireccion();    
+    Direccion getDireccion();  
+    void setPunto(Punto p);
+    void setDireccion(Direccion d);  
 };
 
 #endif

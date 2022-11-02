@@ -82,3 +82,11 @@ Punto Ray::getPunto(){
 Direccion Ray::getDireccion(){
     return _direccion;
 }
+
+void Ray::setPunto(Punto p){
+    _punto = p;
+}
+
+void Ray::setDireccion(Direccion d){
+    _direccion = d;
+} 
