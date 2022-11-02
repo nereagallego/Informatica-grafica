@@ -2,9 +2,9 @@
 
 #include "ToneMapping.h"
 
-Transformppm ToneMapping::clamp(Transformppm Imagen, float clamp){
-    vector<RGB> ImagenLocal = Imagen.getImagen();
-    Transformppm result(Imagen.getFormat(), "#MAX="+to_string(1),Imagen.getComment(), Imagen.getSizeResolution(), to_string(Imagen.getColorResolution()), Imagen.getColorResolution(), 1);
+Imagen ToneMapping::clamp(Imagen imagen, float clamp){
+    vector<RGB> ImagenLocal = imagen.getImagen();
+    Imagen result(imagen.getFormat(), "#MAX="+to_string(1),imagen.getComment(), imagen.getSizeResolution(), to_string(imagen.getColorResolution()), imagen.getColorResolution(), 1);
     vector<RGB> ImagenResultado;
     //Para cada pixel...
     for(RGB aux: ImagenLocal){
@@ -24,10 +24,10 @@ Transformppm ToneMapping::clamp(Transformppm Imagen, float clamp){
 }
     
 
-Transformppm ToneMapping::equalize(Transformppm Imagen){
-    float MAX = Imagen.getMax();
-    vector<RGB> ImagenLocal = Imagen.getImagen();
-    Transformppm result(Imagen.getFormat(), "#MAX="+to_string(1),Imagen.getComment(), Imagen.getSizeResolution(), to_string(Imagen.getColorResolution()), Imagen.getColorResolution(), 1);
+Imagen ToneMapping::equalize(Imagen imagen){
+    float MAX = imagen.getMax();
+    vector<RGB> ImagenLocal = imagen.getImagen();
+    Imagen result(imagen.getFormat(), "#MAX="+to_string(1),imagen.getComment(), imagen.getSizeResolution(), to_string(imagen.getColorResolution()), imagen.getColorResolution(), 1);
     vector<RGB> ImagenResultado;
     //Para cada pixel...
     for(RGB aux: ImagenLocal){
@@ -40,9 +40,9 @@ Transformppm ToneMapping::equalize(Transformppm Imagen){
     return result;
 }
 
-Transformppm ToneMapping::clampEqualize(Transformppm Imagen, float clamp){
-    vector<RGB> ImagenLocal = Imagen.getImagen();
-    Transformppm result(Imagen.getFormat(), "#MAX="+to_string(1),Imagen.getComment(), Imagen.getSizeResolution(), to_string(Imagen.getColorResolution()), Imagen.getColorResolution(), 1);
+Imagen ToneMapping::clampEqualize(Imagen imagen, float clamp){
+    vector<RGB> ImagenLocal = imagen.getImagen();
+    Imagen result(imagen.getFormat(), "#MAX="+to_string(1),imagen.getComment(), imagen.getSizeResolution(), to_string(imagen.getColorResolution()), imagen.getColorResolution(), 1);
     vector<RGB> ImagenResultado;
     //Para cada pixel...
     for(RGB aux: ImagenLocal){
@@ -65,10 +65,10 @@ Transformppm ToneMapping::clampEqualize(Transformppm Imagen, float clamp){
 
 
 
-Transformppm ToneMapping::gammaCurve(Transformppm Image, float gamma){
-    Transformppm aux = equalize(Image);
+Imagen ToneMapping::gammaCurve(Imagen Image, float gamma){
+    Imagen aux = equalize(Image);
     vector<RGB> ImagenLocal = aux.getImagen();
-    Transformppm result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
+    Imagen result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
     vector<RGB> imagenFinal;
     for(RGB x: ImagenLocal){
        // if(x.getRed() < aux.getMax()){
@@ -86,10 +86,10 @@ Transformppm ToneMapping::gammaCurve(Transformppm Image, float gamma){
     return result;
 }
 
-Transformppm ToneMapping::clampGamma(Transformppm Image, float gamma, float clamp_){
-    Transformppm aux = clampEqualize(Image,clamp_);
+Imagen ToneMapping::clampGamma(Imagen Image, float gamma, float clamp_){
+    Imagen aux = clampEqualize(Image,clamp_);
     vector<RGB> ImagenLocal = aux.getImagen();
-    Transformppm result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
+    Imagen result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
     vector<RGB> imagenFinal;
     for(RGB x: ImagenLocal){
         if(x.getRed() < aux.getMax()){
@@ -107,10 +107,10 @@ Transformppm ToneMapping::clampGamma(Transformppm Image, float gamma, float clam
     return result;
 }
 
-Transformppm ToneMapping::reinhard(Transformppm Image, float clamp){
-    Transformppm aux = clampEqualize(Image, clamp);
+Imagen ToneMapping::reinhard(Imagen Image, float clamp){
+    Imagen aux = clampEqualize(Image, clamp);
     vector<RGB> ImagenLocal = aux.getImagen();
-    Transformppm result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
+    Imagen result(aux.getFormat(), "#MAX="+to_string(1),aux.getComment(), aux.getSizeResolution(), to_string(aux.getColorResolution()), aux.getColorResolution(), 1);
     vector<RGB> imagenFinal;
     for(RGB x: ImagenLocal){
         x.setRed(x.getRed()/(1+x.getRed()));

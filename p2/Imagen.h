@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Transformppm{
+class Imagen{
 private:
     string _format, _max, _comment, _sizeResolution, _colorResolution; 
     vector<RGB> _imagenHDR;
@@ -19,21 +19,21 @@ private:
 public:
 
     /**
-     * @brief Construct a new Transformppm object
+     * @brief Construct a new Imagen object
      * Constructor vacío 
      * 
      */
-    Transformppm();
+    Imagen();
 
     /**
-     * @brief Construct a new Transformppm object
+     * @brief Construct a new Imagen object
      * 
      * @param ImagenHDR_ vector con la imagen a construir
      */
-    Transformppm(vector<RGB> ImagenHDR_);
+    Imagen(vector<RGB> ImagenHDR_);
 
     /**
-     * @brief Construct a new Transformppm object
+     * @brief Construct a new Imagen object
      * 
      * @param format formato de la imagen
      * @param max cadena con el valor máximo
@@ -43,7 +43,7 @@ public:
      * @param c valor de color resolution
      * @param m valor de max
      */
-    Transformppm(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m);
+    Imagen(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m);
 
     string getFormat();
     string getComment();
@@ -80,7 +80,7 @@ public:
     void exportFile(string fichero);
     
     // pretty stdout
-    friend ostream& operator<<(ostream& os, const Transformppm& t);
+    friend ostream& operator<<(ostream& os, const Imagen& t);
 
     
 };

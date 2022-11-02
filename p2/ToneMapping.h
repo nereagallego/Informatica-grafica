@@ -6,7 +6,7 @@
 #include <vector>
 #include <cstring>
 #include <iomanip>
-#include "Transformppm.h"
+#include "Imagen.h"
 #include <cmath>
 
 using namespace std;
@@ -17,37 +17,37 @@ namespace ToneMapping{
     * @brief Realiza la operación de clampeo
     * Si los valores son mayores que clamp_ los deja como clamp_
     * 
-    * @param Imagen Objeto de tipo Transformppm a transformar
+    * @param Imagen Objeto de tipo Imagen a transformar
     * @param clamp_ valor de clampeo
-    * @return Transformppm 
+    * @return Imagen 
     */
-   Transformppm clamp(Transformppm Imagen, float clamp_=1);
+   Imagen clamp(Imagen Imagen, float clamp_=1);
 
    /**
     * @brief Equaliza una imagen
     * 
     * @param Image imagen a equalizar
-    * @return Transformppm 
+    * @return Imagen 
     */
-   Transformppm equalize(Transformppm Image);
+   Imagen equalize(Imagen Image);
 
    /**
     * @brief Ecualiza una imagen y a continuación clampea a cierto valor
     * 
     * @param Image imagen a modificar
     * @param clamp valor a clampear
-    * @return Transformppm 
+    * @return Imagen 
     */
-   Transformppm clampEqualize(Transformppm Image, float clamp);
+   Imagen clampEqualize(Imagen Image, float clamp);
 
    /**
     * @brief aplica la curva gamma a una imagen
     * 
     * @param Image imagen a modificar
     * @param gamma valor de la curva gamma
-    * @return Transformppm 
+    * @return Imagen 
     */
-   Transformppm gammaCurve(Transformppm Image, float gamma);
+   Imagen gammaCurve(Imagen Image, float gamma);
 
    /**
     * @brief campear una imagen y aplicar una curva gamma
@@ -56,18 +56,18 @@ namespace ToneMapping{
     * @param Image imagen a modificar
     * @param gamma valor de la curva gamma
     * @param clamp valor de clampeo
-    * @return Transformppm 
+    * @return Imagen 
     */
-   Transformppm clampGamma(Transformppm Image, float gamma, float clamp=1);
+   Imagen clampGamma(Imagen Image, float gamma, float clamp=1);
 
    /**
     * @brief Transformación reinhard sencilla de una imagen
     * 
     * @param Image imagen a modificar
     * @param clamp valor del clamp
-    * @return Transformppm 
+    * @return Imagen 
     */
-   Transformppm reinhard(Transformppm Image, float clamp);
+   Imagen reinhard(Imagen Image, float clamp);
     
    
 };

@@ -1,7 +1,7 @@
-#include "Transformppm.h"
+#include "Imagen.h"
 #include "RGB.h"
 
-Transformppm::Transformppm(){
+Imagen::Imagen(){
     _format = "";
     _max = "";
     _comment = "";
@@ -12,7 +12,7 @@ Transformppm::Transformppm(){
   //  _imagenHDR = new vector<RGB>();
 }
 
-Transformppm::Transformppm(vector<RGB> ImagenHDR_){
+Imagen::Imagen(vector<RGB> ImagenHDR_){
     _format = "";
     _max = "";
     _comment = "";
@@ -24,7 +24,7 @@ Transformppm::Transformppm(vector<RGB> ImagenHDR_){
 
 }
 
-Transformppm::Transformppm(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m){
+Imagen::Imagen(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m){
     _format = format;
     _max = max;
     _comment = comment;
@@ -63,7 +63,7 @@ void diff(string file1, string file2){
     f2.close();
 }
 
-void Transformppm::readingFile(string PPMfile){
+void Imagen::readingFile(string PPMfile){
     ifstream indata;
     indata.open(PPMfile);
     if(!indata) { // file couldn't be opened
@@ -104,7 +104,7 @@ void Transformppm::readingFile(string PPMfile){
 }
 
 
-void Transformppm::savingFile(string fichero){
+void Imagen::savingFile(string fichero){
     cout << endl << endl << endl;
     ofstream ofdata;
     ofdata.open(fichero);
@@ -135,46 +135,46 @@ void Transformppm::savingFile(string fichero){
     ofdata.close();
 }
 
-vector<RGB> Transformppm::getImagen(){
+vector<RGB> Imagen::getImagen(){
     return _imagenHDR;
 }
 
 // pretty stdout
-ostream& operator<<(ostream& os, const Transformppm& t){
+ostream& operator<<(ostream& os, const Imagen& t){
     for(RGB aux: t._imagenHDR){
         os << "R: " << aux.getRed() << "    G: " << aux.getGreen() << "    B: " << aux.getBlue() << endl; 
     }
     return os;
 }
 
-void Transformppm::setImagen(vector<RGB> Imagen){
+void Imagen::setImagen(vector<RGB> Imagen){
    _imagenHDR = Imagen;
 }
 
-string Transformppm::getFormat(){
+string Imagen::getFormat(){
    return _format;
 }
 
-string Transformppm::getComment(){
+string Imagen::getComment(){
     return _comment;
 }
 
 
-float Transformppm::getMax(){
+float Imagen::getMax(){
    return _MAX;
 }
 
 
-string Transformppm::getSizeResolution(){
+string Imagen::getSizeResolution(){
     return _sizeResolution;
 }
 
-int Transformppm::getColorResolution(){
+int Imagen::getColorResolution(){
     return _colorResolutionNumber;
 }
 
 
-void Transformppm::exportFile(string fichero){
+void Imagen::exportFile(string fichero){
     _colorResolutionNumber = 255;
     _colorResolution = "255";
     cout << endl << endl << endl;
