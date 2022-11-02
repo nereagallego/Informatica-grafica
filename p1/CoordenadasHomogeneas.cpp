@@ -59,7 +59,7 @@ Punto CoordenadasHomogeneas::punto(){
 }
 
 Direccion CoordenadasHomogeneas::direccion(){
-    if(_coord[3]!=1) throw new logic_error("No es un vector");
+    if(_coord[3]!=0) throw new logic_error("No es un vector");
     return Direccion(_coord[0], _coord[1],_coord[2]);
 }
 
