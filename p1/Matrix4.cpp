@@ -237,3 +237,24 @@ Matrix4 Matrix4::inversa() const{
     Matrix4 res = aux.transpuesta();
     return res * (1/determinante);
 }
+
+
+Matrix4::Matrix4(Direccion x, Direccion y, Direccion z, Direccion o){
+    _mat[0][0] = x.getX();
+    _mat[0][1] = y.getX();
+    _mat[0][2] = z.getX();
+    _mat[0][3] = o.getX();
+    _mat[1][0] = x.getY();
+    _mat[1][1] = y.getY();
+    _mat[1][2] = z.getY();
+    _mat[1][3] = o.getY();
+    _mat[2][0] = x.getZ();
+    _mat[2][1] = y.getZ();
+    _mat[2][2] = z.getZ();
+    _mat[2][3] = o.getZ();
+    _mat[3][0] = 0;
+    _mat[3][1] = 0;
+    _mat[3][2] = 0;
+    _mat[3][3] = 1;
+
+}

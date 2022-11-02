@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Direccion.h"
 
 using namespace std;
 
@@ -46,6 +47,17 @@ public:
      * @param m 
      */
     Matrix4(float m[4][4]);
+
+    /**
+     * @brief Construct a new Matrix 4 object
+     * Construye una matrix de cambio de base
+     * 
+     * @param x 
+     * @param y 
+     * @param z 
+     * @param o 
+     */
+    Matrix4(Direccion x, Direccion y, Direccion z, Direccion o);
 
     /**
      * @brief devuelve la suma de dos matrices
