@@ -10,6 +10,10 @@ Punto Punto::operator +(const Direccion d) const{
     return Punto(_x+d.getX(), _y + d.getY(), _z + d.getZ());
 }
 
+Punto Punto::operator -(const Direccion d) const{
+    return Punto(_x-d.getX(), _y - d.getY(), _z - d.getZ());
+}
+
 Direccion Punto::operator -(const Punto p) const{
     return Direccion(_x - p._x , _y - p._y, _z - p._z);
 }

@@ -51,19 +51,28 @@ int main(){
     // } else cout << "No corta" << endl;
 
    // vector<shared_ptr<Primitive>> primitives;
-    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,3));
+    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5));
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
-    leftPlane->setEmision(RGB(1,0,0));
+    leftPlane->setEmision(RGB(255,0,0));
     auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
-    rightPlane->setEmision(RGB(0, 1, 0));
+    rightPlane->setEmision(RGB(0, 255, 0));
+    auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);
+    floorPlane->setEmision(RGB(155,155,155));
+    auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
+    ceilingPlane->setEmision(RGB(155,155,155));
+    auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
+    backPlane->setEmision(RGB(155,155,155));
     
     cam.addPrimitive(leftPlane);
     cam.addPrimitive(rightPlane);
-    
-
+    cam.addPrimitive(floorPlane);
+    cam.addPrimitive(ceilingPlane);
+    cam.addPrimitive(backPlane);
+   
     cam.dibujar();
 
-    cout << "No revienta" << endl;
-    cam.save();
     
+    cam.save();
+  
+    return 0;
 }

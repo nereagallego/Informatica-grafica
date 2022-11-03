@@ -16,7 +16,6 @@ Direccion Plano::getNormal(){
 
 Intersect Plano::intersect(Ray r) {
     Intersect s;
-    cout << "busco interseccion" << endl;
     float denominador = r.getDireccion() * _normal;
     if(denominador == 0){ s._intersect = false; return s;}
     else s._intersect = true;

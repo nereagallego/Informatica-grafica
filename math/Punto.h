@@ -41,6 +41,8 @@ class Punto{
      */
     Punto operator +(const Direccion d) const;
 
+    Punto operator  -(const Direccion d) const;
+
     /**
      * @brief Devuelve la dirección resultante de restar dos puntos
      * 

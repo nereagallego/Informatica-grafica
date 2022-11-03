@@ -13,7 +13,7 @@
 #include <vector>
 
 using namespace std;
-const int nPixels = 256;
+const int nPixels = 255;
 class Camera{
 private:
     Direccion _L;

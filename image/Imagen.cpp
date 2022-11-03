@@ -192,9 +192,11 @@ void Imagen::exportFile(string fichero){
     delimiter = " ";
     token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
     int max_col = stoi(token);
-    cout << max_col << endl;
+    //cout << max_col << endl;
+   
 
     for(RGB aux: _imagenHDR){
+        
         ofdata << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << "     ";
        
         if(i >= max_col){
@@ -203,6 +205,7 @@ void Imagen::exportFile(string fichero){
         }
         i++;   
     }
+    
     ofdata << endl ;
     ofdata.close();
 
