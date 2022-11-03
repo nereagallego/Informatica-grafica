@@ -71,7 +71,7 @@ void Camera::dibujar(){
 }
 
 void Camera::save() const{
-    Imagen img("P3","255","",to_string(nPixels) + " " + to_string(nPixels),"255",255,255);
+    Imagen img("P3","#MAX=1","",to_string(nPixels) + " " + to_string(nPixels),"255",255,255);
     vector<RGB> vect;
     for(int i = 0; i < nPixels; i++){
         for(int j = 0; j < nPixels; j++){
