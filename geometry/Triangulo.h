@@ -51,7 +51,7 @@ public:
      * @param r 
      * @return float 
      */
-    float intersect(Ray r);
+    Intersect intersect(Ray r);
 };
 
 

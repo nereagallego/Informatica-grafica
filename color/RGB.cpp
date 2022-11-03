@@ -29,3 +29,8 @@ void RGB::setRed(float red_){
 void RGB::setBlue(float blue_){
      Blue = blue_;
 }
+
+ostream& operator<<(ostream& os, const RGB p) {
+    os << "point: (" << p.Red  << ", " << p.Green << ", " << p.Blue << ")" ;
+    return os;
+}

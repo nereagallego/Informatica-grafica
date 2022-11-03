@@ -31,9 +31,9 @@ void Camera::getCuadricula(RGB vector[nPixels][nPixels]){
 }
 
 
-void Camera::dibujar(vector<Primitive> vector){
-    Matrix4 cambioBase(_L,_U,_F,_O);
-  //  Matrix4 cambioBase = cambioBase1.inversa();
+void Camera::dibujar(){
+    Matrix4 cambioBase1(_L,_U,_F,_O);
+    Matrix4 cambioBase = cambioBase1.inversa();
     for(int i = 0; i < nPixels; i ++){
         for(int j = 0; j < nPixels; j ++){
             Punto centro(_referenciaPixel.getX()+_anchura/2*i,_referenciaPixel.getY()+_altura/2*j,_referenciaPixel.getZ());
@@ -44,18 +44,23 @@ void Camera::dibujar(vector<Primitive> vector){
             rayo.setDireccion(dir.cambioBase(cambioBase).direccion());
             rayo.setPunto(punto.cambioBase(cambioBase).punto());
             float t = 0.0;
-            float intersect = 0.0;
-            Primitive inter;
-            for(Primitive p : vector){
-                intersect = p.intersect(rayo);
-                if(intersect != -1 && intersect < t){
+            Intersect intersect;
+            Punto inter;
+            RGB emision;
+            bool corta = false;
+            for(auto p : _primitives){
+                intersect = p->intersect(rayo);
+                if(intersect._intersect && intersect._t < t){
+                    corta = true;
                     cout << "corta" << endl;
-                    intersect = t;
-                    inter = p;
+                    t = intersect._t;
+                    inter = intersect._punto;
+                    emision = p->getEmision();
+                    cout << emision << endl;
                 }
             }
-            if(t > 0){
-                cuadricula[i][j] = inter.getEmision();
+            if(corta){
+                cuadricula[i][j] = emision;
                 cout << "guardo la emisión" << endl; 
             } else {
                 cuadricula[i][j] = RGB(1,1,1);
@@ -66,7 +71,7 @@ void Camera::dibujar(vector<Primitive> vector){
 }
 
 void Camera::save() const{
-    Imagen img("P3","255","",to_string(_altura) + " " + to_string(_anchura),"255",255,255);
+    Imagen img("P3","255","",to_string(nPixels) + " " + to_string(nPixels),"255",255,255);
     vector<RGB> vect;
     for(int i = 0; i < nPixels; i++){
         for(int j = 0; j < nPixels; j++){
@@ -75,5 +80,9 @@ void Camera::save() const{
     }
     img.setImagen(vect);
     img.exportFile("prueba.ppm");
+}
+
+void Camera::addPrimitive(shared_ptr<Primitive> p){
+    _primitives.push_back(p);
 }
 

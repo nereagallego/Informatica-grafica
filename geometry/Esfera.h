@@ -62,7 +62,7 @@ public:
     Punto getReferencia();
     float getRadio();
 
-    float intersect(Ray r) override;
+    Intersect intersect(Ray r) override;
 };
 
 #endif

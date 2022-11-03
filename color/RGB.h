@@ -1,6 +1,11 @@
 #ifndef RGB_HPP
 #define RGB_HPP
 
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
 //Esta clase RGB guarda los valores como 0 o 1 ya que se utiliza para pasar de HDR a memoria
 class RGB{
     private:
@@ -27,6 +32,8 @@ class RGB{
     void setRed(float Red_);
     void setGreen(float Green_);
     void setBlue(float Blue_);
+
+    friend ostream& operator<<(ostream& os, const RGB p);
 };
 
 #endif

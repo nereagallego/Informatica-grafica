@@ -31,29 +31,40 @@ Punto Triangulo::getZ(){
     return _z;
 }
 
-float Triangulo::intersect(Ray r) {
+Intersect Triangulo::intersect(Ray r) {
+    Intersect s;
+    s._intersect = true;
     Direccion d1 = _y - _x;
     Direccion d2 = _z - _x;
     Direccion h = crossProduct(r.getDireccion(),d2);
     float a = d1*h; // determinante
 
-    if (a > -0.00001 && a < 0.00001)
-    return(-1);
+    if (a > -0.00001 && a < 0.00001){
+        s._intersect = false;
+        return s;
+    }
+    
 
-    Direccion s = r.getPunto() - _x;
+    Direccion s1 = r.getPunto() - _x;
 
-    float u = (s * h);
+    float u = (s1 * h);
 
-    if ((a > 0.00001 && (u < 0.0 || u > a)) || (a < -0.00001 && (u > 0.0 || u < a)))
-    return -1;
+    if ((a > 0.00001 && (u < 0.0 || u > a)) || (a < -0.00001 && (u > 0.0 || u < a))){
+        s._intersect = false;
+        return s;
+    }
 
-    Direccion q = crossProduct(s, d1);
+    Direccion q = crossProduct(s1, d1);
 
     float v = r.getDireccion() * q;
 
-    if ((a > 0.00001 && (v < 0.0 || u + v > a)) || a < -0.00001 && (v > 0.0 || u + v < a))
-    return -1;
+    if ((a > 0.00001 && (v < 0.0 || u + v > a)) || a < -0.00001 && (v > 0.0 || u + v < a)){
+        s._intersect = false;
+        return s;
+    }
     
     float tt = (d2 * q)/a;
-    return tt;
+    s._t = tt;
+    s._punto = r.getPunto() + r.getDireccion() * s._t;
+    return s;
 }

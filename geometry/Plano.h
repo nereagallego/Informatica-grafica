@@ -40,7 +40,7 @@ public:
      * @param r 
      * @return float 
      */
-    float intersect(Ray r) override;
+    Intersect intersect(Ray r) override;
 };
 
 #endif

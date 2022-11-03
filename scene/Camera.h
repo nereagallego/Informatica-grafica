@@ -8,6 +8,7 @@
 #include "../image/Imagen.h"
 #include "../math/Matrix4.h"
 #include "../math/CoordenadasHomogeneas.h"
+#include <memory>
 
 #include <vector>
 
@@ -22,6 +23,8 @@ private:
     RGB cuadricula[nPixels][nPixels];
     float _altura, _anchura;
     Punto _referenciaPixel;
+
+    vector<shared_ptr<Primitive>> _primitives;
     
 
 public:
@@ -33,9 +36,11 @@ public:
     Punto getO();
     void getCuadricula(RGB vector[nPixels][nPixels]);
 
-    void dibujar(vector<Primitive> vector);
+    void dibujar();
 
     void save() const;
+
+    void addPrimitive(shared_ptr<Primitive> p);
 };
 
 

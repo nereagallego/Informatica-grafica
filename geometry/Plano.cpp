@@ -14,8 +14,14 @@ Direccion Plano::getNormal(){
     return _normal;
 }
 
-float Plano::intersect(Ray r) {
+Intersect Plano::intersect(Ray r) {
+    Intersect s;
+    cout << "busco interseccion" << endl;
     float denominador = r.getDireccion() * _normal;
-    if(denominador == 0) return -1;
-    return -(_distancia + _normal * r.getPunto())/denominador;
+    if(denominador == 0){ s._intersect = false; return s;}
+    else s._intersect = true;
+    s._t = -(_distancia + _normal * r.getPunto())/denominador;
+    s._punto = r.getPunto() + r.getDireccion() * s._t;
+   // cout << -(_distancia + _normal * r.getPunto())/denominador << endl;
+    return s;
 }

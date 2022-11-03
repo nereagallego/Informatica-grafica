@@ -3,6 +3,7 @@
 
 #include "../color/RGB.h"
 #include "Ray.h"
+#include "Intersect.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ public:
         return _emision;
     }
 
-    virtual float intersect(Ray r) { return -1;}
+    virtual Intersect intersect(Ray r) = 0;
 };
 
 #endif

@@ -52,14 +52,18 @@ float Esfera::getRadio(){
     return _radio;
 }
 
-float Esfera::intersect(Ray r){
+Intersect Esfera::intersect(Ray r){
+    Intersect s;
+    s._intersect = true;
     Direccion aux = r.getPunto() - _centro;
     float radicando = (r.getDireccion() * aux * 2) * (r.getDireccion() * aux * 2) - 4 * r.getDireccion().modulo() * r.getDireccion().modulo() * (aux.modulo() * aux.modulo() - _radio);
-    if (radicando < 0) return -1;
+    if (radicando < 0) s._intersect = false;
     float delta = sqrt(radicando);
     float r1 = (-(r.getDireccion() * aux * 2) - delta) / (2 * r.getDireccion().modulo() * r.getDireccion().modulo());
     float r2 = (-(r.getDireccion() * aux * 2) + delta) / (2 * r.getDireccion().modulo() * r.getDireccion().modulo());
-    if (r1 > 0 && r2 > 0 && r1 < r2) return r1;
-    else if(r2 > 0) return r2;
-    else return -1;
+    if (r1 > 0 && r2 > 0 && r1 < r2) s._t = r1;
+    else if(r2 > 0) s._t = r2;
+    else s._intersect = false;
+    s._punto = r.getPunto() + r.getDireccion() * s._t;
+    return s;
 }
