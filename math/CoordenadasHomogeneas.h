@@ -8,6 +8,8 @@
 #include "vector"
 #include <exception>
 
+using namespace std;
+
 class CoordenadasHomogeneas
 {
 private:

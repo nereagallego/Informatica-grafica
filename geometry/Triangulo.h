@@ -6,6 +6,8 @@
 #include "../math/Direccion.h"
 #include "Primitive.h"
 
+using namespace std;
+
 class Ray;
 
 class Triangulo : public Primitive{

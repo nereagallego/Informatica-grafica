@@ -7,6 +7,7 @@
 #include "../math/Punto.h"
 #include <memory>
 
+using namespace std;
 
 class Ray {
 private:

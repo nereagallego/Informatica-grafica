@@ -6,52 +6,17 @@
 #include "geometry/Triangulo.h"
 #include "scene/Camera.h"
 #include "geometry/Esfera.h"
+#include "math/Punto.h"
 
 
 using namespace std;
 
 int main(){
-    
-    // Direccion d(-1,0,0);
-    // Plano plane(d,3);
-    // Ray r(Direccion(1,0,0),Punto(0,0,0));
-    
-    // float t = plane.intersect(r);
-    // if (t != -1){
-    //     Punto p = r.getPunto() + r.getDireccion() * t;
-    //     cout << p << endl;
-    // }
-
-    // Esfera e(Direccion(0,2,0),Punto(3,0,0), Punto(3,1,0));
-    // t = e.intersect(r);
-    // if (t != -1){
-    //     Punto p = r.getPunto() + r.getDireccion() * t;
-    //     cout << p << endl;
-    // } else cout << "No corta" << endl;
-    
-    // Triangulo tri(Punto(3,-2,-2), Punto(3,-2,2), Punto(3,1,1));
-    // t = tri.intersect(r);
-    // if (t != -1){
-    //     Punto p = r.getPunto() + r.getDireccion() * t;
-    //     cout << p << endl;
-    // } else cout << "No corta" << endl;
-
-    // Primitive p = plane;
-    // t = p.intersect(r);
-    // if (t != -1){
-    //     Punto p = r.getPunto() + r.getDireccion() * t;
-    //     cout << p << endl;
-    // } else cout << "No corta" << endl;
-
-    // p = e;
-    // t = e.intersect(r);
-    // if (t != -1){
-    //     Punto p = r.getPunto() + r.getDireccion() * t;
-    //     cout << p << endl;
-    // } else cout << "No corta" << endl;
-
+    cout << endl ;
    // vector<shared_ptr<Primitive>> primitives;
+   cout << "entro en main" << endl;
     Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5));
+    cout << "creo la camara" << endl;
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
     leftPlane->setEmision(RGB(255,0,0));
     auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
@@ -62,15 +27,23 @@ int main(){
     ceilingPlane->setEmision(RGB(155,155,155));
     auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
     backPlane->setEmision(RGB(155,155,155));
+
+    auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
+    leftSphere->setEmision(RGB(255,0,128));
+
+    auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
+    rightSphere->setEmision(RGB(0,0,255));
     
     cam.addPrimitive(leftPlane);
     cam.addPrimitive(rightPlane);
     cam.addPrimitive(floorPlane);
     cam.addPrimitive(ceilingPlane);
     cam.addPrimitive(backPlane);
-   
+    cam.addPrimitive(leftSphere);
+    cam.addPrimitive(rightSphere);
+    cout << "añado primitivas" << endl;
     cam.dibujar();
-
+    cout << "dibujo" << endl;
     
     cam.save();
   

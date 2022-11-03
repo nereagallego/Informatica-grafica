@@ -6,8 +6,9 @@
 #include "../math/Direccion.h"
 #include "Primitive.h"
 
-class Ray;
+using namespace std;
 
+class Ray;
 
 class Plano : public Primitive {
 private:

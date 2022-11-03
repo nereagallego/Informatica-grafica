@@ -9,11 +9,11 @@
 #include "../math/Matrix4.h"
 #include "../math/CoordenadasHomogeneas.h"
 #include <memory>
-
+#include <time.h>
 #include <vector>
 
 using namespace std;
-const int nPixels = 255;
+const static int nPixels = 256;
 class Camera{
 private:
     Direccion _L;
