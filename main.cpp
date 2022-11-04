@@ -43,7 +43,7 @@ int main(){
     // cam.addPrimitive(rightSphere);
     // cout << "añado primitivas" << endl;
     cam.dibujar();
-    // cout << "dibujo" << endl;
+    cout << "dibujo" << endl;
     
     cam.save();
   
