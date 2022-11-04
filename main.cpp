@@ -14,7 +14,7 @@ using namespace std;
 int main(){
     cout << endl ;
    // vector<shared_ptr<Primitive>> primitives;
-   cout << "entro en main" << endl;
+    cout << "entro en main" << endl;
     Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5));
     cout << "creo la camara" << endl;
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
@@ -40,10 +40,10 @@ int main(){
     cam.addPrimitive(ceilingPlane);
     cam.addPrimitive(backPlane);
     cam.addPrimitive(leftSphere);
-    cam.addPrimitive(rightSphere);
-    cout << "añado primitivas" << endl;
+    // cam.addPrimitive(rightSphere);
+    // cout << "añado primitivas" << endl;
     cam.dibujar();
-    cout << "dibujo" << endl;
+    // cout << "dibujo" << endl;
     
     cam.save();
   

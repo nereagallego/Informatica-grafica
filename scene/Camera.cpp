@@ -59,9 +59,9 @@ void Camera::dibujar(){
             RGB emision;
             bool corta = false;
             for(auto p : _primitives){
-        //        cout << p->getEmision();
+            //    cout << p->getEmision();
                 intersect = p->intersect(rayo);
-        //        cout << " " << intersect._intersect << " " << intersect._t << endl; 
+            //    cout << " " << intersect._intersect << " " << intersect._t << endl; 
                 if(intersect._intersect && intersect._t < t && intersect._t > 0){
                     corta = true;
                     t = intersect._t;
@@ -82,15 +82,23 @@ void Camera::dibujar(){
 }
 
 void Camera::save() const{
-    Imagen img("P3","#MAX=1","#prueba.ppm",to_string(nPixels) + " " + to_string(nPixels),"255",255,1);
     vector<RGB> vect;
-   
+    float maxValue = 0;
     for(int i = 0; i < nPixels; i++){
         for(int j = 0; j < nPixels; j++){
-           
             vect.push_back(cuadricula[i][j]);
+            maxValue = max(maxValue,vect.back().getRed(), vect.back().getGreen(), vect.back().getBlue());
         }
     }
+    Imagen img("P3","#prueba.ppm",to_string(nPixels) + " " + to_string(nPixels),255,255);
+    
+   
+    // for(int i = 0; i < nPixels; i++){
+    //     for(int j = 0; j < nPixels; j++){
+           
+    //         vect.push_back(cuadricula[i][j]);
+    //     }
+    // }
     img.setImagen(vect);
     img.exportFile("prueba.ppm");
    
@@ -100,3 +108,15 @@ void Camera::addPrimitive(shared_ptr<Primitive> p){
     _primitives.push_back(p);
 }
 
+
+float Camera::max(const float a, const float b, const float c, const float d) const{
+    if(a >= b && a >= c && a >= d){
+        return a;
+    } else if(b >= a && b >= c && b >= d){
+        return b;
+    } else if(c >= a && c >= b && c >= d){
+        return c;
+    } else {
+        return d;
+    }
+}

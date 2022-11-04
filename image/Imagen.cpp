@@ -23,12 +23,12 @@ Imagen::Imagen(vector<RGB> ImagenHDR_){
 
 }
 
-Imagen::Imagen(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m){
+Imagen::Imagen(string format,  string comment, string sizeResolution, int c, int m){
     _format = format;
-    _max = max;
+    _max = "#MAX="+ to_string(m);
     _comment = comment;
     _sizeResolution = sizeResolution;
-    _colorResolution = colorResolution;
+    _colorResolution = to_string(c);
     _colorResolutionNumber = c;
     _MAX = m;
 }

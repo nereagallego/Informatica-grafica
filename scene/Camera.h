@@ -13,7 +13,7 @@
 #include <vector>
 
 using namespace std;
-const static int nPixels = 256;
+const static int nPixels = 16;
 class Camera{
 private:
     Direccion _L;
@@ -26,6 +26,7 @@ private:
 
     vector<shared_ptr<Primitive>> _primitives;
     
+    float max(float a, float b, float c, float d) const;
 
 public:
     Camera(Direccion l, Direccion u , Direccion f, Punto o);

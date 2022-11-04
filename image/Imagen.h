@@ -43,7 +43,7 @@ public:
      * @param c valor de color resolution
      * @param m valor de max
      */
-    Imagen(string format, string max, string comment, string sizeResolution, string colorResolution, int c, int m);
+    Imagen(string format, string comment, string sizeResolution, int c, int m);
 
     string getFormat();
     string getComment();
