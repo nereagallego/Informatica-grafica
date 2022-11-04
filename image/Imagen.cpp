@@ -1,37 +1,29 @@
 #include "Imagen.h"
 
 Imagen::Imagen(){
-    _format = "";
-    _max = "";
+    _format = "P3";
+    
     _comment = "";
-    _sizeResolution = "";
-    _colorResolution = "";
-    _colorResolutionNumber = 0;
+    
+    _colorResolution = 0;
     _MAX = 0.0;
   //  _imagenHDR = new vector<RGB>();
 }
 
-Imagen::Imagen(vector<RGB> ImagenHDR_){
-    _format = "";
-    _max = "";
+Imagen::Imagen(vector<vector<RGB>> ImagenHDR_){
+    _format = "P3";
     _comment = "";
-    _sizeResolution = "";
-    _colorResolution = "";
-    _colorResolutionNumber = 0;
+    _colorResolution = 0;
     _MAX = 0.0;
     _imagenHDR = ImagenHDR_;
 
 }
 
-Imagen::Imagen(string format,  string comment, string sizeResolution, int c, int m){
-    _format = format;
-    _max = "#MAX="+ to_string(m);
-    _comment = comment;
-    _sizeResolution = sizeResolution;
-    _colorResolution = to_string(c);
-    _colorResolutionNumber = c;
-    _MAX = m;
-}
+// Imagen::Imagen(string sizeResolution, int c, int m){
+//     _format = "P3";
+//     _colorResolution = c;
+//     _MAX = m;
+// }
 
 void diff(string file1, string file2){
     ifstream f1;
@@ -69,33 +61,44 @@ void Imagen::readingFile(string PPMfile){
       cerr << "Error: file could not be opened" << endl;
       exit(1);
    }
-
+    string max;
+    string comment;
+    string sizeResolution, h1, w1;
+    string colorResolution;
     getline(indata,_format);
-    getline(indata,_max);
-    getline(indata,_comment);
-    getline(indata,_sizeResolution);
-    getline(indata,_colorResolution);
-
-    _colorResolutionNumber = stoi(_colorResolution);
-    string delimiter = "=";
-    string token = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
+    getline(indata,max);
+    getline(indata,comment);
+    if(comment[0] != '#'){
+        sizeResolution = comment;
+        getline(indata,colorResolution);
+        comment = "";
+    } else {
+        getline(indata,sizeResolution);
+        getline(indata,colorResolution);
+    }
+    string space_delimiter = " ";
+    size_t pos = 0;
+    pos = sizeResolution.find(space_delimiter);
+    w1 = sizeResolution.substr(0, pos);
+    sizeResolution.erase(0, pos + space_delimiter.length());
+    _width = stoi(w1);
+    _height = stoi(sizeResolution);
     
 
+    _colorResolution = stoi(colorResolution);
+    string delimiter = "=";
+    string token = max.substr( max.find(delimiter) + 1, max.length());  
     _MAX = stoi(token);
     string red,green,blue;
     float num = 0;
-    while(indata >> red){
-        
-        if (red=="\n") cout << "jeje" << endl;
-        indata >> green;
-        indata >> blue;
-        //cout << red << " " << green << " " << blue << endl;
-        RGB tuple((stof(red)*_MAX)/_colorResolutionNumber,(stof(green)*_MAX)/_colorResolutionNumber,(stof(blue)*_MAX)/_colorResolutionNumber);
-        //Hay que hacer la conversion de cada canal de cada pixel
-        // get.red()...
-       
-        _imagenHDR.push_back(tuple);
-        num++;
+  //  int i = 0, j = 0;
+   // while(indata >> red){
+    for (int i = 0; i < _height; i ++){
+        for(int j = 0; j < _width; j ++){
+            indata >> red >> green >> blue;
+            RGB tuple((stof(red)*_MAX)/_colorResolution,(stof(green)*_MAX)/_colorResolution,(stof(blue)*_MAX)/_colorResolution);
+            _imagenHDR[i][j] = tuple;
+        }   
     }
 
     indata.close();
@@ -108,9 +111,10 @@ void Imagen::savingFile(string fichero){
     ofstream ofdata;
     ofdata.open(fichero);
     ofdata << _format << endl;
-    ofdata << _max << endl;
+    ofdata << "#MAX="+to_string(_MAX) << endl;
+    if(_comment!="")
     ofdata << _comment << endl;
-    ofdata << _sizeResolution << endl;
+    ofdata << to_string(_width) + " " + to_string(_height) << endl;
     ofdata << _colorResolution << endl;
 
 
@@ -118,35 +122,29 @@ void Imagen::savingFile(string fichero){
     string token;// = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
     int i = 0;
     delimiter = " ";
-    token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
-    int max_col = stoi(token);
+  //  token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
+ //   int max_col = stoi(token);
 
-    for(RGB aux: _imagenHDR){
-        ofdata << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << "     ";
-       
-        if(i >= max_col){
-             ofdata << "\n";
-             i = 0;
-        }
-        i++;   
+    for(int i = 0; i < _height; i ++){
+        for(int j = 0; j < _width; j ++){
+            RGB pixel = _imagenHDR[i][j];
+            cout << pixel << endl;
+            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
+        } 
+        ofdata << endl ;
+        cout << endl;
+          
     }
     ofdata << endl ;
     ofdata.close();
 }
 
-vector<RGB> Imagen::getImagen(){
+vector<vector<RGB>> Imagen::getImagen(){
     return _imagenHDR;
 }
 
-// pretty stdout
-ostream& operator<<(ostream& os, const Imagen& t){
-    for(RGB aux: t._imagenHDR){
-        os << "R: " << aux.getRed() << "    G: " << aux.getGreen() << "    B: " << aux.getBlue() << endl; 
-    }
-    return os;
-}
 
-void Imagen::setImagen(vector<RGB> Imagen){
+void Imagen::setImagen(vector<vector<RGB>> Imagen){
    _imagenHDR = Imagen;
 }
 
@@ -163,26 +161,28 @@ float Imagen::getMax(){
    return _MAX;
 }
 
-
-string Imagen::getSizeResolution(){
-    return _sizeResolution;
+int Imagen::getColorResolution(){
+    return _colorResolution;
 }
 
-int Imagen::getColorResolution(){
-    return _colorResolutionNumber;
+int Imagen::getHeight(){
+    return _height;
+}
+
+int Imagen::getWidth(){
+    return _width;
 }
 
 
 void Imagen::exportFile(string fichero){
-    _colorResolutionNumber = 255;
-    _colorResolution = "255";
+    _colorResolution = 255;
     cout << endl << endl << endl;
     ofstream ofdata;
     ofdata.open(fichero);
     ofdata << _format << endl;
-    ofdata << _max << endl;
+    ofdata << "#MAX="+to_string(_MAX) << endl;
     ofdata << _comment << endl;
-    ofdata << _sizeResolution << endl;
+    ofdata << to_string(_width) + " " +to_string(_height) << endl;
     ofdata << _colorResolution << endl;
 
 
@@ -190,26 +190,28 @@ void Imagen::exportFile(string fichero){
     string token;// = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
     int i = 0;
     delimiter = " ";
-    token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
-    int max_col = stoi(token);
+   // token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
+  //  int max_col = stoi(token);
     //cout << max_col << endl;
    
-
-    for(RGB aux: _imagenHDR){
-        
-        ofdata << fixed << setprecision(0) <<  aux.getRed()*(_colorResolutionNumber/_MAX) << " " << aux.getGreen()*(_colorResolutionNumber/_MAX) << " "<< aux.getBlue()*(_colorResolutionNumber/_MAX) << "     ";
-       
-        if(i >= max_col){
-             ofdata << "\n";
-             i = 0;
-        }
-        i++;   
+    cout << _imagenHDR.size() << " " << _imagenHDR[0].size() << endl;
+    cout << _width << " " << _height << endl;
+    for(int i = 0; i < _height; i ++){
+        for(int j = 0; j < _width; j ++){
+            RGB pixel = _imagenHDR[i][j];
+            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
+        } 
+        ofdata << endl ; 
     }
     
     ofdata << endl ;
     ofdata.close();
+}
 
+void Imagen::setMax(float v){
+    _MAX = v;
+}
 
-
-
+void Imagen::setColorResolution(float v){
+    _colorResolution = v;
 }
