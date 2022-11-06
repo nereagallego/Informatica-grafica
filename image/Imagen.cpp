@@ -7,7 +7,6 @@ Imagen::Imagen(){
     
     _colorResolution = 0;
     _MAX = 0.0;
-  //  _imagenHDR = new vector<RGB>();
 }
 
 Imagen::Imagen(vector<vector<RGB>> ImagenHDR_){
@@ -77,7 +76,6 @@ Imagen Imagen::readingFile(string PPMfile){
     sizeResolution.erase(0, pos + space_delimiter.length());
     _width = stoi(w1);
     _height = stoi(sizeResolution);
-    // cout << _width << " " << _height << endl;
     vector<vector<RGB>> _imagenHDR2(_height,vector<RGB>(_width));
     _colorResolution = stoi(colorResolution);
     string delimiter = "=";
@@ -85,17 +83,13 @@ Imagen Imagen::readingFile(string PPMfile){
     _MAX = stoi(token);
     string red,green,blue;
     float num = 0;
-  //  int i = 0, j = 0;
-   // while(indata >> red){
     for (int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             indata >> red >> green >> blue;
             RGB tuple((stof(red)*_MAX)/_colorResolution,(stof(green)*_MAX)/_colorResolution,(stof(blue)*_MAX)/_colorResolution);
             _imagenHDR2[i][j] = tuple;
-    //        cout << tuple << endl;
         }   
     }
-   // _imagenHDR = _imagenHDR2;
     Imagen img(_height,_width,_colorResolution, comment,_MAX,_imagenHDR2);
 
     indata.close();
@@ -104,7 +98,6 @@ Imagen Imagen::readingFile(string PPMfile){
 
 
 void Imagen::savingFile(string fichero){
- //   cout << endl << endl << endl;
     ofstream ofdata;
     ofdata.open(fichero);
     ofdata << _format << endl;
@@ -114,23 +107,12 @@ void Imagen::savingFile(string fichero){
     ofdata << to_string(_width) + " " + to_string(_height) << endl;
     ofdata << _colorResolution << endl;
 
-
-    string delimiter = "=";
-    string token;// = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
-    int i = 0;
-    delimiter = " ";
-  //  token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
- //   int max_col = stoi(token);
-
     for(int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             RGB pixel = _imagenHDR[i][j];
-      //      cout << pixel << endl;
             ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
         } 
-        ofdata << endl ;
-       // cout << endl;
-          
+        ofdata << endl ;          
     }
     ofdata << endl ;
     ofdata.close();
@@ -173,8 +155,6 @@ int Imagen::getWidth(){
 
 void Imagen::exportFile(string fichero){
     _colorResolution = 255;
-//    int newColorResolution = 255;
-  //  cout << endl << endl << endl;
     ofstream ofdata;
     ofdata.open(fichero);
     ofdata << _format << endl;
@@ -183,28 +163,15 @@ void Imagen::exportFile(string fichero){
     ofdata << to_string(_width) + " " +to_string(_height) << endl;
     ofdata << _colorResolution << endl;
 
-
-    string delimiter = "=";
-    string token;// = _max.substr( _max.find(delimiter) + 1, _max.length()); // token is "scott"
-    int i = 0;
-    delimiter = " ";
-   // token = _sizeResolution.substr( 0,_sizeResolution.find(delimiter));
-  //  int max_col = stoi(token);
-    //cout << max_col << endl;
-   
-   // cout << _imagenHDR.size() << " " << _imagenHDR[0].size() << endl;
-   // cout << _height << " " << _width << endl;
     for(int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             RGB pixel = _imagenHDR[i][j];
             RGB f(pixel.getRed()*(_colorResolution/(_MAX*_colorResolution)), pixel.getGreen()*(_colorResolution/(_MAX*_colorResolution)), pixel.getBlue()*(_colorResolution/(_MAX*_colorResolution)) );
-        //    cout << fixed << setprecision(6) << pixel << endl;
             ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
-        //    cout << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution) << " " << pixel.getGreen()*(_colorResolution) << " "<< pixel.getBlue()*(_colorResolution) << "     " << endl;
         } 
         ofdata << endl ; 
     }
-  //  _colorResolution = newColorResolution;
+
     ofdata << endl ;
     ofdata.close();
 }

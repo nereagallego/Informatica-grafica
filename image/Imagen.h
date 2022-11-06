@@ -18,6 +18,7 @@ private:
     int _colorResolution;
     float _MAX;
 public:
+    // content of pixels
     vector<vector<RGB>> _imagenHDR;
     /**
      * @brief Construct a new Imagen object
@@ -33,12 +34,59 @@ public:
      */
     Imagen(vector<vector<RGB>> ImagenHDR_);
 
+    /**
+     * @brief Construct a new Imagen object
+     * 
+     * @param h height
+     * @param w width
+     * @param c color resolution
+     * @param m max value
+     */
     Imagen(int h, int w, int c, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(c), _MAX(m), _format("P3"), _height(h), _width(w){}
+
+    /**
+     * @brief Construct a new Imagen object
+     * 
+     * @param h height
+     * @param w width
+     * @param c colomment
+     * @param m max value
+     */
+    Imagen(int h, int w, string c, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(m), _MAX(m), _format("P3"), _comment(c), _height(h), _width(w) {}
+    
+    /**
+     * @brief Construct a new Imagen object
+     * 
+     * @param h height
+     * @param w width
+     * @param c color resolution
+     * @param com comment of the image
+     * @param m max value
+     */
     Imagen(int h, int w, int c, string com, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(c), _MAX(m), _format("P3"), _comment(com), _height(h), _width(w) {}
+
+    /**
+     * @brief Construct a new Imagen object
+     * 
+     * @param h height
+     * @param w width
+     * @param c color resolution
+     * @param com comment of the image
+     * @param m max value
+     * @param data pixels of image
+     */
     Imagen(int h, int w, int c, string com, int m, vector<vector<RGB>> data): _imagenHDR(data), _colorResolution(c), _MAX(m), _format("P3"), _comment(com), _height(h), _width(w) {}
 
+    /**
+     * @brief Construct a new Imagen object
+     * 
+     * @param h height
+     * @param w width
+     * @param m max value
+     */
     Imagen(int h, int w, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(m), _MAX(m), _format("P3"), _height(h), _width(w) {}
-    Imagen(int h, int w, string c, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(m), _MAX(m), _format("P3"), _comment(c), _height(h), _width(w) {}
+
+    
 
     string getFormat();
     string getComment();
@@ -53,10 +101,10 @@ public:
     void setImagen(vector<vector<RGB>> Imagen);
 
     /**
-     * @brief Lee el contenido del fichero de nombre PPMfile y guarda su 
-     * contenido en memoria
+     * @brief Read a image from a file
      * 
-     * @param PPMfile 
+     * @param PPMfile fichero del que se va a leer la imagen
+     * @return Imagen 
      */
     Imagen readingFile(string PPMfile);
 
