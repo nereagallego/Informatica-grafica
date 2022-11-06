@@ -23,18 +23,31 @@ public:
     /**
      * @brief Construct a new Esfera object
      * 
-     * @param eje eje de la esfera
      * @param centro centro de la esfera
-     * @param referencia punto de referencia de la esfera
+     * @param radio radio de la esfera
      */
     Esfera(Punto centro, float radio): _radio(radio), _centro(centro) 
     {};
 
+    /**
+     * @brief Construct a new Esfera object
+     * 
+     * @param centro centro de la esfera
+     * @param radio radio de la esfera
+     * @param emision color de la esfera
+     */
     Esfera(Punto centro, float radio, RGB emision): Primitive(emision), _radio(radio),  _centro(centro) {}
 
     Punto getCentro();
     float getRadio();
 
+    /**
+     * @brief Devuelve la intersección del rayo r con la esfera (si intersecta)
+     * Sino, indica que no intersecta
+     * 
+     * @param r rayo con el que se quiere calcular la intersección
+     * @return Intersect 
+     */
     Intersect intersect(Ray r) override;
 };
 
