@@ -28,7 +28,7 @@ public:
      * 
      * @param normal direccioón normal al plano
      * @param d disancia del plano al origen
-     * @param emision emisión del plano
+     * @param emision color del plano
      */
     Plano(Direccion normal, float d, RGB emision): _normal(normal), _distancia(d), Primitive(emision) {};
 

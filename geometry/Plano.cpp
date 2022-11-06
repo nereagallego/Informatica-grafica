@@ -1,11 +1,5 @@
 #include "Plano.h"
 
-
-// Plano::Plano(Direccion n, float d){
-//     _normal = n;
-//     _distancia = d;
-// }
-
 float Plano::getDistancia(){
     return _distancia;
 }
@@ -21,6 +15,5 @@ Intersect Plano::intersect(Ray r) {
     else s._intersect = true;
     s._t = -(_distancia + _normal * r.getPunto())/denominador;
     s._punto = r.getPunto() + r.getDireccion() * s._t;
-   // cout << -(_distancia + _normal * r.getPunto())/denominador << endl;
     return s;
 }
