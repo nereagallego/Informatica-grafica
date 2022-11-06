@@ -4,7 +4,7 @@
 
 Imagen ToneMapping::clamp(Imagen imagen, float clamp){
     Imagen result(imagen.getHeight(), imagen.getWidth(),imagen.getColorResolution(), imagen.getComment(), 1);
-    
+    cout << result.getHeight() << " "  << result.getWidth() << endl;
     //Para cada pixel...
     for(int i = 0; i < imagen.getHeight(); i ++){
         for(int j = 0; j < imagen.getWidth(); j ++){
@@ -26,17 +26,23 @@ Imagen ToneMapping::clamp(Imagen imagen, float clamp){
     
 
 Imagen ToneMapping::equalize(Imagen imagen){
+    cout << "equilize" << endl;
     float MAX = imagen.getMax();
+    
     Imagen result(imagen.getHeight(), imagen.getWidth(),imagen.getColorResolution(), imagen.getComment(), 1);
     
     //Para cada pixel...
     for(int i = 0; i < imagen.getHeight(); i ++){
         for(int j = 0; j < imagen.getWidth(); j ++){
             RGB aux = imagen._imagenHDR[i][j];
-            aux.setRed(aux.getRed()/MAX);
-            aux.setGreen(aux.getGreen()/MAX);
-            aux.setBlue(aux.getBlue()/MAX);
-            result._imagenHDR[i][j] = aux;
+        //    cout << aux << endl;
+            // aux.setRed();
+            // aux.setGreen();
+            // aux.setBlue();
+            RGB fin(aux.getRed()/MAX, aux.getGreen()/MAX, aux.getBlue()/MAX);
+        //    cout << fin << endl;
+            result._imagenHDR[i][j] = fin;
+        //    cout << result._imagenHDR[i][j] << endl << endl;
         }
     }
     return result;

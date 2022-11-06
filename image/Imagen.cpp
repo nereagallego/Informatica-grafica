@@ -54,7 +54,7 @@ void diff(string file1, string file2){
     f2.close();
 }
 
-void Imagen::readingFile(string PPMfile){
+Imagen Imagen::readingFile(string PPMfile){
     ifstream indata;
     indata.open(PPMfile);
     if(!indata) { // file couldn't be opened
@@ -83,8 +83,8 @@ void Imagen::readingFile(string PPMfile){
     sizeResolution.erase(0, pos + space_delimiter.length());
     _width = stoi(w1);
     _height = stoi(sizeResolution);
-    
-
+    // cout << _width << " " << _height << endl;
+    vector<vector<RGB>> _imagenHDR2(_height,vector<RGB>(_width));
     _colorResolution = stoi(colorResolution);
     string delimiter = "=";
     string token = max.substr( max.find(delimiter) + 1, max.length());  
@@ -97,12 +97,15 @@ void Imagen::readingFile(string PPMfile){
         for(int j = 0; j < _width; j ++){
             indata >> red >> green >> blue;
             RGB tuple((stof(red)*_MAX)/_colorResolution,(stof(green)*_MAX)/_colorResolution,(stof(blue)*_MAX)/_colorResolution);
-            _imagenHDR[i][j] = tuple;
+            _imagenHDR2[i][j] = tuple;
+    //        cout << tuple << endl;
         }   
     }
+   // _imagenHDR = _imagenHDR2;
+    Imagen img(_height,_width,_colorResolution, comment,_MAX,_imagenHDR2);
 
     indata.close();
-
+    return img;
 }
 
 
@@ -175,7 +178,8 @@ int Imagen::getWidth(){
 
 
 void Imagen::exportFile(string fichero){
-    _colorResolution = 255;
+   // _colorResolution = 255;
+    int newColorResolution = 255;
     cout << endl << endl << endl;
     ofstream ofdata;
     ofdata.open(fichero);
@@ -183,7 +187,7 @@ void Imagen::exportFile(string fichero){
     ofdata << "#MAX="+to_string(_MAX) << endl;
     ofdata << _comment << endl;
     ofdata << to_string(_width) + " " +to_string(_height) << endl;
-    ofdata << _colorResolution << endl;
+    ofdata << newColorResolution << endl;
 
 
     string delimiter = "=";
@@ -195,15 +199,17 @@ void Imagen::exportFile(string fichero){
     //cout << max_col << endl;
    
     cout << _imagenHDR.size() << " " << _imagenHDR[0].size() << endl;
-    cout << _width << " " << _height << endl;
+    cout << _height << " " << _width << endl;
     for(int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             RGB pixel = _imagenHDR[i][j];
-            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
+        //    cout << pixel << endl;
+            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/(_MAX*newColorResolution)) << " " << pixel.getGreen()*(_colorResolution/(_MAX*newColorResolution)) << " "<< pixel.getBlue()*(_colorResolution/(_MAX*newColorResolution)) << "     ";
+        //    cout << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     " << endl;
         } 
         ofdata << endl ; 
     }
-    
+    _colorResolution = newColorResolution;
     ofdata << endl ;
     ofdata.close();
 }

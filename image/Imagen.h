@@ -35,6 +35,7 @@ public:
 
     Imagen(int h, int w, int c, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(c), _MAX(m), _format("P3"), _height(h), _width(w){}
     Imagen(int h, int w, int c, string com, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(c), _MAX(m), _format("P3"), _comment(com), _height(h), _width(w) {}
+    Imagen(int h, int w, int c, string com, int m, vector<vector<RGB>> data): _imagenHDR(data), _colorResolution(c), _MAX(m), _format("P3"), _comment(com), _height(h), _width(w) {}
 
     Imagen(int h, int w, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(m), _MAX(m), _format("P3"), _height(h), _width(w) {}
     Imagen(int h, int w, string c, int m): _imagenHDR(h, vector<RGB>(w)), _colorResolution(m), _MAX(m), _format("P3"), _comment(c), _height(h), _width(w) {}
@@ -57,7 +58,7 @@ public:
      * 
      * @param PPMfile 
      */
-    void readingFile(string PPMfile);
+    Imagen readingFile(string PPMfile);
 
     /**
      * @brief Guarda en el fichero fichero el contenido que hay en memoria 
