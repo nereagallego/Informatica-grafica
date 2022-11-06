@@ -19,12 +19,6 @@ Imagen::Imagen(vector<vector<RGB>> ImagenHDR_){
 
 }
 
-// Imagen::Imagen(string sizeResolution, int c, int m){
-//     _format = "P3";
-//     _colorResolution = c;
-//     _MAX = m;
-// }
-
 void diff(string file1, string file2){
     ifstream f1;
     f1.open(file1);
@@ -110,11 +104,11 @@ Imagen Imagen::readingFile(string PPMfile){
 
 
 void Imagen::savingFile(string fichero){
-    cout << endl << endl << endl;
+ //   cout << endl << endl << endl;
     ofstream ofdata;
     ofdata.open(fichero);
     ofdata << _format << endl;
-    ofdata << "#MAX="+to_string(_MAX) << endl;
+    ofdata << "#MAX="+to_string((int)_MAX) << endl;
     if(_comment!="")
     ofdata << _comment << endl;
     ofdata << to_string(_width) + " " + to_string(_height) << endl;
@@ -131,11 +125,11 @@ void Imagen::savingFile(string fichero){
     for(int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             RGB pixel = _imagenHDR[i][j];
-            cout << pixel << endl;
+      //      cout << pixel << endl;
             ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
         } 
         ofdata << endl ;
-        cout << endl;
+       // cout << endl;
           
     }
     ofdata << endl ;
@@ -178,7 +172,7 @@ int Imagen::getWidth(){
 
 
 void Imagen::exportFile(string fichero){
-   // _colorResolution = 255;
+    _colorResolution = 255;
     int newColorResolution = 255;
     cout << endl << endl << endl;
     ofstream ofdata;
@@ -203,9 +197,10 @@ void Imagen::exportFile(string fichero){
     for(int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             RGB pixel = _imagenHDR[i][j];
-        //    cout << pixel << endl;
-            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/(_MAX*newColorResolution)) << " " << pixel.getGreen()*(_colorResolution/(_MAX*newColorResolution)) << " "<< pixel.getBlue()*(_colorResolution/(_MAX*newColorResolution)) << "     ";
-        //    cout << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     " << endl;
+            RGB f(pixel.getRed()*(_colorResolution/(_MAX*_colorResolution)), pixel.getGreen()*(_colorResolution/(_MAX*_colorResolution)), pixel.getBlue()*(_colorResolution/(_MAX*_colorResolution)) );
+            cout << fixed << setprecision(6) << pixel << endl;
+            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution) << " " << pixel.getGreen()*(_colorResolution) << " "<< pixel.getBlue()*(_colorResolution) << "     ";
+            cout << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution) << " " << pixel.getGreen()*(_colorResolution) << " "<< pixel.getBlue()*(_colorResolution) << "     " << endl;
         } 
         ofdata << endl ; 
     }
