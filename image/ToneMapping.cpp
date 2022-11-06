@@ -35,14 +35,8 @@ Imagen ToneMapping::equalize(Imagen imagen){
     for(int i = 0; i < imagen.getHeight(); i ++){
         for(int j = 0; j < imagen.getWidth(); j ++){
             RGB aux = imagen._imagenHDR[i][j];
-        //    cout << aux << endl;
-            // aux.setRed();
-            // aux.setGreen();
-            // aux.setBlue();
             RGB fin(aux.getRed()/MAX, aux.getGreen()/MAX, aux.getBlue()/MAX);
-        //    cout << fin << endl;
             result._imagenHDR[i][j] = fin;
-        //    cout << result._imagenHDR[i][j] << endl << endl;
         }
     }
     return result;
