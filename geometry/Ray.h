@@ -14,39 +14,14 @@ private:
     Direccion _direccion;
     Punto _punto;
 
-    // /**
-    //  * @brief Devuelve la distancia de intersección de un rayo con un plano
-    //  * 
-    //  * @param p plano con el que se calcula la intersección
-    //  * @return float 
-    //  */
-    // float intersectPlano(Plano p);
-
-    // /**
-    //  * @brief Devuelve la distancia de intersección de un rayo con una esfera
-    //  * 
-    //  * @param e esfera con la que se calcula la intersección
-    //  * @return float 
-    //  */
-    // float intersectEsfera(Esfera e);
-
-    // /**
-    //  * @brief Devuelve la distancia de interseccion de un rayo con un triangulo
-    //  * 
-    //  * @param t triangulo con el que se calculala intersección
-    //  * @return float 
-    //  */
-    // float intersectTriangulo(Triangulo t);
 public:
     /**
      * @brief Construct a new Ray object
      * 
-     * @param d 
-     * @param p 
+     * @param d dirección del rayo
+     * @param p punto de origen del rayo
      */
     Ray(const Direccion d, const Punto p);
-
-    // float intersect(Primitive *p);
 
     Punto getPunto();
     Direccion getDireccion();  
