@@ -26,7 +26,7 @@ Imagen ToneMapping::clamp(Imagen imagen, float clamp){
     
 
 Imagen ToneMapping::equalize(Imagen imagen){
-    cout << "equilize" << endl;
+//    cout << "equilize" << endl;
     float MAX = imagen.getMax();
     
     Imagen result(imagen.getHeight(), imagen.getWidth(),imagen.getColorResolution(), imagen.getComment(), 1);

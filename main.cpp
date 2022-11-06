@@ -13,46 +13,39 @@
 using namespace std;
 
 int main(){
-    Imagen img;
-    img = img.readingFile("nancy_church_2.ppm");
-    //cout << img.getHeight() << " " << img.getWidth() << endl;
-    Imagen r = ToneMapping::equalize(img);
-    //cout << r.getHeight() << " " << r.getWidth() << endl;
-    //img.exportFile("nancy_church_orig.ppm");
-    r.exportFile("nancy_church_eq.ppm");
-    // cout << "entro en main" << endl;
-    // Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5),1025,1025);
-    // cout << "creo la camara" << endl;
-    // auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
-    // leftPlane->setEmision(RGB(255,0,0));
-    // auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
-    // rightPlane->setEmision(RGB(0, 255, 0));
-    // auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);
-    // floorPlane->setEmision(RGB(155,155,155));
-    // auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
-    // ceilingPlane->setEmision(RGB(155,155,155));
-    // auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
-    // backPlane->setEmision(RGB(155,155,155));
+    cout << "entro en main" << endl;
+    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
+    cout << "creo la camara" << endl;
+    auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
+    leftPlane->setEmision(RGB(255,0,0));
+    auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
+    rightPlane->setEmision(RGB(0, 255, 0));
+    auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);
+    floorPlane->setEmision(RGB(155,155,155));
+    auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
+    ceilingPlane->setEmision(RGB(155,155,155));
+    auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
+    backPlane->setEmision(RGB(155,155,155));
 
-    // auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    // leftSphere->setEmision(RGB(255,0,128));
+    auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
+    leftSphere->setEmision(RGB(255,0,128));
 
-    // auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    // rightSphere->setEmision(RGB(0,0,255));
+    auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
+    rightSphere->setEmision(RGB(0,0,255));
     
-    // cam.addPrimitive(leftPlane);
-    // cam.addPrimitive(rightPlane);
-   // cam.addPrimitive(floorPlane);
-  //  cam.addPrimitive(ceilingPlane);
-  //  cam.addPrimitive(backPlane);
-  //  cam.addPrimitive(leftSphere);
-    // cam.addPrimitive(rightSphere);
+    cam.addPrimitive(leftPlane);
+    cam.addPrimitive(rightPlane);
+    cam.addPrimitive(floorPlane);
+    cam.addPrimitive(ceilingPlane);
+    cam.addPrimitive(backPlane);
+    cam.addPrimitive(leftSphere);
+    cam.addPrimitive(rightSphere);
     // cout << "añado primitivas" << endl;
-    // Imagen gen = cam.dibujar();
+    Imagen gen = cam.dibujar();
     // cout << "dibujo" << endl;
-    // cout << gen._imagenHDR.size() << " " << gen._imagenHDR[0].size() << endl;
-    // cout << gen.getWidth() << " " << gen.getHeight() << endl;
-    // gen.exportFile("prueba.ppm");
+    cout << gen._imagenHDR.size() << " " << gen._imagenHDR[0].size() << endl;
+    cout << gen.getWidth() << " " << gen.getHeight() << endl;
+    gen.exportFile("prueba.ppm");
     
     // cam.save();
   

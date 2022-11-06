@@ -1,21 +1,16 @@
 #include "Camera.h"
 
 Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int nPixelsw){
-    cout << "1" << endl;
     _L = l;
-    cout << "2" << endl;
+    cout << "L: " << _L << " mod: " << _L.modulo() << endl;
     _U = u;
-    cout << "3" << endl;
+    cout << "U: " << _U << " mod: " << _U.modulo() << endl;
     _F = f;
-    cout << "4" << endl;
     _O = o;
-    cout << "5" << endl;
-    _altura = 2*_U.modulo()/_nPixelsh;
-    cout << "6" << endl;
-    _anchura = 2* _L.modulo() / _nPixelsw;
-    cout << "7" << endl;
+    _altura = _U.modulo() * 2/nPixelsh;
+    _anchura = _L.modulo() * 2 / nPixelsw;
+    cout << _altura << " "  << _anchura << endl;
     _referenciaPixel = _O + _F + _L + _U;
-    cout << "8" << endl;
     cout << _referenciaPixel << endl;
     _nPixelsh = nPixelsh;
     _nPixelsw = nPixelsw;
@@ -51,10 +46,11 @@ Imagen Camera::dibujar(){
     for(int i = 0; i < _nPixelsh; i ++){
         for(int j = 0; j < _nPixelsw; j ++){
        //     cout << img.getWidth() << " "  << img.getHeight() << endl;
-            float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
-            float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
-            Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
-        //    cout << centro << endl;
+             float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
+             float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
+             Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
+           // Punto centro(_referenciaPixel.getX()+_anchura/2+_anchura*j,_referenciaPixel.getY()-_altura/2-_altura*i,_referenciaPixel.getZ());
+            cout << centro << endl;
             Ray rayo(centro-_O,_O);
             //cout << rayo.getDireccion() << endl;
         
@@ -64,9 +60,9 @@ Imagen Camera::dibujar(){
             RGB emision;
             bool corta = false;
             for(auto p : _primitives){
-                cout << p->getEmision();
+            //    cout << p->getEmision();
                 intersect = p->intersect(rayo);
-                cout << " " << intersect._intersect << " " << intersect._t << endl; 
+            //    cout << " " << intersect._intersect << " " << intersect._t << endl; 
                 if(intersect._intersect && intersect._t < t && intersect._t > 0){
                     corta = true;
                     t = intersect._t;

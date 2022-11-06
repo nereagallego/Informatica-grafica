@@ -173,15 +173,15 @@ int Imagen::getWidth(){
 
 void Imagen::exportFile(string fichero){
     _colorResolution = 255;
-    int newColorResolution = 255;
-    cout << endl << endl << endl;
+//    int newColorResolution = 255;
+  //  cout << endl << endl << endl;
     ofstream ofdata;
     ofdata.open(fichero);
     ofdata << _format << endl;
     ofdata << "#MAX="+to_string(_MAX) << endl;
     ofdata << _comment << endl;
     ofdata << to_string(_width) + " " +to_string(_height) << endl;
-    ofdata << newColorResolution << endl;
+    ofdata << _colorResolution << endl;
 
 
     string delimiter = "=";
@@ -192,19 +192,19 @@ void Imagen::exportFile(string fichero){
   //  int max_col = stoi(token);
     //cout << max_col << endl;
    
-    cout << _imagenHDR.size() << " " << _imagenHDR[0].size() << endl;
-    cout << _height << " " << _width << endl;
+   // cout << _imagenHDR.size() << " " << _imagenHDR[0].size() << endl;
+   // cout << _height << " " << _width << endl;
     for(int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             RGB pixel = _imagenHDR[i][j];
             RGB f(pixel.getRed()*(_colorResolution/(_MAX*_colorResolution)), pixel.getGreen()*(_colorResolution/(_MAX*_colorResolution)), pixel.getBlue()*(_colorResolution/(_MAX*_colorResolution)) );
-            cout << fixed << setprecision(6) << pixel << endl;
-            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution) << " " << pixel.getGreen()*(_colorResolution) << " "<< pixel.getBlue()*(_colorResolution) << "     ";
-            cout << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution) << " " << pixel.getGreen()*(_colorResolution) << " "<< pixel.getBlue()*(_colorResolution) << "     " << endl;
+        //    cout << fixed << setprecision(6) << pixel << endl;
+            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
+        //    cout << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution) << " " << pixel.getGreen()*(_colorResolution) << " "<< pixel.getBlue()*(_colorResolution) << "     " << endl;
         } 
         ofdata << endl ; 
     }
-    _colorResolution = newColorResolution;
+  //  _colorResolution = newColorResolution;
     ofdata << endl ;
     ofdata.close();
 }
