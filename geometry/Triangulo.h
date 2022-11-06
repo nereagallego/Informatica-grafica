@@ -32,6 +32,15 @@ public:
         _distancia = -(_normal*x);
     };
 
+    /**
+     * @brief Construct a new Triangulo object
+     * Construye un triángulo dados tres puntos
+     * 
+     * @param x punto x
+     * @param y punto y
+     * @param z punto z
+     * @param emision color del triangulo
+     */
     Triangulo(Punto x, Punto y, Punto z, RGB emision): _x(x), _y(y), _z(z), Primitive(emision) {
         Direccion d1 = y-x;
         Direccion d2 = z-x;
@@ -50,7 +59,7 @@ public:
     /**
      * @brief Intersección de un rayo con el triangulo
      * 
-     * @param r 
+     * @param r rayo con el que se quiere calcular la intersección
      * @return float 
      */
     Intersect intersect(Ray r);
