@@ -47,7 +47,6 @@ int main(){
     cout << gen.getWidth() << " " << gen.getHeight() << endl;
     gen.exportFile("prueba.ppm");
     
-    // cam.save();
   
     return 0;
 }
