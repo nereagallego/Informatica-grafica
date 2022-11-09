@@ -10,6 +10,7 @@ struct Intersect{
     bool _intersect;
     Punto _punto;
     RGB _emision;
+    Direccion _normal;
 };
 
 #endif

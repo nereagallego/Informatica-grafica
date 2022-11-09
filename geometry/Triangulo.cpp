@@ -56,5 +56,6 @@ Intersect Triangulo::intersect(Ray r) {
     s._t = tt;
     s._punto = r.getPunto() + r.getDireccion() * s._t;
     s._emision = this->getEmision();
+    s._normal = this->getNormal();
     return s;
 }

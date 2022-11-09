@@ -44,9 +44,9 @@ Imagen Camera::dibujar(){
             //cout << centro << endl;
             Ray rayo(centro-_O,_O);
         
-            float t = INFINITY;
             Intersect cercano;
             cercano._intersect = false;
+            cercano._emision = RGB(1,1,1);
             cercano._t = INFINITY;
             for(auto p : _primitives){
                 Intersect intersect = p->intersect(rayo); 
@@ -93,7 +93,8 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
     RGB contribucion;
     for(auto l : _lights){
         //cout << "calculo la contribucion de luz" << endl;
-        Ray rayoLuz(l.getCenter() - intersection._punto, intersection._punto);
+        Direccion rayoLuzDirection = l.getCenter() - intersection._punto;
+        Ray rayoLuz(rayoLuzDirection, intersection._punto);
 
         Intersect cercano;
         cercano._intersect = false;
@@ -102,14 +103,14 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
         {
 
             Intersect inter = p->intersect(rayoLuz);
-            if (inter._intersect && inter._t < cercano._t)
+            if (inter._intersect && inter._t < cercano._t && inter._t >= 0)
             {
                 //cout << "intersecta" << endl;
                 cercano = inter;
             }
         }
-        Direccion normal = crossProduct(rayoLuz.getDireccion(),direccionRayo);
-        double contribucionGeometrica = abs(normal* direccionRayo.normalizar());
+        //Direccion normal = crossProduct(rayoLuzDirection,direccionRayo);
+        double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
         cout << contribucionGeometrica << endl;
         RGB contribucionMaterial = intersection._emision / M_PI;
         cout << contribucionMaterial << endl;
@@ -118,7 +119,7 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
 
         RGB contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
         cout << contribucionLuz << endl;
-        if (!cercano._intersect)
+        if (cercano._intersect)
         {
             contribucion = contribucion + contribucionLuz;
         }

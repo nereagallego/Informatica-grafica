@@ -15,7 +15,7 @@ using namespace std;
 
 int main(){
     cout << "entro en main" << endl;
-    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 16, 16);
+    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
     cout << "creo la camara" << endl;
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
     leftPlane->setEmision(RGB(255,0,0));
