@@ -11,6 +11,7 @@
 #include <memory>
 #include <time.h>
 #include <vector>
+#include "Light.h"
 
 using namespace std;
 
@@ -25,6 +26,8 @@ private:
     Punto _referenciaPixel;
 
     vector<shared_ptr<Primitive>> _primitives;
+    vector<Light> _lights;
+
     
     float max(float a, float b, float c, float d) const;
 
@@ -62,6 +65,10 @@ public:
      * @param p primitiva a añadir
      */
     void addPrimitive(shared_ptr<Primitive> p);
+
+    void addLight(Light l);
+
+    RGB calcularLuz(Direccion direccionRayo, Intersect intersection);
 };
 
 

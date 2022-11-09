@@ -8,13 +8,14 @@
 #include "geometry/Esfera.h"
 #include "math/Punto.h"
 #include "image/ToneMapping.h"
+#include "scene/Light.h"
 
 
 using namespace std;
 
 int main(){
     cout << "entro en main" << endl;
-    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
+    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 16, 16);
     cout << "creo la camara" << endl;
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
     leftPlane->setEmision(RGB(255,0,0));
@@ -33,6 +34,10 @@ int main(){
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
     rightSphere->setEmision(RGB(0,0,255));
     
+    Light lightPoint(Punto(0,0.5,0),RGB(1,1,1));
+
+    cam.addLight(lightPoint);
+
     cam.addPrimitive(leftPlane);
     cam.addPrimitive(rightPlane);
     cam.addPrimitive(floorPlane);

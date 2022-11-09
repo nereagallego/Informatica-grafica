@@ -15,5 +15,6 @@ Intersect Plano::intersect(Ray r) {
     else s._intersect = true;
     s._t = -(_distancia + _normal * r.getPunto())/denominador;
     s._punto = r.getPunto() + r.getDireccion() * s._t;
+    s._emision = this->getEmision();
     return s;
 }

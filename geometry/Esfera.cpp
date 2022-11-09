@@ -25,5 +25,6 @@ Intersect Esfera::intersect(Ray r){
     else if(r2 > 0) s._t = r2;
     else s._intersect = false;
     s._punto = r.getPunto() + r.getDireccion() * s._t;
+    s._emision = this->getEmision();
     return s;
 }
