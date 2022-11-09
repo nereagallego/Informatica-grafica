@@ -34,7 +34,7 @@ int main(){
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
     rightSphere->setEmision(RGB(0,0,255));
     
-    Light lightPoint(Punto(0,0.5,0),RGB(1,1,1));
+    Light lightPoint(Punto(0,0.5,0),RGB(255,255,255));
 
     cam.addLight(lightPoint);
 
