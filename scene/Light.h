@@ -12,6 +12,13 @@ private:
     Punto _center;
     RGB _power;
 public:
+
+    /**
+     * @brief Construct a new Light object
+     * 
+     * @param center 
+     * @param power 
+     */
     Light(Punto center, RGB power): _center(center), _power(power) {};
     Punto getCenter();
     RGB getPower();
