@@ -98,12 +98,13 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
 
         Intersect cercano;
         cercano._intersect = false;
-        cercano._t = INFINITY;
+        cercano._t = rayoLuzDirection.modulo();
+
         for (auto p : _primitives)
         {
 
             Intersect inter = p->intersect(rayoLuz);
-            if (inter._intersect && inter._t < cercano._t && inter._t >= 0)
+            if (inter._intersect && inter._t < cercano._t && inter._t > 0)
             {
                 //cout << "intersecta" << endl;
                 cercano = inter;
@@ -119,7 +120,7 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
 
         RGB contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
         cout << contribucionLuz << endl;
-        if (cercano._intersect)
+        if (!cercano._intersect)
         {
             contribucion = contribucion + contribucionLuz;
         }
