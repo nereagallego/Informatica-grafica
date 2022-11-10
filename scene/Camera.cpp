@@ -40,7 +40,8 @@ Imagen Camera::dibujar(){
         for(int j = 0; j < _nPixelsw; j ++){
             float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
             float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
-            Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
+            //Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
+            Punto centro(_referenciaPixel.getX()+_anchura/2+_anchura*j,_referenciaPixel.getY()-_altura/2-_altura*i,_referenciaPixel.getZ());
             //cout << centro << endl;
             Ray rayo(centro-_O,_O);
         
@@ -57,7 +58,7 @@ Imagen Camera::dibujar(){
                 
             }
             if(cercano._intersect){
-                img._imagenHDR[i][j] = cercano._emision + calcularLuz(rayo.getDireccion(),cercano); 
+                img._imagenHDR[i][j] = calcularLuz(rayo.getDireccion(),cercano); 
             } else {
                 img._imagenHDR[i][j] = RGB(1,1,1);
             }
@@ -93,7 +94,8 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
     RGB contribucion;
     for(auto l : _lights){
         //cout << "calculo la contribucion de luz" << endl;
-        Direccion rayoLuzDirection = l.getCenter() - intersection._punto;
+        Direccion dir = l.getCenter() - intersection._punto;
+        Direccion rayoLuzDirection = dir.normalizar();
         Ray rayoLuz(rayoLuzDirection, intersection._punto);
 
         Intersect cercano;
@@ -112,18 +114,18 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
         }
         //Direccion normal = crossProduct(rayoLuzDirection,direccionRayo);
         double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
-        cout << contribucionGeometrica << endl;
+    //    cout << contribucionGeometrica << endl;
         RGB contribucionMaterial = intersection._emision / M_PI;
-        cout << contribucionMaterial << endl;
+    //    cout << contribucionMaterial << endl;
         RGB first = l.getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
-        cout << first << endl;
+    //    cout << first << endl;
 
         RGB contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
-        cout << contribucionLuz << endl;
+//        cout << contribucionLuz << endl;
         if (!cercano._intersect)
         {
             contribucion = contribucion + contribucionLuz;
-        }
+        } 
     }
     return contribucion;
 }

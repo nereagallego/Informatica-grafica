@@ -21,8 +21,8 @@ Intersect Esfera::intersect(Ray r){
     float delta = sqrt(radicando);
     float r1 = (- b - delta) / (2 * a);
     float r2 = (- b + delta) / (2 * a);
-    if (r1 > 0 && r2 > 0 && r1 < r2) s._t = r1;
-    else if(r2 > 0) s._t = r2;
+    if (r1 > 0.0001 && r2 > 0 && r1 < r2) s._t = r1;
+    else if(r2 > 0.0001) s._t = r2;
     else s._intersect = false;
     s._punto = r.getPunto() + r.getDireccion() * s._t;
     s._emision = this->getEmision();

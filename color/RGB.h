@@ -43,6 +43,7 @@ class RGB{
     RGB operator /(float num);
     RGB operator *(RGB a);
     RGB operator *(float num);
+    RGB operator -(RGB a);
     // pretty stdout
     friend ostream& operator<<(ostream& os, const RGB p);
 };
