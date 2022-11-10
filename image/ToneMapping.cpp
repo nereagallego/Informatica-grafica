@@ -95,31 +95,33 @@ Imagen ToneMapping::gammaCurve(Imagen Image, float gamma){
 }
 
 Imagen ToneMapping::clampGamma(Imagen Image, float gamma, float clamp_){
-    Imagen aux = clampEqualize(Image,clamp_);
-    Imagen result(aux.getHeight(), aux.getWidth(),aux.getColorResolution(), aux.getComment(), 1);
-    
+    Imagen result(Image.getHeight(), Image.getWidth(),Image.getColorResolution(), Image.getComment(), 1);
+    double max = Image.getMax();
     //Para cada pixel...
     for(int i = 0; i < Image.getHeight(); i ++){
         for(int j = 0; j < Image.getWidth(); j ++){
             RGB x = Image._imagenHDR[i][j];
-            if(x.getRed() < aux.getMax()){
-                x.setRed(pow(x.getRed(),gamma));
-            }
-            if(x.getBlue() < aux.getMax()){
-                x.setBlue(pow(x.getBlue(),gamma));
-            }
-            if(x.getGreen() < aux.getMax()){
-                x.setGreen(pow(x.getGreen(),gamma));
-            }
+            if(x.getRed() > clamp_) x.setRed(1);
+            else x.setRed(pow(x.getRed(),1/gamma)/pow(max,1/gamma));
+
+            if(x.getGreen() > clamp_) x.setGreen(1);
+            else x.setGreen(pow(x.getGreen(),1/gamma)/pow(max,1/gamma));
+
+            if(x.getBlue() > clamp_) x.setBlue(1);
+            else x.setBlue(pow(x.getBlue(),1/gamma)/pow(max,1/gamma));
+     
+         //   x.setBlue(pow(x.getBlue()/aux.getMax(),gamma)*aux.getMax());
+ 
+        //    x.setGreen(pow(x.getGreen()/aux.getMax(),gamma)*aux.getMax());
             result._imagenHDR[i][j] = x;
         }
     }
     return result;
 }
 
-Imagen ToneMapping::reinhard(Imagen Image, float clamp){
-    Imagen aux = clampEqualize(Image, clamp);
-    Imagen result(aux.getHeight(), aux.getWidth(),aux.getColorResolution(), aux.getComment(), 1);
+Imagen ToneMapping::reinhard(Imagen Image){
+//    Imagen aux = clampEqualize(Image, clamp);
+    Imagen result(Image.getHeight(), Image.getWidth(),Image.getColorResolution(), Image.getComment(), 1);
     
     //Para cada pixel...
     for(int i = 0; i < Image.getHeight(); i ++){
@@ -129,6 +131,22 @@ Imagen ToneMapping::reinhard(Imagen Image, float clamp){
             x.setGreen(x.getGreen()/(1+x.getGreen()));
             x.setBlue(x.getBlue()/(1+x.getBlue()));
             result._imagenHDR[i][j] = x;
+        }
+    }
+    return result;
+}
+
+Imagen ToneMapping::reinhard2(Imagen Image, float _clamp){
+//    Imagen aux = clampEqualize(Image, clamp);
+    Imagen result(Image.getHeight(), Image.getWidth(),Image.getColorResolution(), Image.getComment(), 1);
+    
+    //Para cada pixel...
+    for(int i = 0; i < Image.getHeight(); i ++){
+        for(int j = 0; j < Image.getWidth(); j ++){
+            RGB x = Image._imagenHDR[i][j];
+            RGB n = x * (x / (_clamp*_clamp) + 1);
+            RGB d = x + 1;
+            result._imagenHDR[i][j] = n / d;
         }
     }
     return result;

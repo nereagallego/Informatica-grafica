@@ -67,7 +67,9 @@ namespace ToneMapping{
     * @param clamp valor del clamp
     * @return Imagen 
     */
-   Imagen reinhard(Imagen Image, float clamp);
+   Imagen reinhard(Imagen Image);
+
+   Imagen reinhard2(Imagen image, float _clamp);
     
    
 };
