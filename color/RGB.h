@@ -39,11 +39,14 @@ class RGB{
     void setBlue(float Blue_);
 
     RGB operator +(RGB a);
-
-    RGB operator /(float num);
-    RGB operator *(RGB a);
-    RGB operator *(float num);
     RGB operator -(RGB a);
+    RGB operator *(RGB a);
+    RGB operator /(RGB a);
+        
+    RGB operator +(float num);
+    RGB operator -(float num);
+    RGB operator *(float num);
+    RGB operator /(float num);
     // pretty stdout
     friend ostream& operator<<(ostream& os, const RGB p);
 };

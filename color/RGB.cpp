@@ -39,18 +39,30 @@ RGB RGB::operator+(RGB a){
     return RGB(Red+a.getRed(), Green + a.getGreen(), Blue + a.getBlue());
 }
 
-RGB RGB::operator /(float num){
-    return RGB(Red/num, Green/num, Blue/num);
+RGB RGB::operator-(RGB a){
+    return RGB(Red-a.getRed(), Green - a.getGreen(), Blue - a.getBlue());
 }
 
 RGB RGB::operator *(RGB a){
     return RGB(Red*a.getRed(), Green*a.getGreen(), Blue*a.getBlue());
 }
 
+RGB RGB::operator/(RGB a){
+    return RGB(Red/a.getRed(), Green/a.getGreen(), Blue/a.getBlue());
+}
+
+RGB RGB::operator +(float num){
+    return RGB(Red+num, Green+num, Blue+num);
+}
+
+RGB RGB::operator -(float num){
+    return RGB(Red-num, Green-num, Blue-num);
+}
+
 RGB RGB::operator *(float num){
     return RGB(Red*num, Green*num, Blue*num);
 }
 
-RGB RGB::operator-(RGB a){
-    return RGB(Red-a.getRed(), Green - a.getGreen(), Blue - a.getBlue());
+RGB RGB::operator /(float num){
+    return RGB(Red/num, Green/num, Blue/num);
 }
