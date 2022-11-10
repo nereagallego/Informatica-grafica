@@ -69,18 +69,25 @@ Imagen ToneMapping::clampEqualize(Imagen imagen, float clamp){
 
 
 Imagen ToneMapping::gammaCurve(Imagen Image, float gamma){
-    Imagen aux = equalize(Image);
-    Imagen result(aux.getHeight(), aux.getWidth(),aux.getColorResolution(), aux.getComment(), 1);
-    
+ //   Imagen aux = equalize(Image);
+    Imagen result(Image.getHeight(), Image.getWidth(),Image.getColorResolution(), Image.getComment(), 1);
+    double max = Image.getMax();
     //Para cada pixel...
     for(int i = 0; i < Image.getHeight(); i ++){
         for(int j = 0; j < Image.getWidth(); j ++){
             RGB x = Image._imagenHDR[i][j];
-            x.setRed(pow(x.getRed()/aux.getMax(),gamma)*aux.getMax());
+            if(x.getRed() > max) x.setRed(max);
+            else x.setRed(pow(x.getRed(),1/gamma)/pow(max,1/gamma));
+
+            if(x.getGreen() > max) x.setGreen(max);
+            else x.setGreen(pow(x.getGreen(),1/gamma)/pow(max,1/gamma));
+
+            if(x.getBlue() > max) x.setBlue(max);
+            else x.setBlue(pow(x.getBlue(),1/gamma)/pow(max,1/gamma));
      
-            x.setBlue(pow(x.getBlue()/aux.getMax(),gamma)*aux.getMax());
+         //   x.setBlue(pow(x.getBlue()/aux.getMax(),gamma)*aux.getMax());
  
-            x.setGreen(pow(x.getGreen()/aux.getMax(),gamma)*aux.getMax());
+        //    x.setGreen(pow(x.getGreen()/aux.getMax(),gamma)*aux.getMax());
             result._imagenHDR[i][j] = x;
         }
     }
