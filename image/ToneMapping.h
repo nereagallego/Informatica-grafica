@@ -64,11 +64,17 @@ namespace ToneMapping{
     * @brief Transformación reinhard sencilla de una imagen
     * 
     * @param Image imagen a modificar
-    * @param clamp valor del clamp
     * @return Imagen 
     */
    Imagen reinhard(Imagen Image);
 
+   /**
+    * @brief Transformación extended reinhard de una imagen
+    * 
+    * @param Image imagen a modificar
+    * @param _clamp valor del clamp
+    * @return Imagen 
+    */
    Imagen reinhard2(Imagen image, float _clamp);
     
    

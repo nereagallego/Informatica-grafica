@@ -66,8 +66,20 @@ public:
      */
     void addPrimitive(shared_ptr<Primitive> p);
 
+    /**
+     * @brief Añadir una luz a la escena
+     * 
+     * @param l 
+     */
     void addLight(Light l);
 
+    /**
+     * @brief Calcular la luz directa
+     * 
+     * @param direccionRayo 
+     * @param intersection 
+     * @return RGB 
+     */
     RGB calcularLuz(Direccion direccionRayo, Intersect intersection);
 };
 
