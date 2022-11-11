@@ -112,17 +112,17 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
                 cercano = inter;
             }
         }
-        //Direccion normal = crossProduct(rayoLuzDirection,direccionRayo);
+        
         double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
-    //    cout << contribucionGeometrica << endl;
+
+        // No estoy segura de si son esos parámetros
         BSDF bsdf(intersection._emision);
-        RGB contribucionMaterial = bsdf.eval();
-    //    cout << contribucionMaterial << endl;
+        RGB contribucionMaterial = bsdf.eval(intersection._punto,direccionRayo,rayoLuzDirection);
+
         RGB first = l.getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
-    //    cout << first << endl;
 
         RGB contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
-//        cout << contribucionLuz << endl;
+
         if (!cercano._intersect)
         {
             contribucion = contribucion + contribucionLuz;
