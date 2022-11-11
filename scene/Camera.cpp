@@ -62,7 +62,7 @@ Imagen Camera::dibujar(){
             // } else {
             //     img._imagenHDR[i][j] = RGB(1,1,1);
             // }
-            img._imagenHDR[i][j] = pathTracing(rayo,2);
+            img._imagenHDR[i][j] = pathTracing(rayo,0,1);
             
         }
     }
@@ -132,7 +132,8 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
     return contribucion;
 }
 
-RGB Camera::pathTracing(Ray r, int n){
+RGB Camera::pathTracing(Ray r, int n,const int i){
+    if(n > i) return RGB();
     RGB contribucion;
     Intersect cercano;
     cercano._intersect = false;
@@ -159,8 +160,9 @@ RGB Camera::pathTracing(Ray r, int n){
     tuple<Direccion,RGB> tupla = bsdf.sample(theta, phi, r.getDireccion(), cercano._punto);
     Direccion dirRay = get<0>(tupla);
 
-    if(n == 1) return contribucion;
+   // if(n == 1) return contribucion;
     
     
-    return contribucion + pathTracing(Ray(dirRay,cercano._punto),n--);
+    contribucion = contribucion + pathTracing(Ray(dirRay,cercano._punto),n++,i);
+    return contribucion;
 }

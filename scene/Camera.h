@@ -90,7 +90,7 @@ public:
      * @param n 
      * @return RGB 
      */
-    RGB pathTracing(Ray r, int n);
+    RGB pathTracing(Ray r, int n,const int i);
 };
 
 
