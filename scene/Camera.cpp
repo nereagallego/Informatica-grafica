@@ -45,23 +45,24 @@ Imagen Camera::dibujar(){
             //cout << centro << endl;
             Ray rayo(centro-_O,_O);
         
-            Intersect cercano;
-            cercano._intersect = false;
-            cercano._emision = RGB(1,1,1);
-            cercano._t = INFINITY;
-            for(auto p : _primitives){
-                Intersect intersect = p->intersect(rayo); 
-                if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-                    cercano = intersect;
+            // Intersect cercano;
+            // cercano._intersect = false;
+            // cercano._emision = RGB(1,1,1);
+            // cercano._t = INFINITY;
+            // for(auto p : _primitives){
+            //     Intersect intersect = p->intersect(rayo); 
+            //     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+            //         cercano = intersect;
 
-                }
+            //     }
                 
-            }
-            if(cercano._intersect){
-                img._imagenHDR[i][j] = nextEventEstimation(rayo.getDireccion(),cercano); 
-            } else {
-                img._imagenHDR[i][j] = RGB(1,1,1);
-            }
+            // }
+            // if(cercano._intersect){
+            //     img._imagenHDR[i][j] = nextEventEstimation(rayo.getDireccion(),cercano); 
+            // } else {
+            //     img._imagenHDR[i][j] = RGB(1,1,1);
+            // }
+            img._imagenHDR[i][j] = pathTracing(rayo,2);
             
         }
     }
@@ -129,4 +130,37 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
         } 
     }
     return contribucion;
+}
+
+RGB Camera::pathTracing(Ray r, int n){
+    RGB contribucion;
+    Intersect cercano;
+    cercano._intersect = false;
+    cercano._t = INFINITY;
+
+    for(auto p : _primitives){
+        Intersect intersect = p->intersect(r); 
+        if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+            cercano = intersect;
+
+        }
+        
+    }
+
+    if( cercano._intersect ) {
+        contribucion = contribucion + nextEventEstimation( r.getDireccion(), cercano);
+    } else return RGB();
+
+    // deberían ser valores aleatorios?
+  //  double theta = M_PI/2, phi = M_PI/2;
+  //valor = rand() % 2
+    double theta = rand() % 2, phi = rand() % 2;
+    BSDF bsdf(cercano._emision);
+    tuple<Direccion,RGB> tupla = bsdf.sample(theta, phi, r.getDireccion(), cercano._punto);
+    Direccion dirRay = get<0>(tupla);
+
+    if(n == 1) return contribucion;
+    
+    
+    return contribucion + pathTracing(Ray(dirRay,cercano._punto),n--);
 }

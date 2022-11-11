@@ -82,6 +82,15 @@ public:
      * @return RGB 
      */
     RGB nextEventEstimation(Direccion direccionRayo, Intersect intersection);
+
+    /**
+     * @brief calcula el path tracing para una cantidad n de rebotes
+     * 
+     * @param r 
+     * @param n 
+     * @return RGB 
+     */
+    RGB pathTracing(Ray r, int n);
 };
 
 

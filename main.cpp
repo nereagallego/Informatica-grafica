@@ -50,9 +50,9 @@ int main(){
     // cout << "dibujo" << endl;
     cout << gen._imagenHDR.size() << " " << gen._imagenHDR[0].size() << endl;
     cout << gen.getWidth() << " " << gen.getHeight() << endl;
-  //  gen.exportFile("prueba.ppm");
-    Imagen res = ToneMapping::reinhard2(gen,0.2);
-    res.exportFile("prueba.ppm");
+    gen.exportFile("prueba1.ppm");
+  //  Imagen res = ToneMapping::reinhard2(gen,0.2);
+  //  res.exportFile("prueba.ppm");
   
     return 0;
 }
