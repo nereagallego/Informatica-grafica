@@ -58,7 +58,7 @@ Imagen Camera::dibujar(){
                 
             }
             if(cercano._intersect){
-                img._imagenHDR[i][j] = calcularLuz(rayo.getDireccion(),cercano); 
+                img._imagenHDR[i][j] = nextEventEstimation(rayo.getDireccion(),cercano); 
             } else {
                 img._imagenHDR[i][j] = RGB(1,1,1);
             }
@@ -90,7 +90,7 @@ void Camera::addLight(Light l){
     cout << "cantidad de luces " << _lights.size() << endl;
 }
 
-RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
+RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection){
     RGB contribucion;
     for(auto l : _lights){
         //cout << "calculo la contribucion de luz" << endl;
@@ -115,7 +115,8 @@ RGB Camera::calcularLuz(Direccion direccionRayo, Intersect intersection){
         //Direccion normal = crossProduct(rayoLuzDirection,direccionRayo);
         double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
     //    cout << contribucionGeometrica << endl;
-        RGB contribucionMaterial = intersection._emision / M_PI;
+        BSDF bsdf(intersection._emision);
+        RGB contribucionMaterial = bsdf.eval();
     //    cout << contribucionMaterial << endl;
         RGB first = l.getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
     //    cout << first << endl;

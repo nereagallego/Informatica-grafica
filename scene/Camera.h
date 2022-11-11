@@ -12,6 +12,7 @@
 #include <time.h>
 #include <vector>
 #include "Light.h"
+#include "BSDF.h"
 
 using namespace std;
 
@@ -80,7 +81,7 @@ public:
      * @param intersection 
      * @return RGB 
      */
-    RGB calcularLuz(Direccion direccionRayo, Intersect intersection);
+    RGB nextEventEstimation(Direccion direccionRayo, Intersect intersection);
 };
 
 
