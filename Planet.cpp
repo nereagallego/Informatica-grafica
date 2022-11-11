@@ -47,7 +47,19 @@ public:
      * @param azim azimuth (en radianes)
      * @return Punto 
      */
-    Punto pointDefinition(float incl, float azim);
+    Punto pointDefinition(float incl, float azim){
+        if(incl < 0 or incl > M_PI or azim < - M_PI or azim > M_PI){
+            cout << "Parametros no válidos." << endl;
+        }
+        Punto point(_radio*sin(incl)*cos(azim), _radio*sin(incl)*sin(azim), _radio * cos(incl));
+        // Se obtiene la normal a la superficie restando la ciudad de la referencia - centro
+        float v[4][4] = {{_ejeX.getX(),_ejeY.getX(),_ejeZ.getX(),_centro.getX()},{_ejeX.getY(),_ejeY.getY(),_ejeZ.getY(),_centro.getY()},{_ejeX.getZ(),_ejeY.getZ(),_ejeZ.getZ(),_centro.getZ()},{0,0,0,1}};
+        Matrix4 T(v);
+
+        CoordenadasHomogeneas w(point);
+
+        return w.cambioBase(T).punto();
+    }
 
     Direccion getEjeY();
     Direccion getEjeX();
