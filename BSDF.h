@@ -17,7 +17,7 @@ public:
      * @return RGB 
      */
     // creo que habrá que añadirle más parámetros
-    RGB eval() const;
+    RGB eval();
 };
 
 #endif

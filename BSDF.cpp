@@ -8,6 +8,6 @@ void BSDF::setDifuseCoefficient(RGB emision){
     _difuseCoefficient = emision;
 }
 
-RGB BSDF::eval() const{
+RGB BSDF::eval(){
     return _difuseCoefficient / M_PI;
 }
