@@ -45,6 +45,8 @@ int main(){
     cam.addPrimitive(backPlane);
     cam.addPrimitive(leftSphere);
     cam.addPrimitive(rightSphere);
+
+    //cam.addPrimitive(rightTriangle);
     // cout << "añado primitivas" << endl;
     Imagen gen = cam.dibujar();
     // cout << "dibujo" << endl;
