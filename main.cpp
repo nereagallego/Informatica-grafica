@@ -55,6 +55,13 @@ int main(){
     gen.exportFile("prueba1.ppm");
   //  Imagen res = ToneMapping::reinhard2(gen,0.2);
   //  res.exportFile("prueba.ppm");
+
+
+  /*----------------------PRUEBA 2--------------------------------*/
+
+
+
+
   
     return 0;
 }
