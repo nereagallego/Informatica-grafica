@@ -59,9 +59,19 @@ int main(){
 
   /*----------------------PRUEBA 2--------------------------------*/
 
+  // Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
 
+  // Light lightPoint(Punto(0,0.5,0),RGB(1,1,1));
 
+  // auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
+  // backPlane->setEmision(RGB(155,155,155));
 
+  // cam.addLight(lightPoint);
+  // cam.addPrimitive(backPlane);
+
+  // Imagen gen = cam.dibujar();
+
+  // gen.exportFile("prueba1.ppm");
   
     return 0;
 }
