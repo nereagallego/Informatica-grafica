@@ -13,6 +13,7 @@
 #include <vector>
 #include "Light.h"
 #include "BSDF.h"
+#include <random>
 
 using namespace std;
 
