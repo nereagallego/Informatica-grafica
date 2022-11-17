@@ -67,3 +67,11 @@ ostream& operator<<(ostream& os, const Direccion p) {
     os << "direction: (" << p._x  << ", " << p._y << ", " << p._z << ")" ;
     return os;
 }
+
+Direccion perpendicular(const Direccion d){
+     if ( (d.getZ() != 0) && (-d.getX() != d.getY()) ) {
+        return Direccion(d.getZ(), d.getZ(), - d.getX() - d.getY());
+    } else {
+        return Direccion(d.getY() - d.getZ(), d.getX(), d.getX());
+    }
+}

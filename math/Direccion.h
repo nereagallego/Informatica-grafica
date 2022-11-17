@@ -139,4 +139,6 @@ class Direccion{
  */
 Direccion crossProduct(Direccion d1, Direccion d2);
 
+Direccion perpendicular(const Direccion d);
+
 #endif

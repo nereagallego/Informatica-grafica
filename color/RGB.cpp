@@ -1,32 +1,32 @@
 #include "RGB.h"
 
-RGB::RGB(float red_, float green_, float blue_){
+RGB::RGB(double red_, double green_, double blue_){
     Red = red_;
     Green = green_;
     Blue = blue_;
 }
 
-float RGB::getGreen(){
+double RGB::getGreen(){
     return Green;
 }
 
-float RGB::getRed(){
+double RGB::getRed(){
     return Red;
 }
 
-float RGB::getBlue(){
+double RGB::getBlue(){
     return Blue;
 }
 
-void RGB::setGreen(float green_){
+void RGB::setGreen(double green_){
     Green=green_;
 }
 
-void RGB::setRed(float red_){
+void RGB::setRed(double red_){
     Red = red_;
 }
 
-void RGB::setBlue(float blue_){
+void RGB::setBlue(double blue_){
      Blue = blue_;
 }
 
@@ -51,18 +51,18 @@ RGB RGB::operator/(RGB a){
     return RGB(Red/a.getRed(), Green/a.getGreen(), Blue/a.getBlue());
 }
 
-RGB RGB::operator +(float num){
+RGB RGB::operator +(double num){
     return RGB(Red+num, Green+num, Blue+num);
 }
 
-RGB RGB::operator -(float num){
+RGB RGB::operator -(double num){
     return RGB(Red-num, Green-num, Blue-num);
 }
 
-RGB RGB::operator *(float num){
+RGB RGB::operator *(double num){
     return RGB(Red*num, Green*num, Blue*num);
 }
 
-RGB RGB::operator /(float num){
+RGB RGB::operator /(double num){
     return RGB(Red/num, Green/num, Blue/num);
 }

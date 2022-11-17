@@ -159,24 +159,15 @@ RGB Camera::pathTracing(Ray r, int n,const int i){
 
     if( cercano._intersect ) {
         //Se traza la luz directa y se obtiene su contribucion
-        contribucion = contribucion + nextEventEstimation( r.getDireccion(), cercano);
+        contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
     } else return RGB();
 
-    // deberían ser valores aleatorios?
-  //  double theta = M_PI/2, phi = M_PI/2;
-    
-  //valor = rand() % 2
-    //double theta = rand() % 2, phi = rand() % 2;
- //   double theta = fRand(0.0,M_PI/2);
- //   double phi = fRand(0.0,M_PI/2);
-    //cout << "El num aleatorio es " << theta << " " << phi << endl;
     BSDF bsdf(cercano._emision);
-    tuple<Direccion,RGB> tupla = bsdf.sample(r.getDireccion(), cercano._punto);
+    tuple<Direccion,RGB> tupla = bsdf.sample(r.getDireccion(), cercano._punto,cercano._normal);
     Direccion dirRay = get<0>(tupla);
-    RGB color_BSDF = get<1>(tupla);
-   
-   
+    RGB color_BSDF = get<1>(tupla); 
     
-    contribucion = contribucion + pathTracing(Ray(dirRay,cercano._punto),n++,i);
+  //  contribucion = contribucion + color_BSDF * pathTracing(Ray(dirRay,cercano._punto),n++,i);
+    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto),n++,i) * M_PI;
     return contribucion;
 }

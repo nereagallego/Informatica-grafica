@@ -9,9 +9,9 @@ using namespace std;
 //Esta clase RGB guarda los valores como 0 o 1 ya que se utiliza para pasar de HDR a memoria
 class RGB{
     private:
-    float Red;
-    float Green;
-    float Blue;
+    double Red;
+    double Green;
+    double Blue;
 
     public:
     /**
@@ -21,7 +21,7 @@ class RGB{
      * @param green_ value of the green pixel
      * @param blue_ value of the blue pixel
      */
-    RGB(float red_ ,float green_, float blue_);
+    RGB(double red_ ,double green_, double blue_);
 
     /**
      * @brief Construct a new RGB object
@@ -30,23 +30,23 @@ class RGB{
      */
     RGB(): Red(0), Green(0), Blue(0){};
 
-    float getRed();
-    float getGreen();
-    float getBlue();
+    double getRed();
+    double getGreen();
+    double getBlue();
 
-    void setRed(float Red_);
-    void setGreen(float Green_);
-    void setBlue(float Blue_);
+    void setRed(double Red_);
+    void setGreen(double Green_);
+    void setBlue(double Blue_);
 
     RGB operator +(RGB a);
     RGB operator -(RGB a);
     RGB operator *(RGB a);
     RGB operator /(RGB a);
         
-    RGB operator +(float num);
-    RGB operator -(float num);
-    RGB operator *(float num);
-    RGB operator /(float num);
+    RGB operator +(double num);
+    RGB operator -(double num);
+    RGB operator *(double num);
+    RGB operator /(double num);
     // pretty stdout
     friend ostream& operator<<(ostream& os, const RGB p);
 };

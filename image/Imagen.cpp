@@ -166,8 +166,10 @@ void Imagen::exportFile(string fichero){
     for(int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             RGB pixel = _imagenHDR[i][j];
-            RGB f(pixel.getRed()*(_colorResolution/(_MAX*_colorResolution)), pixel.getGreen()*(_colorResolution/(_MAX*_colorResolution)), pixel.getBlue()*(_colorResolution/(_MAX*_colorResolution)) );
-            ofdata << fixed << setprecision(0) <<  pixel.getRed()*(_colorResolution/_MAX) << " " << pixel.getGreen()*(_colorResolution/_MAX) << " "<< pixel.getBlue()*(_colorResolution/_MAX) << "     ";
+        //    cout << "llega " << pixel << endl;
+            RGB f(pixel.getRed()*255*(_colorResolution/(_MAX*_colorResolution)), pixel.getGreen()*255*(_colorResolution/(_MAX*_colorResolution)), pixel.getBlue()*255*(_colorResolution/(_MAX*_colorResolution)) );
+            ofdata << fixed << setprecision(0) <<  pixel.getRed()*255*(_colorResolution/_MAX) << " " << pixel.getGreen()*255*(_colorResolution/_MAX) << " "<< pixel.getBlue()*255*(_colorResolution/_MAX) << "     ";
+        //    cout << "sale " << f << endl;
         } 
         ofdata << endl ; 
     }

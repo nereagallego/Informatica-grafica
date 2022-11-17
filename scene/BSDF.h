@@ -7,6 +7,8 @@
 #include <cmath>
 #include <random>
 #include <tuple>
+#include "../math/Matrix4.h"
+#include "../math/CoordenadasHomogeneas.h"
 
 using namespace std;
 
@@ -25,7 +27,7 @@ public:
     // creo que habrá que añadirle más parámetros
     RGB eval(Punto x, Direccion omegai, Direccion omega0);
 
-    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x);
+    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal);
 };
 
 #endif
