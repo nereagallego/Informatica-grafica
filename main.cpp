@@ -15,7 +15,7 @@ using namespace std;
 
 int main(){
     cout << "entro en main" << endl;
-    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
+    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 16, 16);
     cout << "creo la camara" << endl;
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
     leftPlane->setEmision(RGB(255,0,0));
@@ -52,7 +52,7 @@ int main(){
     // cout << "dibujo" << endl;
     cout << gen._imagenHDR.size() << " " << gen._imagenHDR[0].size() << endl;
     cout << gen.getWidth() << " " << gen.getHeight() << endl;
-    gen.exportFile("prueba1.ppm");
+    gen.exportFile("prueba2.ppm");
   //  Imagen res = ToneMapping::reinhard2(gen,0.2);
   //  res.exportFile("prueba.ppm");
 

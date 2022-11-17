@@ -38,32 +38,39 @@ Imagen Camera::dibujar(){
     srand (time(NULL));
     for(int i = 0; i < _nPixelsh; i ++){
         for(int j = 0; j < _nPixelsw; j ++){
-            float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
-            float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
-            //Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
-            Punto centro(_referenciaPixel.getX()+_anchura/2+_anchura*j,_referenciaPixel.getY()-_altura/2-_altura*i,_referenciaPixel.getZ());
-            //cout << centro << endl;
-            Ray rayo(centro-_O,_O);
-        
-            // Intersect cercano;
-            // cercano._intersect = false;
-            // cercano._emision = RGB(1,1,1);
-            // cercano._t = INFINITY;
-            // for(auto p : _primitives){
-            //     Intersect intersect = p->intersect(rayo); 
-            //     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-            //         cercano = intersect;
+            RGB Suma_Contribs;
+            for( int k = 0 ; k < numRays ; k++){
 
-            //     }
-                
-            // }
-            // if(cercano._intersect){
-            //     img._imagenHDR[i][j] = nextEventEstimation(rayo.getDireccion(),cercano); 
-            // } else {
-            //     img._imagenHDR[i][j] = RGB(1,1,1);
-            // }
-            img._imagenHDR[i][j] = pathTracing(rayo,0,1);
             
+                float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
+                float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
+                //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
+                Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
+                //Punto centro(_referenciaPixel.getX()+_anchura/2+_anchura*j,_referenciaPixel.getY()-_altura/2-_altura*i,_referenciaPixel.getZ());
+                //cout << centro << endl;
+                Ray rayo(centro-_O,_O);
+            
+                // Intersect cercano;
+                // cercano._intersect = false;
+                // cercano._emision = RGB(1,1,1);
+                // cercano._t = INFINITY;
+                // for(auto p : _primitives){
+                //     Intersect intersect = p->intersect(rayo); 
+                //     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+                //         cercano = intersect;
+
+                //     }
+                    
+                // }
+                // if(cercano._intersect){
+                //     img._imagenHDR[i][j] = nextEventEstimation(rayo.getDireccion(),cercano); 
+                // } else {
+                //     img._imagenHDR[i][j] = RGB(1,1,1);
+                // }
+                
+                Suma_Contribs =  Suma_Contribs + pathTracing(rayo,0,1);
+            }
+            img._imagenHDR[i][j] = Suma_Contribs/float(numRays);
         }
     }
     return img;
