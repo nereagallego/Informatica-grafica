@@ -140,13 +140,6 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 }
 
 
-double fRand(double fMin,double fMax){
-   std::uniform_real_distribution<double> unif(fMin,fMax);
-   std::default_random_engine re;
-   re.seed(rand()%10000);
-   double a_random_double = unif(re);
-   return a_random_double;
-}
 
 RGB Camera::pathTracing(Ray r, int n,const int i){
     if(n > i) return RGB();
@@ -174,16 +167,16 @@ RGB Camera::pathTracing(Ray r, int n,const int i){
     
   //valor = rand() % 2
     //double theta = rand() % 2, phi = rand() % 2;
-    double theta = fRand(0.0,M_PI/2);
-    double phi = fRand(0.0,M_PI/2);
+ //   double theta = fRand(0.0,M_PI/2);
+ //   double phi = fRand(0.0,M_PI/2);
     //cout << "El num aleatorio es " << theta << " " << phi << endl;
     BSDF bsdf(cercano._emision);
-    tuple<Direccion,RGB> tupla = bsdf.sample(theta, phi, r.getDireccion(), cercano._punto);
+    tuple<Direccion,RGB> tupla = bsdf.sample(r.getDireccion(), cercano._punto);
     Direccion dirRay = get<0>(tupla);
     RGB color_BSDF = get<1>(tupla);
    
    
     
-    contribucion = contribucion +  pathTracing(Ray(dirRay,cercano._punto),n++,i);
+    contribucion = contribucion + pathTracing(Ray(dirRay,cercano._punto),n++,i);
     return contribucion;
 }

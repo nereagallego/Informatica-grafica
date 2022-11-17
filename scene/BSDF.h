@@ -5,6 +5,7 @@
 #include "../math/Direccion.h"
 #include "../math/Punto.h"
 #include <cmath>
+#include <random>
 #include <tuple>
 
 using namespace std;
@@ -24,7 +25,7 @@ public:
     // creo que habrá que añadirle más parámetros
     RGB eval(Punto x, Direccion omegai, Direccion omega0);
 
-    tuple<Direccion, RGB> sample(const float theta, const float phi, const Direccion omega0, const Punto x);
+    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x);
 };
 
 #endif
