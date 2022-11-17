@@ -26,7 +26,7 @@ private:
     int _nPixelsh, _nPixelsw;
     float _altura, _anchura;
     Punto _referenciaPixel;
-    int numRays = 4;
+    int numRays = 20;
 
     vector<shared_ptr<Primitive>> _primitives;
     vector<Light> _lights;
