@@ -80,6 +80,6 @@ namespace ToneMapping{
    
 };
 
-
+double max(const double a, const double b, const double c, const double d);
 
 #endif
