@@ -139,6 +139,12 @@ class Direccion{
  */
 Direccion crossProduct(Direccion d1, Direccion d2);
 
+/**
+ * @brief Devuelve el vector perpenticular a un vector dado
+ * 
+ * @param d 
+ * @return Direccion 
+ */
 Direccion perpendicular(const Direccion d);
 
 #endif
