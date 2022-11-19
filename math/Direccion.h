@@ -125,6 +125,14 @@ class Direccion{
      */
     float getZ() const;
 
+    /**
+     * @brief Dirección entre dos vectores
+     * 
+     * @param d 
+     * @return double 
+     */
+    double angulo(Direccion d);
+
     // pretty stdout
     friend ostream& operator<<(ostream& os, const Direccion p);
 
@@ -146,5 +154,15 @@ Direccion crossProduct(Direccion d1, Direccion d2);
  * @return Direccion 
  */
 Direccion perpendicular(const Direccion d);
+
+/**
+ * @brief Función delta de dos direcciones
+ * 
+ * @param d 
+ * @param f 
+ * @return true 
+ * @return false 
+ */
+bool delta(Direccion d, Direccion f);
 
 #endif

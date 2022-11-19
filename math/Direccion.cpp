@@ -80,3 +80,10 @@ double Direccion::angulo(Direccion d) {
     double sin = (_x*d._x+_y*d._y+_z*d._z) / (this->modulo() * d.modulo());
     return asin(sin);
 }
+
+bool delta(Direccion d, Direccion f){
+    bool x = abs(d.getX() - f.getX()) < 0.00001;
+    bool y = abs(d.getY() - f.getY()) < 0.00001;
+    bool z = abs(d.getZ() - f.getZ()) < 0.00001;
+    return x && y && z;
+}
