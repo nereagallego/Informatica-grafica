@@ -75,3 +75,8 @@ Direccion perpendicular(const Direccion d){
         return Direccion(d.getY() - d.getZ(), d.getX(), d.getX());
     }
 }
+
+double Direccion::angulo(Direccion d) {
+    double sin = (_x*d._x+_y*d._y+_z*d._z) / (this->modulo() * d.modulo());
+    return asin(sin);
+}
