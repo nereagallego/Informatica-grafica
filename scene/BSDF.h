@@ -9,33 +9,15 @@
 #include <tuple>
 #include "../math/Matrix4.h"
 #include "../math/CoordenadasHomogeneas.h"
+#include <assert.h>
 
 using namespace std;
 
 class BSDF{
-    RGB _difuseCoefficient, _specularCoefficient, _refractionCoefficient;
+    RGB _diffuseCoefficient, _specularCoefficient, _refractionCoefficient;
+    double _probDiffuse, _probSpecular, _probRefract;
 
     double _refractionIndex;
-public:
-    BSDF(RGB kd = RGB(), RGB ks = RGB(), RGB kt = RGB(), const double ni = 1): _difuseCoefficient(kd), _specularCoefficient(ks), _refractionCoefficient(kt), _refractionIndex(ni) {}
-    RGB getDifuseCoefficient() const;
-    void setDifuseCoefficient(RGB emision);
-    RGB getSpecularCoefficient() const;
-    void setSpecularCoefficient(RGB ks);
-    RGB getRefractionCoefficient() const;
-    void setRefractionCoefficient(RGB kt);
-    double getRefractionIndex() const;
-    void setRefractionIndex(double ni);
-
-    /**
-     * @brief evalua el coeficiente difuso
-     * 
-     * @return RGB 
-     */
-    // creo que habrá que añadirle más parámetros
-    RGB eval(Punto x, Direccion omegai, Direccion omega0);
-
-    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal);
 
     /**
      * @brief Devuelve la dirección de la luz cuando el elemento es difuso
@@ -67,6 +49,29 @@ public:
      * @return Direccion 
      */
     Direccion refractionEval(Punto x, Direccion omega0, Direccion normal, double index0);
+
+public:
+    BSDF(RGB kd = RGB(), RGB ks = RGB(), RGB kt = RGB(), const double ni = 1): _diffuseCoefficient(kd), _specularCoefficient(ks), _refractionCoefficient(kt), _refractionIndex(ni), _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), _probRefract(max(_refractionCoefficient.getRed(),max(_refractionCoefficient.getGreen(), _refractionCoefficient.getBlue()))) {assert((_probDiffuse + _probRefract + _probSpecular)<=1);}
+    RGB getDiffuseCoefficient() const;
+    void setDiffuseCoefficient(RGB emision);
+    RGB getSpecularCoefficient() const;
+    void setSpecularCoefficient(RGB ks);
+    RGB getRefractionCoefficient() const;
+    void setRefractionCoefficient(RGB kt);
+    double getRefractionIndex() const;
+    void setRefractionIndex(const double ni);
+
+    /**
+     * @brief evalua el coeficiente difuso
+     * 
+     * @return RGB 
+     */
+    // creo que habrá que añadirle más parámetros
+    RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal);
+
+    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal);
+
+    
 
 };
 

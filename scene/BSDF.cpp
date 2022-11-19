@@ -1,11 +1,11 @@
 #include "BSDF.h"
 
-RGB BSDF::getDifuseCoefficient() const{
-    return _difuseCoefficient;
+RGB BSDF::getDiffuseCoefficient() const{
+    return _diffuseCoefficient;
 }
 
-void BSDF::setDifuseCoefficient(RGB emision){
-    _difuseCoefficient = emision;
+void BSDF::setDiffuseCoefficient(RGB emision){
+    _diffuseCoefficient = emision;
 }
 
 RGB BSDF::getSpecularCoefficient() const{
@@ -23,11 +23,20 @@ RGB BSDF::getRefractionCoefficient() const{
 void BSDF::setRefractionCoefficient(RGB kt){
     _refractionCoefficient = kt;
 }
-double getRefractionIndex() const;
-void setRefractionIndex(double ni);
 
-RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0){
-    return _difuseCoefficient / M_PI;
+double BSDF::getRefractionIndex() const{
+    return _refractionIndex;
+}
+
+void BSDF::setRefractionIndex(const double ni){
+    _refractionIndex = ni;
+}
+
+RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
+    RGB diffuse = _probDiffuse > 0 ? _diffuseCoefficient * _probDiffuse / M_PI : RGB();
+    RGB specular = _probSpecular > 0 ? _probSpecular * delta(omega0,omegai) / (normal * omegai) : RGB(0,0,0);
+    RGB refraction = _probRefract > 0 ? _probRefract * delta(omegai, omega0) / (normal * omegai) : RGB(0,0,0);
+    return diffuse + specular + refraction;
 }
 
 double fRand(double fMin,double fMax){
@@ -55,7 +64,7 @@ tuple<Direccion, RGB> BSDF::sample(const Direccion omega0, const Punto x, const 
 
     Direccion newOmegai = omegai2.cambioBase(inv).direccion();
 
-    return {newOmegai, eval(x,newOmegai,omega0)};
+    return {newOmegai, eval(x,newOmegai,omega0, normal)};
 }
 
 Direccion BSDF::diffuseEval(Punto x, Direccion omega0, Direccion normal){
@@ -78,10 +87,22 @@ Direccion BSDF::diffuseEval(Punto x, Direccion omega0, Direccion normal){
     return newOmegai;
 }
 
-Direccion BSDF::especularEval(Punto x, Direccion omega0, Direccion normal){
+Direccion BSDF::specularEval(Punto x, Direccion omega0, Direccion normal){
     return omega0 - normal * 2 * (omega0 * normal) ;
 }
 
 Direccion BSDF::refractionEval(Punto x, Direccion omega0, Direccion normal, double index0){
-    double thetaI = indexRefraction * 
+    double thetaI = asin(omega0.angulo(normal) * index0 / _refractionIndex);
+    Direccion omegai(sin(thetaI),cos(thetaI),0.0);
+
+    Direccion perp = perpendicular(normal);
+    Matrix4 local(perp,normal,crossProduct(perp,normal),x);
+
+    Matrix4 inv = local.inversa();
+
+    CoordenadasHomogeneas omegai2(omegai);
+
+    Direccion newOmegai = omegai2.cambioBase(inv).direccion();
+
+    return newOmegai;
 }
