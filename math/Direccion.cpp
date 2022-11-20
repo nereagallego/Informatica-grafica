@@ -81,7 +81,7 @@ double Direccion::angulo(Direccion d) {
     return asin(sin);
 }
 
-bool delta(Direccion d, Direccion f){
+double delta(Direccion d, Direccion f){
     bool x = abs(d.getX() - f.getX()) < 0.00001;
     bool y = abs(d.getY() - f.getY()) < 0.00001;
     bool z = abs(d.getZ() - f.getZ()) < 0.00001;

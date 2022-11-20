@@ -163,6 +163,6 @@ Direccion perpendicular(const Direccion d);
  * @return true 
  * @return false 
  */
-bool delta(Direccion d, Direccion f);
+double delta(Direccion d, Direccion f);
 
 #endif
