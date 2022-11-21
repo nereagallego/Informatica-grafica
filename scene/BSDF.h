@@ -50,12 +50,12 @@ class BSDF{
      * @param indexRefraction n0
      * @return Direccion 
      */
-    Direccion refractionEval(Punto x, Direccion omega0, Direccion normal, double index0);
+    Direccion refractionEval(Punto x, Direccion omega0, Direccion normal);
 
     BSDFType roussianRoulete() const;
 
 public:
-    BSDF(RGB kd = RGB(), RGB ks = RGB(), RGB kt = RGB(), const double ni = 1): _diffuseCoefficient(kd), _specularCoefficient(ks), _refractionCoefficient(kt), _refractionIndex(ni), _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), _probRefract(max(_refractionCoefficient.getRed(),max(_refractionCoefficient.getGreen(), _refractionCoefficient.getBlue()))) {assert((_probDiffuse + _probRefract + _probSpecular)<=1);}
+    BSDF(RGB kd = RGB(), RGB ks = RGB(), RGB kt = RGB(), const double nf = 1): _diffuseCoefficient(kd), _specularCoefficient(ks), _refractionCoefficient(kt), _refractionIndex(nf), _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), _probRefract(max(_refractionCoefficient.getRed(),max(_refractionCoefficient.getGreen(), _refractionCoefficient.getBlue()))) {assert((_probDiffuse + _probRefract + _probSpecular)<=1);}
     RGB getDiffuseCoefficient() const;
     void setDiffuseCoefficient(RGB emision);
     RGB getSpecularCoefficient() const;

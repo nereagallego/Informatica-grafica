@@ -57,7 +57,7 @@ tuple<Direccion, RGB> BSDF::sample(const Direccion omega0, const Punto x, const 
     } else if(f == SPECULAR){
         sample = specularEval(x, omega0, normal);
     } else if(f == REFRACTION){
-        sample = refractionEval(x, omega0, normal,1.0);
+        sample = refractionEval(x, omega0, normal);
     } else {
         return {Direccion(), RGB()};
     }
@@ -88,8 +88,8 @@ Direccion BSDF::specularEval(Punto x, Direccion omega0, Direccion normal){
     return omega0 - normal * 2 * (omega0 * normal) ;
 }
 
-Direccion BSDF::refractionEval(Punto x, Direccion omega0, Direccion normal, double index0){
-    double thetaI = asin(omega0.angulo(normal) * index0 / _refractionIndex);
+Direccion BSDF::refractionEval(Punto x, Direccion omega0, Direccion normal){
+    double thetaI = asin(omega0.angulo(normal) * _refractionIndex);
     Direccion omegai(sin(thetaI),cos(thetaI),0.0);
 
     Direccion perp = perpendicular(normal);
