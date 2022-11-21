@@ -79,7 +79,7 @@ class Direccion{
      * 
      * @return float 
      */
-    double modulo();
+    float modulo();
 
     /**
      * @brief Normaliza el vector
@@ -94,7 +94,7 @@ class Direccion{
      * @param d segundo vector con el que se va a calcular el producto escalar
      * @return float 
      */
-    double operator *(const Direccion d);
+    float operator *(const Direccion d);
 
     /**
      * @brief Devuelve el producto escalar de un punto y un vector
@@ -125,14 +125,6 @@ class Direccion{
      */
     float getZ() const;
 
-    /**
-     * @brief Dirección entre dos vectores
-     * 
-     * @param d 
-     * @return double 
-     */
-    double angulo(Direccion d);
-
     // pretty stdout
     friend ostream& operator<<(ostream& os, const Direccion p);
 
@@ -154,15 +146,5 @@ Direccion crossProduct(Direccion d1, Direccion d2);
  * @return Direccion 
  */
 Direccion perpendicular(const Direccion d);
-
-/**
- * @brief Función delta de dos direcciones
- * 
- * @param d 
- * @param f 
- * @return true 
- * @return false 
- */
-double delta(Direccion d, Direccion f);
 
 #endif

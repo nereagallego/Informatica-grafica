@@ -29,7 +29,7 @@ Punto Direccion::operator +(const Punto p){
     return Punto(_x+p.getX(), _y + p.getY(), _z +p.getZ());
 }
 
-double Direccion::modulo(){
+float Direccion::modulo(){
     return sqrt(_x*_x+_y*_y+_z*_z);
 }
 
@@ -38,7 +38,7 @@ Direccion Direccion::normalizar(){
     return Direccion(_x/modulo,_y/modulo,_z/modulo);
 }
 
-double Direccion::operator *(const Direccion d) {
+float Direccion::operator *(const Direccion d) {
     return _x*d._x+_y*d._y+_z*d._z;
 }
 
@@ -74,16 +74,4 @@ Direccion perpendicular(const Direccion d){
     } else {
         return Direccion(d.getY() - d.getZ(), d.getX(), d.getX());
     }
-}
-
-double Direccion::angulo(Direccion d) {
-    double sin = (_x*d._x+_y*d._y+_z*d._z) / (this->modulo() * d.modulo());
-    return asin(sin);
-}
-
-double delta(Direccion d, Direccion f){
-    bool x = abs(d.getX() - f.getX()) < 0.00001;
-    bool y = abs(d.getY() - f.getY()) < 0.00001;
-    bool z = abs(d.getZ() - f.getZ()) < 0.00001;
-    return x && y && z;
 }

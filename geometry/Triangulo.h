@@ -41,7 +41,7 @@ public:
      * @param z punto z
      * @param emision color del triangulo
      */
-    Triangulo(Punto x, Punto y, Punto z, BSDF emision): _x(x), _y(y), _z(z), Primitive(emision) {
+    Triangulo(Punto x, Punto y, Punto z, RGB emision): _x(x), _y(y), _z(z), Primitive(emision) {
         Direccion d1 = y-x;
         Direccion d2 = z-x;
         Direccion cross = crossProduct(d1,d2);

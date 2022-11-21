@@ -50,9 +50,25 @@ Imagen Camera::dibujar(){
                 //cout << centro << endl;
                 Ray rayo(centro-_O,_O);
             
-               
+                // Intersect cercano;
+                // cercano._intersect = false;
+                // cercano._emision = RGB(1,1,1);
+                // cercano._t = INFINITY;
+                // for(auto p : _primitives){
+                //     Intersect intersect = p->intersect(rayo); 
+                //     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+                //         cercano = intersect;
+
+                //     }
+                    
+                // }
+                // if(cercano._intersect){
+                //     img._imagenHDR[i][j] = nextEventEstimation(rayo.getDireccion(),cercano); 
+                // } else {
+                //     img._imagenHDR[i][j] = RGB(1,1,1);
+                // }
                 
-                Suma_Contribs =  Suma_Contribs + pathTracing(rayo,0,1);
+                Suma_Contribs =  Suma_Contribs + pathTracing(rayo,0,15);
             }
             img._imagenHDR[i][j] = Suma_Contribs/float(numRays);
         }
@@ -108,9 +124,8 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
         double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
 
         // No estoy segura de si son esos parámetros
-    //    BSDF bsdf(intersection._emision);
-    //    cout << "Voy a llamar a eval " << endl;
-        RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
+        BSDF bsdf(intersection._emision);
+        RGB contribucionMaterial = bsdf.eval(intersection._punto,direccionRayo,rayoLuzDirection);
 
         RGB first = l.getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
 

@@ -1,7 +1,7 @@
 #ifndef PRIMITIVE_HPP
 #define PRIMITIVE_HPP
 
-#include "../scene/BSDF.h"
+#include "../color/RGB.h"
 #include "Ray.h"
 #include "Intersect.h"
 
@@ -10,21 +10,21 @@ using namespace std;
 // abstract class 
 class Primitive{
     // color del objeto
-    BSDF _emision;
+    RGB _emision;
 public:
     /**
      * @brief Construct a new Primitive object
      * 
      * @param emision color del objeto
      */
-    Primitive(BSDF emision): _emision(emision){};
+    Primitive(RGB emision): _emision(emision){};
 
     /**
      * @brief Construct a new Primitive object
      * Se le asigna color negro por defecto
      * 
      */
-    Primitive(): _emision(BSDF()) {}
+    Primitive(): _emision(RGB(0,0,0)) {}
 
     /**
      * @brief Destroy the Primitive object
@@ -32,11 +32,11 @@ public:
      */
     ~Primitive() = default;
 
-    void setEmision(BSDF emision) {
+    void setEmision(RGB emision) {
         _emision = emision;
     }
 
-    BSDF getEmision(){
+    RGB getEmision(){
         return _emision;
     }
 

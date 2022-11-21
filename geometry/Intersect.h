@@ -9,7 +9,7 @@ struct Intersect{
     float _t;
     bool _intersect;
     Punto _punto;
-    BSDF _emision;
+    RGB _emision;
     Direccion _normal;
 };
 
