@@ -55,7 +55,17 @@ class BSDF{
     BSDFType roussianRoulete() const;
 
 public:
-    BSDF(RGB kd = RGB(), RGB ks = RGB(), RGB kt = RGB(), const double nf = 1): _diffuseCoefficient(kd), _specularCoefficient(ks), _refractionCoefficient(kt), _refractionIndex(nf), _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), _probRefract(max(_refractionCoefficient.getRed(),max(_refractionCoefficient.getGreen(), _refractionCoefficient.getBlue()))) {assert((_probDiffuse + _probRefract + _probSpecular)<=1);}
+    BSDF(RGB kd = RGB(), RGB ks = RGB(), RGB kt = RGB(), const double nf = 1): _diffuseCoefficient(kd), 
+    _specularCoefficient(ks), 
+    _refractionCoefficient(kt),
+    _refractionIndex(1/nf), 
+    _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), 
+    _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), 
+    _probRefract(max(_refractionCoefficient.getRed(),max(_refractionCoefficient.getGreen(), _refractionCoefficient.getBlue()))) 
+        {
+        //    cerr << "probabilidades " << _probDiffuse << " " << _probSpecular << " " << _probRefract << endl;
+            assert((_probDiffuse + _probRefract + _probSpecular)<=1);
+        }
     RGB getDiffuseCoefficient() const;
     void setDiffuseCoefficient(RGB emision);
     RGB getSpecularCoefficient() const;

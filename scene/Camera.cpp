@@ -108,9 +108,9 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
         double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
 
         // No estoy segura de si son esos parámetros
-        BSDF bsdf(intersection._emision);
-        cout << "Voy a llamar a eval " << endl;
-        RGB contribucionMaterial = bsdf.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
+    //    BSDF bsdf(intersection._emision);
+    //    cout << "Voy a llamar a eval " << endl;
+        RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
 
         RGB first = l.getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
 

@@ -33,7 +33,7 @@ void BSDF::setRefractionIndex(const double ni){
 }
 
 RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
-    cout << "He entrado en eval" << endl;
+   // cout << "He entrado en eval" << endl;
     RGB diffuse = _probDiffuse > 0 ? _diffuseCoefficient / M_PI / _probDiffuse : RGB();
     RGB specular = _probSpecular > 0 ? _specularCoefficient * delta(omega0,omegai) / (normal * omegai) / _probSpecular : RGB();
     RGB refraction = _probRefract > 0 ? _refractionCoefficient * delta(omegai, omega0) / (normal * omegai) /_probRefract: RGB();
