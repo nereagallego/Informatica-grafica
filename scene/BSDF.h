@@ -13,6 +13,8 @@
 
 using namespace std;
 
+enum BSDFType { DIFFUSE, SPECULAR, REFRACTION, ABSORTION};
+
 class BSDF{
     RGB _diffuseCoefficient, _specularCoefficient, _refractionCoefficient;
     double _probDiffuse, _probSpecular, _probRefract;
@@ -49,6 +51,8 @@ class BSDF{
      * @return Direccion 
      */
     Direccion refractionEval(Punto x, Direccion omega0, Direccion normal, double index0);
+
+    BSDFType roussianRoulete() const;
 
 public:
     BSDF(RGB kd = RGB(), RGB ks = RGB(), RGB kt = RGB(), const double ni = 1): _diffuseCoefficient(kd), _specularCoefficient(ks), _refractionCoefficient(kt), _refractionIndex(ni), _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), _probRefract(max(_refractionCoefficient.getRed(),max(_refractionCoefficient.getGreen(), _refractionCoefficient.getBlue()))) {assert((_probDiffuse + _probRefract + _probSpecular)<=1);}
