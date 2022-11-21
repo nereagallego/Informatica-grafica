@@ -13,9 +13,9 @@
 using namespace std;
 
 class BSDF{
-    RGB _difuseCoefficient;
+    RGB _diffuseCoefficient;
 public:
-    BSDF(RGB emision): _difuseCoefficient(emision) {}
+    BSDF(RGB emision = RGB()): _diffuseCoefficient(emision) {}
     RGB getDifuseCoefficient() const;
     void setDifuseCoefficient(RGB emision);
 

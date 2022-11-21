@@ -1,15 +1,15 @@
 #include "BSDF.h"
 
 RGB BSDF::getDifuseCoefficient() const{
-    return _difuseCoefficient;
+    return _diffuseCoefficient;
 }
 
 void BSDF::setDifuseCoefficient(RGB emision){
-    _difuseCoefficient = emision;
+    _diffuseCoefficient = emision;
 }
 
 RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0){
-    return _difuseCoefficient / M_PI;
+    return _diffuseCoefficient / M_PI;
 }
 
 double fRand(double fMin,double fMax){
