@@ -50,23 +50,7 @@ Imagen Camera::dibujar(){
                 //cout << centro << endl;
                 Ray rayo(centro-_O,_O);
             
-                // Intersect cercano;
-                // cercano._intersect = false;
-                // cercano._emision = RGB(1,1,1);
-                // cercano._t = INFINITY;
-                // for(auto p : _primitives){
-                //     Intersect intersect = p->intersect(rayo); 
-                //     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-                //         cercano = intersect;
-
-                //     }
-                    
-                // }
-                // if(cercano._intersect){
-                //     img._imagenHDR[i][j] = nextEventEstimation(rayo.getDireccion(),cercano); 
-                // } else {
-                //     img._imagenHDR[i][j] = RGB(1,1,1);
-                // }
+               
                 
                 Suma_Contribs =  Suma_Contribs + pathTracing(rayo,0,1);
             }
