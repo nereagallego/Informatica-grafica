@@ -79,7 +79,7 @@ class Direccion{
      * 
      * @return float 
      */
-    float modulo();
+    double modulo();
 
     /**
      * @brief Normaliza el vector
@@ -94,7 +94,7 @@ class Direccion{
      * @param d segundo vector con el que se va a calcular el producto escalar
      * @return float 
      */
-    float operator *(const Direccion d);
+    double operator *(const Direccion d);
 
     /**
      * @brief Devuelve el producto escalar de un punto y un vector

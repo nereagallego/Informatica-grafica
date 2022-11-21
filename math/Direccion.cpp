@@ -29,7 +29,7 @@ Punto Direccion::operator +(const Punto p){
     return Punto(_x+p.getX(), _y + p.getY(), _z +p.getZ());
 }
 
-float Direccion::modulo(){
+double Direccion::modulo(){
     return sqrt(_x*_x+_y*_y+_z*_z);
 }
 
@@ -38,7 +38,7 @@ Direccion Direccion::normalizar(){
     return Direccion(_x/modulo,_y/modulo,_z/modulo);
 }
 
-float Direccion::operator *(const Direccion d) {
+double Direccion::operator *(const Direccion d) {
     return _x*d._x+_y*d._y+_z*d._z;
 }
 
