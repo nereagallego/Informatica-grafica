@@ -125,7 +125,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 
         // No estoy segura de si son esos parámetros
         BSDF bsdf(intersection._emision);
-        RGB contribucionMaterial = bsdf.eval(intersection._punto,direccionRayo,rayoLuzDirection);
+        RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection);
 
         RGB first = l.getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
 
@@ -163,7 +163,7 @@ RGB Camera::pathTracing(Ray r, int n,const int i){
     } else return RGB();
 
     BSDF bsdf(cercano._emision);
-    tuple<Direccion,RGB> tupla = bsdf.sample(r.getDireccion(), cercano._punto,cercano._normal);
+    tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
     Direccion dirRay = get<0>(tupla);
     RGB color_BSDF = get<1>(tupla); 
     
