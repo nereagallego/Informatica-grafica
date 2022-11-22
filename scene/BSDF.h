@@ -13,12 +13,21 @@
 using namespace std;
 
 class BSDF{
-    RGB _diffuseCoefficient;
+    RGB _diffuseCoefficient, _specularCoefficient;
 public:
-    BSDF(RGB emision = RGB()): _diffuseCoefficient(emision) {}
+    BSDF(RGB emision, RGB ks): 
+    _diffuseCoefficient(emision),
+    _specularCoefficient(ks) 
+    {}
+    BSDF():
+    _diffuseCoefficient(RGB()),
+    _specularCoefficient(RGB())
+    {}
     RGB getDifuseCoefficient() const;
     void setDifuseCoefficient(RGB emision);
-
+    RGB getSpecularCoefficient() const;
+    void setSpecularCoefficient(RGB emision);
+   
     /**
      * @brief evalua el coeficiente difuso
      * 

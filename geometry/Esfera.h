@@ -36,7 +36,7 @@ public:
      * @param radio radio de la esfera
      * @param emision color de la esfera
      */
-    Esfera(Punto centro, float radio, RGB emision): Primitive(emision), _radio(radio),  _centro(centro) {}
+    Esfera(Punto centro, float radio, BSDF emision): Primitive(emision), _radio(radio),  _centro(centro) {}
 
     Punto getCentro();
     float getRadio();

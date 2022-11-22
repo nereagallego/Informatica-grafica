@@ -24,7 +24,7 @@ public:
      * Se le asigna color negro por defecto
      * 
      */
-    Primitive(): _emision(BSDF(RGB(0,0,0))) {}
+    Primitive(): _emision(BSDF(RGB(0,0,0), RGB())) {}
 
     /**
      * @brief Destroy the Primitive object

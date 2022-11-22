@@ -18,21 +18,21 @@ int main(){
     Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
     cout << "creo la camara" << endl;
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
-    leftPlane->setEmision(BSDF(RGB(0.7,0,0)));
+    leftPlane->setEmision(BSDF(RGB(0.7,0,0), RGB()));
     auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
-    rightPlane->setEmision(BSDF(RGB(0, 0.7, 0)));
+    rightPlane->setEmision(BSDF(RGB(0, 0.7, 0), RGB()));
     auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);
-    floorPlane->setEmision(BSDF(RGB(0.6,0.6,0.6)));
+    floorPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB()));
     auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
-    ceilingPlane->setEmision(BSDF(RGB(0.6,0.60,0.6)));
+    ceilingPlane->setEmision(BSDF(RGB(0.6,0.60,0.6), RGB()));
     auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
-    backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6)));
+    backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB()));
 
     auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    leftSphere->setEmision(BSDF(RGB(1.0,0,0.6)));
+    leftSphere->setEmision(BSDF(RGB(1.0,0,0.6), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    rightSphere->setEmision(BSDF(RGB(0,0,0.8)));
+    rightSphere->setEmision(BSDF(RGB(0,0,0.8), RGB()));
     
     Light lightPoint(Punto(0,0.5,0),RGB(0.3,0.3,0.3));
 

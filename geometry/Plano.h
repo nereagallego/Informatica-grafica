@@ -30,7 +30,7 @@ public:
      * @param d disancia del plano al origen
      * @param emision color del plano
      */
-    Plano(Direccion normal, float d, RGB emision): _normal(normal), _distancia(d), Primitive(emision) {};
+    Plano(Direccion normal, float d, BSDF emision): _normal(normal), _distancia(d), Primitive(emision) {};
 
     float getDistancia();
     Direccion getNormal();

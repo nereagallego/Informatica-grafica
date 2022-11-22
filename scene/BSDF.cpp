@@ -8,6 +8,14 @@ void BSDF::setDifuseCoefficient(RGB emision){
     _diffuseCoefficient = emision;
 }
 
+RGB BSDF::getSpecularCoefficient() const{
+    return _specularCoefficient;
+}
+
+void BSDF::setSpecularCoefficient(RGB emision){
+    _specularCoefficient = emision;
+}
+
 RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0){
     return _diffuseCoefficient / M_PI;
 }
