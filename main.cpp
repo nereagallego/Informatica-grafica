@@ -29,7 +29,7 @@ int main(){
     backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
 
     auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    leftSphere->setEmision(BSDF(RGB(1.0,0,0.6), RGB(), RGB()));
+    leftSphere->setEmision(BSDF(RGB(0.25,0,0.15), RGB(0.5,0,0.3), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
     rightSphere->setEmision(BSDF(RGB(0,0,0.8), RGB(), RGB()));

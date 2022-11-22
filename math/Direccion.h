@@ -147,4 +147,14 @@ Direccion crossProduct(Direccion d1, Direccion d2);
  */
 Direccion perpendicular(const Direccion d);
 
+/**
+ * @brief Función delta de dos direcciones
+ * 
+ * @param d 
+ * @param f 
+ * @return true 
+ * @return false 
+ */
+double delta(Direccion d, Direccion f);
+
 #endif
