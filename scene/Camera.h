@@ -14,6 +14,8 @@
 #include "Light.h"
 #include "BSDF.h"
 #include <random>
+#include <thread>
+#include <mutex>
 
 using namespace std;
 
@@ -27,6 +29,9 @@ private:
     float _altura, _anchura;
     Punto _referenciaPixel;
     int numRays = 20;
+    mutex mtx;
+
+    uint32_t threads;
 
     vector<shared_ptr<Primitive>> _primitives;
     vector<Light> _lights;
