@@ -41,6 +41,17 @@ class BSDF{
      */
     Direccion specularEval(Punto x, Direccion omega0, Direccion normal);
 
+    /**
+     * @brief Devuelve la dirección de la luz cuando el elemento refracta
+     * 
+     * @param x punto de insercción
+     * @param omega0 dirección de incidencia
+     * @param normal dirección normal
+     * @param indexRefraction n0
+     * @return Direccion 
+     */
+    Direccion refractionEval(Punto x, Direccion omega0, Direccion normal);
+
     BSDFType roussianRoulete() const;
 public:
     BSDF(RGB emision, RGB ks, RGB kt): 

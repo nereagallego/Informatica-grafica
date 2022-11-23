@@ -125,6 +125,14 @@ class Direccion{
      */
     float getZ() const;
 
+    /**
+     * @brief Dirección entre dos vectores
+     * 
+     * @param d 
+     * @return double 
+     */
+    double angulo(Direccion d);
+
     // pretty stdout
     friend ostream& operator<<(ostream& os, const Direccion p);
 

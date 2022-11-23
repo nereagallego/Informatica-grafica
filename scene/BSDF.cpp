@@ -33,10 +33,10 @@ void BSDF::setRefractIndex(double a){
 }
 
 RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
-    RGB diffuse = _probDiffuse > 0 ? _diffuseCoefficient * _probDiffuse / M_PI : RGB();
-    RGB specular = _probSpecular > 0 ? _specularCoefficient * delta(omega0,omegai) * _probSpecular / (normal * omegai) : RGB();
-//   RGB refraction = _probRefract > 0 ? _refractionCoefficient * delta(omegai, omega0) / (normal * omegai) /_probRefract: RGB();
-    return diffuse ;
+    RGB diffuse = _probDiffuse > 0.00005 ? _diffuseCoefficient / _probDiffuse / M_PI : RGB();
+    RGB specular = _probSpecular > 0.00005 ? _specularCoefficient * delta(omega0,omegai) / _probSpecular / (normal * omegai) : RGB();
+   // RGB refraction = _probRefract > 0.00005 ? _refractCoefficient * delta(omegai, omega0) / (normal * omegai) /_probRefract: RGB();
+    return diffuse + specular ;
 }
 
 double fRand(double fMin,double fMax){
@@ -93,4 +93,20 @@ BSDFType BSDF::roussianRoulete() const {
     else if(prob < _probDiffuse + _probSpecular) return SPECULAR;
     else if(prob < _probDiffuse + _probSpecular + _probRefract) return REFRACTION;
     else return ABSORTION;
+}
+
+Direccion BSDF::refractionEval(Punto x, Direccion omega0, Direccion normal){
+    double thetaI = asin(omega0.angulo(normal) * _refractIndex);
+    Direccion omegai(sin(thetaI),cos(thetaI),0.0);
+
+    Direccion perp = perpendicular(normal);
+    Matrix4 local(perp,normal,crossProduct(perp,normal),x);
+
+    Matrix4 inv = local.inversa();
+
+    CoordenadasHomogeneas omegai2(omegai);
+
+    Direccion newOmegai = omegai2.cambioBase(inv).direccion();
+
+    return newOmegai;
 }
