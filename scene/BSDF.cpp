@@ -34,9 +34,9 @@ void BSDF::setRefractIndex(double a){
 
 RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
     RGB diffuse = _probDiffuse > 0.00005 ? _diffuseCoefficient / _probDiffuse / M_PI : RGB();
-    RGB specular = _probSpecular > 0.00005 ? _specularCoefficient * delta(omega0,omegai) / _probSpecular / (normal * omegai) : RGB();
-   // RGB refraction = _probRefract > 0.00005 ? _refractCoefficient * delta(omegai, omega0) / (normal * omegai) /_probRefract: RGB();
-    return diffuse + specular ;
+    RGB specular = _probSpecular > 0.00005 ? _specularCoefficient * delta(omega0,omegai) / _probSpecular : RGB();
+    RGB refraction = _probRefract > 0.00005 ? _refractCoefficient * delta(omegai, omega0) /_probRefract: RGB();
+    return diffuse + specular + refraction;
 }
 
 double fRand(double fMin,double fMax){
@@ -56,7 +56,8 @@ tuple<Direccion, RGB> BSDF::sample(const Direccion omega0, const Punto x, const 
     } else if(f == SPECULAR){
         sample = specularEval(x, omega0, normal);
     } else if(f == REFRACTION){
-        sample = Direccion();//refractionEval(x, omega0, normal);
+    //    cout << "refract" << endl;
+        sample = refractionEval(x,omega0,normal);//refractionEval(x, omega0, normal);
     } else {
         return {Direccion(), RGB()};
     }
@@ -96,17 +97,24 @@ BSDFType BSDF::roussianRoulete() const {
 }
 
 Direccion BSDF::refractionEval(Punto x, Direccion omega0, Direccion normal){
-    double thetaI = asin(omega0.angulo(normal) * _refractIndex);
-    Direccion omegai(sin(thetaI),cos(thetaI),0.0);
+    // double thetaI = asin(omega0.angulo(normal) * _refractIndex);
+    // Direccion omegai(sin(thetaI),cos(thetaI),0.0);
 
-    Direccion perp = perpendicular(normal);
-    Matrix4 local(perp,normal,crossProduct(perp,normal),x);
+    // Direccion perp = perpendicular(normal);
+    // Matrix4 local(perp,normal,crossProduct(perp,normal),x);
 
-    Matrix4 inv = local.inversa();
+    // Matrix4 inv = local.inversa();
 
-    CoordenadasHomogeneas omegai2(omegai);
+    // CoordenadasHomogeneas omegai2(omegai);
 
-    Direccion newOmegai = omegai2.cambioBase(inv).direccion();
+    // Direccion newOmegai = omegai2.cambioBase(inv).direccion();
 
-    return newOmegai;
+    // return newOmegai;
+    float cosi = omega0* normal < -1? -1 : 1 <  omega0* normal? 1: omega0* normal; 
+    Direccion n = normal;
+    float etai = 1, etat = 1/_refractIndex; 
+    if (cosi < 0) { cosi = -cosi; } else { std::swap(etai, etat); n= normal*-1; } 
+    float eta = etai / etat; 
+    float k = 1 - eta * eta * (1 - cosi * cosi); 
+    return k < 0 ? Direccion() : omega0 *  eta +  n * (eta * cosi - sqrtf(k)); 
 }

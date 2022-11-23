@@ -10,6 +10,7 @@
 #include "../math/Matrix4.h"
 #include "../math/CoordenadasHomogeneas.h"
 #include <assert.h>
+#include <algorithm>
 
 using namespace std;
 
