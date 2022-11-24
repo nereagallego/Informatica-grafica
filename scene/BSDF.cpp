@@ -33,9 +33,10 @@ void BSDF::setRefractIndex(double a){
 }
 
 RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
-    RGB diffuse = _probDiffuse > 0.00005 ? _diffuseCoefficient / _probDiffuse / M_PI : RGB();
+    Direccion refract = refractionEval(x,omegai,normal);
+    RGB diffuse = _probDiffuse > 0.00005 ? _diffuseCoefficient / _probDiffuse : RGB();
     RGB specular = _probSpecular > 0.00005 ? _specularCoefficient * delta(omega0,omegai) / _probSpecular : RGB();
-    RGB refraction = _probRefract > 0.00005 ? _refractCoefficient * delta(omegai, omega0) /_probRefract: RGB();
+    RGB refraction = _probRefract > 0.00005 ? _refractCoefficient * delta(omegai, omega0) /_probRefract : RGB();
     return diffuse + specular + refraction;
 }
 
@@ -96,24 +97,11 @@ BSDFType BSDF::roussianRoulete() const {
 }
 
 Direccion BSDF::refractionEval(Punto x, Direccion omega0, Direccion normal){
-    // double thetaI = asin(omega0.angulo(normal) * _refractIndex);
-    // Direccion omegai(sin(thetaI),cos(thetaI),0.0);
-
-    // Direccion perp = perpendicular(normal);
-    // Matrix4 local(perp,normal,crossProduct(perp,normal),x);
-
-    // Matrix4 inv = local.inversa();
-
-    // CoordenadasHomogeneas omegai2(omegai);
-
-    // Direccion newOmegai = omegai2.cambioBase(inv).direccion();
-
-    // return newOmegai;
-    float cosi = omega0* normal < -1? -1 : 1 <  omega0* normal? 1: omega0* normal; 
+    float cosi = omega0.normalizar() * normal < -1 ? -1 : 1 <  omega0.normalizar() * normal? 1: omega0.normalizar() * normal; 
     Direccion n = normal;
-    float etai = 1, etat = 1/_refractIndex; 
+    float etai = 1, etat = _refractIndex; 
     if (cosi < 0) { cosi = -cosi; } else { std::swap(etai, etat); n= normal*-1; } 
     float eta = etai / etat; 
     float k = 1 - eta * eta * (1 - cosi * cosi); 
-    return k < 0 ? Direccion() : omega0 *  eta +  n * (eta * cosi - sqrtf(k)); 
+    return k < 0 ? omega0 : omega0.normalizar() *  eta +  n * (eta * cosi - sqrtf(k)); 
 }

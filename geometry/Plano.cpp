@@ -17,7 +17,12 @@ Intersect Plano::intersect(Ray r) {
     s._t = -(_distancia + _normal * r.getPunto())/denominador;
     if(s._t <= 0.00001) s._intersect = false;
     s._punto = r.getPunto() + r.getDireccion() * s._t;
-    
-    s._normal = this->getNormal();
+    if(r.getDireccion().angulo(this->getNormal()) < M_PI / 2)
+    s._normal = this->getNormal().normalizar();
+    else 
+    {
+        s._normal = this->getNormal().normalizar() *-1;
+      //  cout << "desde dentro";
+    }
     return s;
 }

@@ -3,6 +3,7 @@
 
 
 #include "../math/Punto.h"
+#include "Primitive.h"
 using namespace std;
 
 struct Intersect{
@@ -11,6 +12,7 @@ struct Intersect{
     Punto _punto;
     BSDF _emision;
     Direccion _normal;
+   
 };
 
 #endif

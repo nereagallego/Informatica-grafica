@@ -28,6 +28,12 @@ Intersect Esfera::intersect(Ray r){
     s._punto = r.getPunto() + r.getDireccion() * s._t;
     
     Direccion d = s._punto - _centro;
+    if(r.getDireccion().angulo(d.normalizar()) < M_PI / 2)
     s._normal = d.normalizar();
+    else {
+        s._normal = d.normalizar() * -1;
+       // cout << "desde dentro" << endl;
+    }
+    //s._normal = d.normalizar();
     return s;
 }

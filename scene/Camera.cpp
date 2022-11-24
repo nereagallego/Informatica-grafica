@@ -40,8 +40,6 @@ Imagen Camera::dibujar(){
     for(int i = 0; i < _nPixelsh; i ++){
         for(int j = 0; j < _nPixelsw; j ++){
             RGB Suma_Contribs;
-            RGB Suma_Contribs1[numRays];
-            thread thread[numRays];
             for( int k = 0 ; k < numRays ; k++){
 
             
@@ -49,20 +47,12 @@ Imagen Camera::dibujar(){
                 float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
                 Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
-                //Punto centro(_referenciaPixel.getX()+_anchura/2+_anchura*j,_referenciaPixel.getY()-_altura/2-_altura*i,_referenciaPixel.getZ());
-                //cout << centro << endl;
+
                 Ray rayo(centro-_O,_O);
                 
-                Suma_Contribs1[i] = pathTracing(rayo,0,15);
+                Suma_Contribs = Suma_Contribs +  pathTracing(rayo,0,15);
             }
-            for( int k = 0 ; k < numRays ; k++){
-
-            
-               
-                
-             //   Suma_Contribs[i] =  pathTracing(rayo,0,15);
-                Suma_Contribs = Suma_Contribs + Suma_Contribs1[i];
-            }
+        
             img._imagenHDR[i][j] = Suma_Contribs/float(numRays);
         }
     }
@@ -158,6 +148,6 @@ RGB Camera::pathTracing(Ray r, int n,const int i){
     RGB color_BSDF = get<1>(tupla); 
     
   //  contribucion = contribucion + color_BSDF * pathTracing(Ray(dirRay,cercano._punto),n++,i);
-    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto),n++,i) * M_PI;
+    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto),n++,i);
     return contribucion;
 }

@@ -32,7 +32,7 @@ int main(){
     leftSphere->setEmision(BSDF(RGB(0.25,0,0.15), RGB(0.5,0,0.3), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    rightSphere->setEmision(BSDF(RGB(0, 0, 0.1), RGB(), RGB(0, 0, 0.9),1.5));
+    rightSphere->setEmision(BSDF(RGB(0.1,0.1,0.1), RGB(), RGB(0, 0, 0.9),1.5));
     
     Light lightPoint(Punto(0,0.5,0),RGB(0.3,0.3,0.3));
 
