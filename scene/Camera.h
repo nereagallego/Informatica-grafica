@@ -16,6 +16,7 @@
 #include <random>
 #include <thread>
 #include <mutex>
+#include "../accelerator/PoolThreads.h"
 
 using namespace std;
 
