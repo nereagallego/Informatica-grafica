@@ -20,6 +20,13 @@
 
 using namespace std;
 
+const int NTHREADS = 20;
+
+struct Pixel {
+    int x, y;
+    RGB contribution;
+};
+
 class Camera{
 private:
     Direccion _L;
@@ -99,6 +106,8 @@ public:
      * @return RGB 
      */
     RGB pathTracing(Ray r, int n,const int i);
+
+    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays);
 };
 
 
