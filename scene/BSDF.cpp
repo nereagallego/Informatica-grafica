@@ -96,6 +96,7 @@ BSDFType BSDF::roussianRoulete() const {
     else return ABSORTION;
 }
 
+// https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
 Direccion BSDF::refractionEval(Punto x, Direccion omega0, Direccion normal){
     float cosi = omega0.normalizar() * normal < -1 ? -1 : 1 <  omega0.normalizar() * normal? 1: omega0.normalizar() * normal; 
     Direccion n = normal;
