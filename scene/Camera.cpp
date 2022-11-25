@@ -36,28 +36,82 @@ Imagen Camera::dibujar(){
     Imagen img(_nPixelsh, _nPixelsw,255,255);
     cout << _nPixelsw << " "  << _nPixelsh << endl;
     srand (time(NULL));
-    
+    ConcurrentQueue<pair<int,int>> jobs;
+    ConcurrentQueue<Pixel> result;
+
     for(int i = 0; i < _nPixelsh; i ++){
         for(int j = 0; j < _nPixelsw; j ++){
-            RGB Suma_Contribs;
-            for( int k = 0 ; k < numRays ; k++){
-
-            
-                float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
-                float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
-                //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
-                Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
-
-                Ray rayo(centro-_O,_O);
-                
-                Suma_Contribs = Suma_Contribs +  pathTracing(rayo,0,15);
-            }
-        
-            img._imagenHDR[i][j] = Suma_Contribs/float(numRays);
+            jobs.push(make_pair(i, j));
         }
     }
+
+    for(int i = 0; i<NTHREADS; i++) {
+        jobs.push(make_pair(-1,-1));
+    }
+    
+    vector<thread> threads;  
+    for (int i = 0; i<NTHREADS; i++) {
+        // threads.push_back(std::thread(&Camera::worker,std::ref(jobs),std::ref(result),std::ref(scene),nRays));
+        threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays){ work(jobs,result,numRays); }, std::ref(jobs),std::ref(result),numRays));
+    }
+    //Wait for end
+    for (auto &th : threads) {
+        th.join();
+    }
+
+    queue<Pixel> qresult = result.getQueue();
+    while (!qresult.empty())
+    {
+        Pixel a = qresult.front();
+
+        img._imagenHDR[a.x][a.y] = a.contribution;
+        //Set output.maxvalue to the max of average_rgb.r, average_rgb.g, average_rgb.b and output.maxvalue
+      //  output.max_value = (a.color.r>output.max_value) ? a.color.r : ((a.color.g>output.max_value) ? a.color.g : ((a.color.b>output.max_value) ? a.color.b : output.max_value));
+
+        qresult.pop();
+
+    }
+    // for(int i = 0; i < _nPixelsh; i ++){
+    //     for(int j = 0; j < _nPixelsw; j ++){
+    //         RGB Suma_Contribs;
+    //         for( int k = 0 ; k < numRays ; k++){
+
+            
+                
+                
+    //             Suma_Contribs = Suma_Contribs +  pathTracing(rayo,0,15);
+    //         }
+        
+    //         img._imagenHDR[i][j] = Suma_Contribs/float(numRays);
+    //     }
+    // }
     return img;
 }
+
+void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays)
+{
+    pair<int, int> n;
+    n = jobs.pop();
+    while (n.first >= 0 && n.second >= 0) //A value less than 0 marks the end of the list
+    {
+        RGB suma;
+        for(int i = 0; i < nRays; i++){
+            float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
+            float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
+            Punto centro(_referenciaPixel.getX()+r1+_anchura*n.second,_referenciaPixel.getY()-r2/2-_altura*n.first,_referenciaPixel.getZ());
+            Ray rayo(centro-_O,_O);
+            suma = suma + pathTracing(rayo,0,15);
+        }
+        
+                //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
+        Pixel calculated = {n.first,n.second,suma/nRays};
+        result.push(calculated);
+        n = jobs.pop();
+    }
+    return;
+}
+
+
 
 void Camera::addPrimitive(shared_ptr<Primitive> p){
     _primitives.push_back(p);

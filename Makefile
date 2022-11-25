@@ -13,6 +13,7 @@ CC = g++         # compilador
 #---------------------------------------------------------
 # opciones compilación y enlazado ("linkado")
 CPPFLAGS = -std=c++11 -g# opciones compilación  # opciones de "linkado"
+LDFLAGS  = -pthread
 #---------------------------------------------------------
 # vars
 EJEC = main
@@ -44,7 +45,7 @@ all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
 ${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o -o ${EJEC} ${CPPFLAGS}
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -82,7 +83,7 @@ ${TRI}.o:  ${TRI}.h ${TRI}.cpp
 	${CC} -c ${TRI}.cpp -o ${TRI}.o ${CPPFLAGS}
 
 ${CAMERA}.o:  ${CAMERA}.h ${CAMERA}.cpp
-	${CC} -c ${CAMERA}.cpp -o ${CAMERA}.o ${CPPFLAGS}
+	${CC} -c ${CAMERA}.cpp -o ${CAMERA}.o ${CPPFLAGS} ${LDFLAGS}
 
 ${LUZ}.o: ${LUZ}.h ${LUZ}.cpp
 	${CC} -c ${LUZ}.cpp -o ${LUZ}.o ${CPPFLAGS}
