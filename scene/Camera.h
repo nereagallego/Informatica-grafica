@@ -20,7 +20,7 @@
 
 using namespace std;
 
-const int NTHREADS = 20;
+const int NTHREADS = 24;
 
 struct Pixel {
     int x, y;
