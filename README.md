@@ -2,4 +2,4 @@
 
 RENDER
 
-https://raw.githubusercontent.com/801950/Informatica-grafica/pathtracer/cool_image.ppm
+![1028 pixels, 128 rays](/Informatica-grafica/pathtracer/cool_image.ppm?raw=true "Employee Data title")
