@@ -2,16 +2,12 @@
 
 Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int nPixelsw){
     _L = l;
-    cout << "L: " << _L << " mod: " << _L.modulo() << endl;
     _U = u;
-    cout << "U: " << _U << " mod: " << _U.modulo() << endl;
     _F = f;
     _O = o;
     _altura = _U.modulo() * 2/nPixelsh;
     _anchura = _L.modulo() * 2 / nPixelsw;
-    cout << _altura << " "  << _anchura << endl;
     _referenciaPixel = _O + _F + _L + _U;
-    cout << _referenciaPixel << endl;
     _nPixelsh = nPixelsh;
     _nPixelsw = nPixelsw;
 }
@@ -34,7 +30,6 @@ Direccion Camera::getF(){
 
 Imagen Camera::dibujar(){
     Imagen img(_nPixelsh, _nPixelsw,255,255);
-    cout << _nPixelsw << " "  << _nPixelsh << endl;
     srand (time(NULL));
     ConcurrentQueue<pair<int,int>> jobs;
     ConcurrentQueue<Pixel> result;
@@ -51,7 +46,6 @@ Imagen Camera::dibujar(){
     
     vector<thread> threads;  
     for (int i = 0; i<NTHREADS; i++) {
-        // threads.push_back(std::thread(&Camera::worker,std::ref(jobs),std::ref(result),std::ref(scene),nRays));
         threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays){ work(jobs,result,numRays); }, std::ref(jobs),std::ref(result),numRays));
     }
     //Wait for end
@@ -65,26 +59,9 @@ Imagen Camera::dibujar(){
         Pixel a = qresult.front();
 
         img._imagenHDR[a.x][a.y] = a.contribution;
-        //Set output.maxvalue to the max of average_rgb.r, average_rgb.g, average_rgb.b and output.maxvalue
-      //  output.max_value = (a.color.r>output.max_value) ? a.color.r : ((a.color.g>output.max_value) ? a.color.g : ((a.color.b>output.max_value) ? a.color.b : output.max_value));
-
         qresult.pop();
 
     }
-    // for(int i = 0; i < _nPixelsh; i ++){
-    //     for(int j = 0; j < _nPixelsw; j ++){
-    //         RGB Suma_Contribs;
-    //         for( int k = 0 ; k < numRays ; k++){
-
-            
-                
-                
-    //             Suma_Contribs = Suma_Contribs +  pathTracing(rayo,0,15);
-    //         }
-        
-    //         img._imagenHDR[i][j] = Suma_Contribs/float(numRays);
-    //     }
-    // }
     return img;
 }
 
@@ -100,7 +77,7 @@ void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &
             float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
             Punto centro(_referenciaPixel.getX()+r1+_anchura*n.second,_referenciaPixel.getY()-r2/2-_altura*n.first,_referenciaPixel.getZ());
             Ray rayo(centro-_O,_O);
-            suma = suma + pathTracing(rayo,0,15);
+            suma = suma + pathTracing(rayo);
         }
         
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
@@ -153,7 +130,6 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
             Intersect inter = p->intersect(rayoLuz);
             if (inter._intersect && inter._t < cercano._t && inter._t > 0)
             {
-                //cout << "intersecta" << endl;
                 cercano = inter;
             }
         }
@@ -176,8 +152,8 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 
 
 
-RGB Camera::pathTracing(Ray r, int n,const int i){
-    if(n > i) return RGB();
+RGB Camera::pathTracing(Ray r){
+  //  if(n > i) return RGB();
     RGB contribucion;
     Intersect cercano;
     cercano._intersect = false;
@@ -202,7 +178,6 @@ RGB Camera::pathTracing(Ray r, int n,const int i){
     RGB color_BSDF = get<1>(tupla); 
     if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
     
-  //  contribucion = contribucion + color_BSDF * pathTracing(Ray(dirRay,cercano._punto),n++,i);
-    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto),n++,i);
+    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto));
     return contribucion;
 }
