@@ -9,10 +9,10 @@ RGB Light::getPower(){
     return _power;
 }
 
-int Light::getPhotons(){
-    return _numberPhotons;
-}
+// int Light::getPhotons(){
+//     return _numberPhotons;
+// }
 
-void Light::setPhotons(int photons){
-    _numberPhotons = photons;
-}
+// void Light::setPhotons(int photons){
+//     _numberPhotons = photons;
+// }

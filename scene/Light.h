@@ -11,7 +11,6 @@ class Light
 private:
     Punto _center;
     RGB _power;
-    int _numberPhotons;
 public:
 
     /**
@@ -22,12 +21,11 @@ public:
      */
     Light(Punto center, RGB power): _center(center), _power(power) {};
 
-    Light(Punto center, RGB power, int nPhotons): _center(center), _power(power), _numberPhotons(nPhotons) {};
     Punto getCenter();
     RGB getPower();
 
-    int getPhotons();
-    void setPhotons(int photons);
+    // int getPhotons();
+    // void setPhotons(int photons);
 };
 
 
