@@ -8,3 +8,11 @@ Punto Light::getCenter(){
 RGB Light::getPower(){
     return _power;
 }
+
+int Light::getPhotons(){
+    return _numberPhotons;
+}
+
+void Light::setPhotons(int photons){
+    _numberPhotons = photons;
+}

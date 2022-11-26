@@ -96,6 +96,8 @@ public:
    
     double getRefractIndex() const;
     void setRefractIndex(double a);
+
+    
     /**
      * @brief evalua el coeficiente difuso
      * 
@@ -105,6 +107,8 @@ public:
      RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal);
 
     tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal);
+
+    
 };
 
 #endif

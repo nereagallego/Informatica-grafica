@@ -44,6 +44,9 @@ private:
     vector<shared_ptr<Primitive>> _primitives;
     vector<Light> _lights;
 
+    //photonMapping
+    double _numberPhotons = 100.0;
+
     
     float max(float a, float b, float c, float d) const;
 
@@ -61,6 +64,8 @@ public:
      * @param nPixelsw anchura en píxeles
      */
     Camera(Direccion l, Direccion u , Direccion f, Punto o, int nPixelsh, int nPixelsw);
+
+     Camera(Direccion l, Direccion u , Direccion f, Punto o, int nPixelsh, int nPixelsw, double numberPhotons);
 
     Direccion getL();
     Direccion getU();
@@ -108,6 +113,8 @@ public:
     RGB pathTracing(Ray r, int n,const int i);
 
     void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays);
+
+    RGB photonMapping();
 };
 
 

@@ -16,6 +16,23 @@ Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int
     _nPixelsw = nPixelsw;
 }
 
+Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int nPixelsw, double numberPhotons){
+    _L = l;
+    cout << "L: " << _L << " mod: " << _L.modulo() << endl;
+    _U = u;
+    cout << "U: " << _U << " mod: " << _U.modulo() << endl;
+    _F = f;
+    _O = o;
+    _altura = _U.modulo() * 2/nPixelsh;
+    _anchura = _L.modulo() * 2 / nPixelsw;
+    cout << _altura << " "  << _anchura << endl;
+    _referenciaPixel = _O + _F + _L + _U;
+    cout << _referenciaPixel << endl;
+    _nPixelsh = nPixelsh;
+    _nPixelsw = nPixelsw;
+    _numberPhotons = numberPhotons;
+}
+
 Punto Camera::getO(){
     return _O;
 }
@@ -205,4 +222,41 @@ RGB Camera::pathTracing(Ray r, int n,const int i){
   //  contribucion = contribucion + color_BSDF * pathTracing(Ray(dirRay,cercano._punto),n++,i);
     contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto),n++,i);
     return contribucion;
+}
+
+
+double fRand2(double fMin,double fMax){
+   std::uniform_real_distribution<double> unif(fMin,fMax);
+   std::default_random_engine re;
+   re.seed(rand()%10000);
+   double a_random_double = unif(re);
+   return a_random_double;
+}
+
+RGB Camera::photonMapping(){
+    //Recorrer las fuentes de luz y asignarles la cantidad de fotones
+    RGB total_lights(0,0,0);
+    for(Light l: _lights){
+        total_lights = total_lights + l.getPower();
+    }
+
+    double modulo_total = (total_lights.getRed()+total_lights.getGreen()+total_lights.getBlue());
+
+    // N*(p1/(p1+p2))
+    for(Light l: _lights){
+        double modulo_aux =(l.getPower().getRed()+l.getPower().getGreen()+l.getPower().getBlue());
+        l.setPhotons((modulo_aux/modulo_total)*_numberPhotons);
+        //Empezar el recorrido aleatorio de cada foton. Se lanza una rayo aleatorio en la esfera
+
+        // ESTO SERIA PARA UN SOLO FOTON, QUEDARIAN N-1
+        double theta = fRand2(0.0,1.0);
+        double phi = fRand2(0.0,1.0);
+        double thethaInverse = acos(sqrt(1-theta));
+        double phiInverse = 2 * M_PI * phi;
+        Direccion omegai = Direccion(sin(thethaInverse)*cos(phiInverse),sin(thethaInverse)*sin(phiInverse),cos(thethaInverse)).normalizar();
+         
+        Ray rayo(omegai,l.getCenter());
+    }
+
+
 }

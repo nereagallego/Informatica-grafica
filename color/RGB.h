@@ -42,6 +42,7 @@ class RGB{
     RGB operator -(RGB a);
     RGB operator *(RGB a);
     RGB operator /(RGB a);
+
         
     RGB operator +(double num);
     RGB operator -(double num);
