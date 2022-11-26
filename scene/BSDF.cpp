@@ -40,13 +40,7 @@ RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
     return diffuse + specular + refraction;
 }
 
-double fRand(double fMin,double fMax){
-   std::uniform_real_distribution<double> unif(fMin,fMax);
-   std::default_random_engine re;
-   re.seed(rand()%10000);
-   double a_random_double = unif(re);
-   return a_random_double;
-}
+
 
 tuple<Direccion, RGB> BSDF::sample(const Direccion omega0, const Punto x, const Direccion normal){
     Direccion sample;
@@ -65,8 +59,8 @@ tuple<Direccion, RGB> BSDF::sample(const Direccion omega0, const Punto x, const 
 }
 
 Direccion BSDF::diffuseEval(Punto x, Direccion omega0, Direccion normal){
-    double theta = fRand(0.0,1.0);
-    double phi = fRand(0.0,1.0);
+    double theta = Rand::fRand(0.0,1.0);
+    double phi = Rand::fRand(0.0,1.0);
     double thethaInverse = acos(sqrt(1-theta));
     double phiInverse = 2 * M_PI * phi;
 
@@ -89,7 +83,7 @@ Direccion BSDF::specularEval(Punto x, Direccion omega0, Direccion normal){
 }
 
 BSDFType BSDF::roussianRoulete() const {
-    double prob = fRand(0.0,1.0);
+    double prob = Rand::fRand(0.0,1.0);
     if(prob < _probDiffuse) return DIFFUSE;
     else if(prob < _probDiffuse + _probSpecular) return SPECULAR;
     else if(prob < _probDiffuse + _probSpecular + _probRefract) return REFRACTION;

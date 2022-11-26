@@ -13,7 +13,7 @@
 #include <vector>
 #include "Light.h"
 #include "BSDF.h"
-#include <random>
+#include "../math/rand.hpp"
 #include <thread>
 #include <mutex>
 #include "../accelerator/PoolThreads.h"
@@ -37,7 +37,6 @@ private:
     float _altura, _anchura;
     Punto _referenciaPixel;
     int numRays = 20;
-    mutex mtx;
 
     uint32_t threads;
 
