@@ -223,11 +223,10 @@ RGB Camera::photonMapping(){
         int numberPhotons = (modulo_aux/modulo_total)*_numberPhotons;
         //Empezar el recorrido aleatorio de cada foton. Se lanza una rayo aleatorio en la esfera
 
-        // ESTO SERIA PARA UN SOLO FOTON, QUEDARIAN N-1
         for(int i = 0; i < numberPhotons; i ++){
             double theta = Rand::fRand(0.0,1.0);
             double phi = Rand::fRand(0.0,1.0);
-            double thethaInverse = acos(sqrt(2*theta-1));
+            double thethaInverse = acos(2*theta-1);
             double phiInverse = 2 * M_PI * phi;
             Direccion omegai = Direccion(sin(thethaInverse)*cos(phiInverse),sin(thethaInverse)*sin(phiInverse),cos(thethaInverse)).normalizar();
             

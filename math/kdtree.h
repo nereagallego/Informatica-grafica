@@ -4,6 +4,13 @@
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include "Punto.h"
+#include "../color/RGB.h"
+#include "exception"
+#include "Photon.h"
+#include <list>
+
+
 
 namespace nn {
     
@@ -179,9 +186,17 @@ auto kdtree(const C& c, const A& ap) {
 
 
 template<std::size_t N, typename C>
-auto kdtree(const C& c, std::enable_if_t<std::is_arithmetic_v<std::decay_t<decltype(std::declval<typename C::value_type>()[0])>>>* sfinae = nullptr) {   
+
+auto kdtree(const C& c,std::enable_if_t<std::is_arithmetic<std::decay_t<decltype(std::declval <typename C::value_type>()[0])>>>* sfinae = nullptr) {   
     return kdtree<N>(c,RandomAccess());   
 } 
+
+// prueba
+template<std::size_t N, typename C>
+typename std::enable_if<std::is_arithmetic<bool>::value>
+auto kdtree(const C& c, std::enable_if_t<std::is_arithmetic<float>>) {   
+    return kdtree<N>(c,RandomAccess());   
+}
 
 template<typename C>
 auto kdtree(const C& c, std::enable_if_t<is_tuple<typename C::value_type>::value && 
@@ -203,3 +218,9 @@ auto kdtree(const C& c, std::enable_if_t<is_tuple<typename C::value_type>::value
     return kdtree<std::tuple_size_v<std::decay_t<decltype(std::get<0>(std::declval<typename C::value_type>()))>>>(c);
 }
 };
+
+//
+template<std::size_t N, typename C>
+auto kdtree(const C& c,std::enable_if_t<std::is_arithmetic<std::decay_t<decltype(std::declval <typename C::value_type>()[0])>>>* sfinae = nullptr) {   
+    return kdtree<N>(c,RandomAccess());   
+} 
