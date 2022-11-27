@@ -100,7 +100,7 @@ void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &
             float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
             Punto centro(_referenciaPixel.getX()+r1+_anchura*n.second,_referenciaPixel.getY()-r2/2-_altura*n.first,_referenciaPixel.getZ());
             Ray rayo(centro-_O,_O);
-            suma = suma + pathTracing(rayo,0,15);
+            suma = suma + pathTracing(rayo);
         }
         
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
@@ -176,8 +176,8 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 
 
 
-RGB Camera::pathTracing(Ray r, int n,const int i){
-    if(n > i) return RGB();
+RGB Camera::pathTracing(Ray r){
+   // if(n > i) return RGB();
     RGB contribucion;
     Intersect cercano;
     cercano._intersect = false;
@@ -203,7 +203,7 @@ RGB Camera::pathTracing(Ray r, int n,const int i){
     if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
     
   //  contribucion = contribucion + color_BSDF * pathTracing(Ray(dirRay,cercano._punto),n++,i);
-    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto),n++,i);
+    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto));
     return contribucion;
 }
 
@@ -235,5 +235,34 @@ RGB Camera::photonMapping(){
         
     }
 
+}
 
+RGB Camera::photonMapping2(Ray r, int nPhotons, RGB contributionLight){
+   
+    RGB contribucion;
+    Intersect cercano;
+    cercano._intersect = false;
+    cercano._t = INFINITY;
+
+    for(auto p : _primitives){
+        Intersect intersect = p->intersect(r); 
+        if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+            cercano = intersect;
+
+        }
+        
+    }
+
+    if( cercano._intersect ) {
+        //Se traza la luz directa y se obtiene su contribucion
+        contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
+    } else return RGB();
+
+    tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
+    Direccion dirRay = get<0>(tupla);
+    RGB color_BSDF = get<1>(tupla); 
+    if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
+    
+    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto));
+    return contribucion;
 }
