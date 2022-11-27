@@ -237,7 +237,7 @@ RGB Camera::photonMapping(){
 
 }
 
-RGB Camera::photonMapping2(Ray r, int nPhotons, RGB contributionLight){
+RGB Camera::photonTracer(Ray r, int nPhotons, RGB contributionLight){
    
     RGB contribucion;
     Intersect cercano;
@@ -255,14 +255,18 @@ RGB Camera::photonMapping2(Ray r, int nPhotons, RGB contributionLight){
 
     if( cercano._intersect ) {
         //Se traza la luz directa y se obtiene su contribucion
-        contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
+        tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
+        Direccion dirRay = get<0>(tupla);
+        RGB color_BSDF = get<1>(tupla);
+        if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB(); 
+        Ray newRay(dirRay,cercano._punto);
+        Photon p(cercano._punto, r.getDireccion(),contributionLight,cercano._normal);
+       // contribucion = contribucion + color_BSDF * photonTracer(Ray(dirRay,cercano._punto));
     } else return RGB();
 
-    tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
-    Direccion dirRay = get<0>(tupla);
-    RGB color_BSDF = get<1>(tupla); 
-    if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
     
-    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto));
+    
+    
+    
     return contribucion;
 }

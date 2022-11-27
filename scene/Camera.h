@@ -17,6 +17,7 @@
 #include <thread>
 #include <mutex>
 #include "../accelerator/PoolThreads.h"
+#include "../photonmapping/Photon.h"
 
 using namespace std;
 
@@ -115,7 +116,7 @@ public:
 
     RGB photonMapping();
 
-    RGB photonMapping2(Ray r, int nPhotons, RGB contributionLight);
+    RGB photonTracer(Ray r, int nPhotons, RGB contributionLight);
 };
 
 
