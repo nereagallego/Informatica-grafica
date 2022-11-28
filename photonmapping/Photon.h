@@ -16,9 +16,9 @@ class Photon{
     private:
         Punto _position;
         Direccion _incidentDir, _normal;
-        RGB _flux;
+        double _flux;
     public:
-        Photon(Punto pos, Direccion incidentDir, RGB flux, Direccion normal): _position(pos), _incidentDir(incidentDir), _flux(flux), _normal(normal){
+        Photon(Punto pos, Direccion incidentDir, double flux, Direccion normal): _position(pos), _incidentDir(incidentDir), _flux(flux), _normal(normal){
 
         }
 
@@ -28,6 +28,9 @@ class Photon{
             else if(i==2) return _position.getZ();
             else throw new logic_error("not found position");
         }
+
+        double getFlux() const { return _flux;}
+        void setFlux(double f) { _flux = f;}
    
 
 };

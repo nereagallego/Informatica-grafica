@@ -71,6 +71,8 @@ public:
     Direccion getU();
     Direccion getF();
     Punto getO();
+    vector<shared_ptr<Primitive>> getPrimitives()const { return _primitives;}
+    vector<Light> getLights() const{ return _lights;}
 
     /**
      * @brief Devuelve la imagen con las primitivas que se hayan introducido 
@@ -113,10 +115,6 @@ public:
     RGB pathTracing(Ray r);
 
     void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays);
-
-    RGB photonMapping();
-
-    RGB photonTracer(Ray r, int nPhotons, RGB contributionLight);
 };
 
 
