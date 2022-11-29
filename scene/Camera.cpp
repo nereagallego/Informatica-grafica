@@ -203,7 +203,7 @@ RGB Camera::pathTracing(Ray r){
     if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
     
   //  contribucion = contribucion + color_BSDF * pathTracing(Ray(dirRay,cercano._punto),n++,i);
-    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto));
+    contribucion = contribucion + color_BSDF * pathTracing(Ray(dirRay,cercano._punto));
     return contribucion;
 }
 
