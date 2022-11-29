@@ -1,8 +1,8 @@
 #ifndef PHOTON_HPP
 #define PHOTON_HPP
 #include <stdlib.h>
-#include "Direccion.h"
-#include "Punto.h"
+#include "../math/Direccion.h"
+#include "../math/Punto.h"
 #include <iostream>
 #include "../color/RGB.h"
 using namespace std;

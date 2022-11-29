@@ -1,3 +1,4 @@
+#pragma once
 #include <random>
 namespace Rand{
     double fRand(double fMin,double fMax){
