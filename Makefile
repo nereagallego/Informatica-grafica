@@ -12,7 +12,7 @@ RM = /bin/rm -f  # para limpiar
 CC = g++         # compilador
 #---------------------------------------------------------
 # opciones compilación y enlazado ("linkado")
-CPPFLAGS = -std=c++11 -g# opciones compilación  # opciones de "linkado"
+CPPFLAGS = -std=c++17 -g# opciones compilación  # opciones de "linkado"
 LDFLAGS  = -pthread
 #---------------------------------------------------------
 # vars
@@ -24,6 +24,7 @@ GEO=./geometry
 IMAGE=./image
 MATH=./math
 SCENE=./scene
+PHOTONMAPPER=./photonmapping
 PUNTO=${MATH}/Punto
 DIRECCION=${MATH}/Direccion
 MATRIZ=${MATH}/Matrix4
@@ -39,13 +40,15 @@ PRIMITIVE=${GEO}/Primitive
 CAMERA=${SCENE}/Camera
 LUZ=${SCENE}/Light
 BSDF=${SCENE}/BSDF
+PHOTONMAPPING=${PHOTONMAPPER}/photonmapping
+KDTREE=${PHOTONMAPPER}/kdtree
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${PHOTONMAPPING}.o ${KDTREE}.o
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${PHOTONMAPPING}.o ${KDTREE}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -91,9 +94,15 @@ ${LUZ}.o: ${LUZ}.h ${LUZ}.cpp
 ${BSDF}.o: ${BSDF}.h ${BSDF}.cpp
 	${CC} -c ${BSDF}.cpp -o ${BSDF}.o ${CPPFLAGS}
 
+${KDTREE}.o: ${KDTREE}.h ${KDTREE}.cpp 
+	${CC} -c ${KDTREE}.cpp -o ${KDTREE}.o ${CPPFLAGS}
+
+${PHOTONMAPPING}.o: ${PHOTONMAPPING}.h ${PHOTONMAPPING}.cpp 
+	${CC} -c ${PHOTONMAPPING}.cpp -o ${PHOTONMAPPING}.o ${CPPFLAGS}
+
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o
+	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${KDTREE}.o  ${PHOTONMAPPING}.o
