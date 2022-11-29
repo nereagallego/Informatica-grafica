@@ -28,6 +28,7 @@ vector<Photon> PhotonMapping::ScatterPhotons(Light l, int nPhotons){
         if( cercano._intersect ) {
 
             Photon p(cercano._punto, r.getDireccion(),l.getLuminance(),cercano._normal);
+            photons.push_back(p);
         }
         shots ++;
     }
