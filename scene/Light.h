@@ -3,7 +3,7 @@
 
 #include "../math/Punto.h"
 #include "../color/RGB.h"
-#include "../math/rand.hpp"
+#include "../math/rand.h"
 
 using namespace std;
 

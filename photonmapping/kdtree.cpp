@@ -6,12 +6,14 @@ Description :   This is an example of usage of the KDTree class. It does not
 
 
 #include "kdtree.h"
+#include "../math/Punto.h"
+#include "Photon.h"
 
 /* 
     An additional struct that allows the KD-Tree to access your photon position
 */
 struct PhotonAxisPosition {
-    float operator()(const Photon& p, std::size_t i) const {
+    float operator()(const Photon& p, std::size_t i) const noexcept{
         return p.position(i);
     }
 };

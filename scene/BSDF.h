@@ -5,7 +5,7 @@
 #include "../math/Direccion.h"
 #include "../math/Punto.h"
 #include <cmath>
-#include "../math/rand.hpp"
+#include "../math/rand.h"
 #include <tuple>
 #include "../math/Matrix4.h"
 #include "../math/CoordenadasHomogeneas.h"

@@ -4,10 +4,7 @@
 #include <array>
 #include <algorithm>
 #include <cmath>
-#include "../math/Punto.h"
-#include "../color/RGB.h"
 #include "exception"
-#include "Photon.h"
 #include <list>
 
 
@@ -186,8 +183,8 @@ auto kdtree(const C& c, const A& ap) {
 
 
 template<std::size_t N, typename C>
-auto kdtree(const C& c,std::enable_if_t<std::is_arithmetic<std::decay_t<decltype(std::declval <typename C::value_type>()[0])>>>* sfinae = nullptr) {   
-    return KDTree<N>(c,RandomAccess());   
+auto kdtree(const C& c,std::enable_if_t<std::is_arithmetic_v<std::decay_t<decltype(std::declval <typename C::value_type>()[0])>>>* sfinae = nullptr) {   
+    return kdtree<N>(c,RandomAccess());   
 } 
 
 // prueba

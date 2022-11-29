@@ -42,13 +42,14 @@ LUZ=${SCENE}/Light
 BSDF=${SCENE}/BSDF
 PHOTONMAPPING=${PHOTONMAPPER}/photonmapping
 KDTREE=${PHOTONMAPPER}/kdtree
+RAND=${MATH}/rand
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${PHOTONMAPPING}.o ${KDTREE}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${PHOTONMAPPING}.o ${KDTREE}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o  ${KDTREE}.o ${RAND}.o ${PHOTONMAPPING}.o 
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${KDTREE}.o ${RAND}.o ${PHOTONMAPPING}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -97,6 +98,9 @@ ${BSDF}.o: ${BSDF}.h ${BSDF}.cpp
 ${KDTREE}.o: ${KDTREE}.h ${KDTREE}.cpp 
 	${CC} -c ${KDTREE}.cpp -o ${KDTREE}.o ${CPPFLAGS}
 
+${RAND}.o: ${RAND}.h ${RAND}.cpp 
+	${CC} -c ${RAND}.cpp -o ${RAND}.o ${CPPFLAGS}
+
 ${PHOTONMAPPING}.o: ${PHOTONMAPPING}.h ${PHOTONMAPPING}.cpp 
 	${CC} -c ${PHOTONMAPPING}.cpp -o ${PHOTONMAPPING}.o ${CPPFLAGS}
 
@@ -105,4 +109,4 @@ ${EJEC}.o: ${EJEC}.cpp
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${KDTREE}.o  ${PHOTONMAPPING}.o
+	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${KDTREE}.o  ${PHOTONMAPPING}.o ${RAND}.o

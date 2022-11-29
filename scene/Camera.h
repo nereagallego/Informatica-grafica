@@ -13,7 +13,6 @@
 #include <vector>
 #include "Light.h"
 #include "BSDF.h"
-#include "../math/rand.hpp"
 #include <thread>
 #include <mutex>
 #include "../accelerator/PoolThreads.h"
@@ -73,6 +72,8 @@ public:
     Punto getO();
     vector<shared_ptr<Primitive>> getPrimitives()const { return _primitives;}
     vector<Light> getLights() const{ return _lights;}
+    int getNPixelsH() const { return _nPixelsh;}
+    int getHPixelsW() const { return _nPixelsw;}
 
     /**
      * @brief Devuelve la imagen con las primitivas que se hayan introducido 

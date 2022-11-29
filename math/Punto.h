@@ -77,6 +77,12 @@ class Punto{
 
     float operator *(const Direccion d);
 
+    float operator [](const int i) const{
+        if(i == 0) return _x;
+        else if(i == 1) return _y;
+        else return _z;
+    }
+
 };
 
 #endif
