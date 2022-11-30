@@ -107,16 +107,18 @@ float Camera::max(const float a, const float b, const float c, const float d) co
     }
 }
 
-void Camera::addLight(Light l){
+void Camera::addLight(shared_ptr<Light> l){
     _lights.push_back(l);
     cout << "cantidad de luces " << _lights.size() << endl;
 }
 
 RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection){
     RGB contribucion;
-    for(auto l : _lights){
+    for(shared_ptr<Light> l : _lights){
+        shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
+        if(aL != nullptr) cout << "Es un area Light" << endl;
         //cout << "calculo la contribucion de luz" << endl;
-        Direccion dir = l.getCenter() - intersection._punto;
+        Direccion dir = l->getCenter() - intersection._punto;
         Direccion rayoLuzDirection = dir.normalizar();
         Ray rayoLuz(rayoLuzDirection, intersection._punto);
 
@@ -138,7 +140,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 
         RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
 
-        RGB first = l.getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
+        RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
 
         RGB contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
 

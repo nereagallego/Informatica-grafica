@@ -17,6 +17,7 @@
 #include <thread>
 #include <mutex>
 #include "../accelerator/PoolThreads.h"
+#include "AreaLight.h"
 
 using namespace std;
 
@@ -42,7 +43,7 @@ private:
     uint32_t threads;
 
     vector<shared_ptr<Primitive>> _primitives;
-    vector<Light> _lights;
+    vector<shared_ptr<Light>> _lights;
 
     
     float max(float a, float b, float c, float d) const;
@@ -87,7 +88,7 @@ public:
      * 
      * @param l 
      */
-    void addLight(Light l);
+    void addLight(shared_ptr<Light> l);
 
     /**
      * @brief Calcular la luz directa
