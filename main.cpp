@@ -15,6 +15,9 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
+  if(argc < 2) cout << "uso: ./main <nombre_fichero>" << endl;
+  else{
+    string filename = argv[1];
   /*
     cout << "entro en main" << endl;
     Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
@@ -92,10 +95,10 @@ int main(int argc, char *argv[]){
     backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
 
     auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    leftSphere->setEmision(BSDF(RGB(0.25,0,0.15), RGB(), RGB()));
+    leftSphere->setEmision(BSDF(RGB(0.55,0,0.65), RGB(), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    rightSphere->setEmision(BSDF(RGB(0.1,0.1,0.1), RGB(), RGB()));
+    rightSphere->setEmision(BSDF(RGB(0,0,0.8), RGB(), RGB()));
     
     Light lightPoint(Punto(0,0.5,0),RGB(0.3,0.3,0.3));
 
@@ -109,11 +112,16 @@ int main(int argc, char *argv[]){
     cam.addPrimitive(leftSphere);
     cam.addPrimitive(rightSphere);
 
-    PhotonMapping photonMap(cam,100);
-    Imagen img = photonMap.photonMapping();
+    PhotonMapping photonMap(cam,1000000);
+    Imagen gen = photonMap.photonMapping();
+
+    Imagen res = ToneMapping::gammaCurve(gen,2.2);
+    res.exportFile(filename);
+
 
     //cam.addPrimitive(rightTriangle);
     // cout << "añado primitivas" << endl;
-    
+  }
     return 0;
+  
 }

@@ -31,6 +31,7 @@ class Photon{
 
         RGB getFlux() const { return _flux;}
         void setFlux(RGB f) { _flux = f;}
+        Direccion getIncidentDirection() const { return _incidentDir; }
    
 
 };

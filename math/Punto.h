@@ -81,7 +81,7 @@ class Punto{
         if(i == 0) return _x;
         else if(i == 1) return _y;
         else if(i == 2) return _z;
-        else return;
+        else throw logic_error("not position point");
     }
 
 };

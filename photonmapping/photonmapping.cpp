@@ -1,5 +1,7 @@
 #include "photonmapping.h"
 
+
+
 vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direccion dirRayo){
     vector<Photon> photons;
     //Si la energía es 0, absorbe
@@ -120,6 +122,48 @@ Imagen PhotonMapping::photonMapping(){
 
     // añadir los fotones al kdtree
     PhotonMap fotonmap= generation_photon_map(photons);
+
+    /*********************************POST**********************/
+    float progress = 0.0;
+    std::cout << "[";
+    float bar = 10 * _cam.getNPixelsH() * _cam.getHPixelsW() / 10;
+    for(int i = 0; i < _cam.getNPixelsH(); i ++){
+        for(int j = 0; j < _cam.getHPixelsW(); j ++){
+            //Se crea un rayo aleatorio por pixel de la imagen
+            float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAnchura()));
+            float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAltura()));
+            Punto centro(_cam.getReferencia().getX()+r1+_cam.getAnchura()*j,_cam.getReferencia().getY()-r2/2-_cam.getAltura()*i,_cam.getReferencia().getZ());
+            Ray rayo(centro-_cam.getO(),_cam.getO());
+            RGB contribucion;
+            Intersect cercano;
+            cercano._intersect = false;
+            cercano._t = INFINITY;
+
+            for(auto p : _cam.getPrimitives()){
+                Intersect intersect = p->intersect(rayo); 
+                if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+                    cercano = intersect;
+
+                }
+                
+            }
+            float radius = 0.01;
+            if( cercano._intersect ) {
+                auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+                RGB contribucion;
+                //Utiliza box-kernel para la estimación
+                for(auto photon : v){
+                    RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
+                    contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI *radius);
+                }
+                img._imagenHDR[i][j] = contribucion;
+            } else {
+                img._imagenHDR[i][j] = RGB();
+            }
+           // if(i*)
+        }
+    }
+
 
     return img;
 }

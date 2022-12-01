@@ -71,10 +71,12 @@ public:
     Direccion getF();
     Punto getO();
     vector<shared_ptr<Primitive>> getPrimitives()const { return _primitives;}
-    vector<Light> getLights() const{ return _lights;}
-    int getNPixelsH() const { return _nPixelsh;}
-    int getHPixelsW() const { return _nPixelsw;}
-
+    vector<Light> getLights() const{ return _lights; }
+    int getNPixelsH() const { return _nPixelsh; }
+    int getHPixelsW() const { return _nPixelsw; }
+    float getAnchura() const { return _anchura; }
+    float getAltura() const { return _altura; }
+    Punto getReferencia() const { return _referenciaPixel;}
     /**
      * @brief Devuelve la imagen con las primitivas que se hayan introducido 
      * previamente
