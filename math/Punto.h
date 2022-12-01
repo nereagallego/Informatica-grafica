@@ -80,7 +80,8 @@ class Punto{
     float operator [](const int i) const{
         if(i == 0) return _x;
         else if(i == 1) return _y;
-        else return _z;
+        else if(i == 2) return _z;
+        else return;
     }
 
 };
