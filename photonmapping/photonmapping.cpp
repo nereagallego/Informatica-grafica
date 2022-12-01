@@ -76,8 +76,9 @@ vector<Photon> PhotonMapping::ScatterPhotons(Light l, int nPhotons){
             for(Photon ph : rebotes){
                 photons.push_back(ph);
             }
+            i++;
         }
-        i++;
+        
     }
     return photons;
 }
@@ -124,9 +125,10 @@ Imagen PhotonMapping::photonMapping(){
     PhotonMap fotonmap= generation_photon_map(photons);
 
     /*********************************POST**********************/
-    float progress = 0.0;
+    
     std::cout << "[";
-    float bar = 10 * _cam.getNPixelsH() * _cam.getHPixelsW() / 10;
+    float bar = 5 * _cam.getNPixelsH() * _cam.getHPixelsW() / 100;
+    float progress = bar;
     for(int i = 0; i < _cam.getNPixelsH(); i ++){
         for(int j = 0; j < _cam.getHPixelsW(); j ++){
             //Se crea un rayo aleatorio por pixel de la imagen
@@ -160,9 +162,13 @@ Imagen PhotonMapping::photonMapping(){
             } else {
                 img._imagenHDR[i][j] = RGB();
             }
-           // if(i*)
+            if(i*_cam.getHPixelsW() + j >= progress) {
+                cout << "=";
+                progress +=bar;
+            }
         }
     }
+    cout << "]"<< endl;
 
 
     return img;
