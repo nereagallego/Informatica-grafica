@@ -17,6 +17,8 @@ public:
     }
 
     virtual ~AreaLight() { /* whatever goes here, or nothing... */ }
+    Direccion getNormal() { return _p.getNormal();}
+    float getDistancia() { return _p.getDistancia();}
 
     Intersect intersect(Ray r) {
         Intersect s;

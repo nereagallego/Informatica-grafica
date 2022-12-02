@@ -116,7 +116,9 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
     RGB contribucion;
     for(shared_ptr<Light> l : _lights){
         shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
-        if(aL != nullptr) cout << "Es un area Light" << endl;
+        
+       // if(aL != nullptr) cout << "Es un area Light" << endl;
+        //else cout << "No es un area light" << endl;
         //cout << "calculo la contribucion de luz" << endl;
         Direccion dir = l->getCenter() - intersection._punto;
         Direccion rayoLuzDirection = dir.normalizar();
@@ -135,17 +137,31 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
                 cercano = inter;
             }
         }
+        RGB contribucionLuz;
         
-        double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
-
-        RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
-
-        RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
-
-        RGB contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
+        
 
         if (!cercano._intersect)
         {
+            if(aL != nullptr){
+                Direccion f = aL->getCenter() - intersection._punto;
+                RGB first = aL->getPower() / (f*f);
+                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,f.normalizar(),intersection._normal);
+
+                double contribucionGeometrica1 = abs(intersection._normal* f.normalizar());
+                Direccion d = intersection._punto - aL->getCenter();
+                double contribucionGeometrica2 = abs(aL->getNormal() * d / f.modulo());
+                contribucionLuz = first * contribucionMaterial * contribucionGeometrica1 * contribucionGeometrica2;
+
+            } else {
+                double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
+
+                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
+
+                RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
+
+                contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
+            }
             contribucion = contribucion + contribucionLuz;
         } 
     }
@@ -160,6 +176,18 @@ RGB Camera::pathTracing(Ray r){
     Intersect cercano;
     cercano._intersect = false;
     cercano._t = INFINITY;
+    for(shared_ptr<Light> l : _lights){
+        shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
+        if(aL != nullptr){
+            Intersect inter  = aL->intersect(r);
+            if(inter._intersect){
+               // cout << "Intersecta con el area Light" << endl;
+                return aL->getPower();
+            }
+            
+            
+        }
+    }
 
     for(auto p : _primitives){
         Intersect intersect = p->intersect(r); 
