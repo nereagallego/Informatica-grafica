@@ -144,16 +144,16 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
         if (!cercano._intersect)
         {
             if(aL != nullptr){
-                Direccion f = aL->getCenter() - intersection._punto;
-                RGB first = aL->getPower() / (f*f);
-                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,f.normalizar(),intersection._normal);
+            //    Direccion f = aL->getCenter() - intersection._punto;
+                RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());;
+                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
 
-                double contribucionGeometrica1 = abs(intersection._normal* f.normalizar());
-                Direccion d = intersection._punto - aL->getCenter();
-                double contribucionGeometrica2 = abs(aL->getNormal() * d / f.modulo());
-                contribucionLuz = first * contribucionMaterial * contribucionGeometrica1 * contribucionGeometrica2;
+            //    double contribucionGeometrica1 = abs(intersection._normal* f.normalizar());
+            //    Direccion d = intersection._punto - aL->getCenter();
+                double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar()) * abs(aL->getNormal() * rayoLuzDirection.normalizar()*-1);
+                contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
 
-            } else {
+           } else {
                 double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
 
                 RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
