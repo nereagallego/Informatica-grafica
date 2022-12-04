@@ -38,8 +38,8 @@ int main(int argc, char *argv[]){
       auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
       rightSphere->setEmision(BSDF(RGB(0.1,0.1,0.1), RGB(), RGB(0, 0, 0.7),1.5));
       
-     // Light lightPoint(Punto(0,0.5,0),RGB(0.3,0.3,0.3));
-     auto lightPoint = make_shared<AreaLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(0.3,1,0.3),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
+    // auto lightPoint = make_shared<Light>(Punto(0,0.5,0),RGB(0.3,0.3,0.3));
+      auto lightPoint = make_shared<AreaLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(0.3,0.3,0.3),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
     // auto lightPoint = make_shared<AreaLight>(Direccion(0,-1,0),0.5,Punto(0,0.5,0),RGB(0.3,0.5,0.3),Punto(-0.5,0.5,-0.5),Punto(-0.5,0.5,0.5),Punto(0.5,0.5,0.5),Punto(0.5,0.5,-0.5));
 
 
