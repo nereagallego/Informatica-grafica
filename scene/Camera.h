@@ -37,7 +37,7 @@ private:
     int _nPixelsh, _nPixelsw;
     float _altura, _anchura;
     Punto _referenciaPixel;
-    int numRays = 128;
+    int numRays = 1280;
     mutex mtx;
 
     uint32_t threads;
@@ -108,7 +108,7 @@ public:
      */
     RGB pathTracing(Ray r);
 
-    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays);
+    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x);
 };
 
 

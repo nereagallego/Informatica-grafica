@@ -33,7 +33,9 @@ Imagen Camera::dibujar(){
     srand (time(NULL));
     ConcurrentQueue<pair<int,int>> jobs;
     ConcurrentQueue<Pixel> result;
-
+    int x = 10*_nPixelsh * _nPixelsw / 100;
+    cout << "[" ;
+    cout.flush();
     for(int i = 0; i < _nPixelsh; i ++){
         for(int j = 0; j < _nPixelsw; j ++){
             jobs.push(make_pair(i, j));
@@ -46,12 +48,16 @@ Imagen Camera::dibujar(){
     
     vector<thread> threads;  
     for (int i = 0; i<NTHREADS; i++) {
-        threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays){ work(jobs,result,numRays); }, std::ref(jobs),std::ref(result),numRays));
+        threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x){ work(jobs,result,numRays, x); }, std::ref(jobs),std::ref(result),numRays,x));
     }
+
     //Wait for end
     for (auto &th : threads) {
         th.join();
     }
+
+    cout << "]" << endl;
+    cout.flush();
 
     queue<Pixel> qresult = result.getQueue();
     while (!qresult.empty())
@@ -65,10 +71,11 @@ Imagen Camera::dibujar(){
     return img;
 }
 
-void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays)
+void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x)
 {
     pair<int, int> n;
     n = jobs.pop();
+    int acum = x;
     while (n.first >= 0 && n.second >= 0) //A value less than 0 marks the end of the list
     {
         RGB suma;
@@ -83,6 +90,8 @@ void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
         Pixel calculated = {n.first,n.second,suma/nRays};
         result.push(calculated);
+        if(n.first*_nPixelsw + n.second == acum - 1){ cout << "="; cout.flush(); }
+        else if(n.first*_nPixelsw + n.second > acum - 1) acum = acum + x;
         n = jobs.pop();
     }
     return;
