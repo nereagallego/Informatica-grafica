@@ -5,7 +5,7 @@
 
 using namespace std;
 
-STL::STL(const char* path, Punto center, float scale, RGB emission)
+STL::STL(const char* path, Punto center, float scale, BSDF emission)
 {
     stl_reader::ReadStlFile(path, coordsSTL, normalsSTL, trisSTL, solidRangesSTL);
 

@@ -40,13 +40,14 @@ CAMERA=${SCENE}/Camera
 LUZ=${SCENE}/Light
 BSDF=${SCENE}/BSDF
 RAND=${MATH}/rand
+STL=${GEO}/Stl
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -95,9 +96,12 @@ ${BSDF}.o: ${BSDF}.h ${BSDF}.cpp
 ${RAND}.o: ${RAND}.h ${RAND}.cpp
 	${CC} -c ${RAND}.cpp -o ${RAND}.o ${CPPFLAGS}
 
+${STL}.o: ${STL}.h ${STL}.cpp
+	${CC} -c ${STL}.cpp -o ${STL}.o ${CPPFLAGS}
+
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o
+	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o

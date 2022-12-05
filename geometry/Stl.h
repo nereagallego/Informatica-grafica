@@ -15,7 +15,7 @@ class STL : public Primitive {
         std::vector<Triangulo> tris;
         
     STL();
-    STL(const char* path, Punto center, float scale, RGB emission);
+    STL(const char* path, Punto center, float scale, BSDF emission);
 
     Intersect intersect(Ray r) override;
 
