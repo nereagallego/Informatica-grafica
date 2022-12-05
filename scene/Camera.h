@@ -37,7 +37,7 @@ private:
     int _nPixelsh, _nPixelsw;
     float _altura, _anchura;
     Punto _referenciaPixel;
-    int numRays = 1280;
+    int numRays = 128;
     mutex mtx;
 
     uint32_t threads;
