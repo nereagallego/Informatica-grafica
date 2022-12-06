@@ -87,7 +87,7 @@ int main(int argc, char *argv[]){
       auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
       backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
 
-      auto stlTest = make_shared<STL>("resources/chair.stl",Punto(-0.5,-0.7,0.25),0.8,BSDF(RGB(0.0,0.5,1), RGB(), RGB()));
+      auto stlTest = make_shared<STL>("resources/chair.stl",Punto(-0.5,-0.7,0.25),0.5,BSDF(RGB(0.0,0.5,1), RGB(), RGB()));
      
 
       auto lightPoint = make_shared<Light>(Punto(0,0,0.8),RGB(0.3,0.3,0.3));
