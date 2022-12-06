@@ -63,6 +63,10 @@ public:
      * @return float 
      */
     Intersect intersect(Ray r);
+
+    Triangulo rotateX(float rad);
+    Triangulo rotateY(float rad);
+    Triangulo rotateZ(float rad);
 };
 
 

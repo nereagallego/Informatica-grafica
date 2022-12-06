@@ -66,3 +66,48 @@ Intersect Triangulo::intersect(Ray r) {
     s._normal = this->getNormal();
     return s;
 }
+
+//Rota en el eje X el triangulo. Para ello rota los 3 puntos que lo componen y lo vuelve a hacer
+Triangulo Triangulo::rotateX(float rad){
+    CoordenadasHomogeneas aux1(getX());
+    CoordenadasHomogeneas aux2(getY());
+    CoordenadasHomogeneas aux3(getZ());
+
+    aux1 = aux1.rotacionX(rad);
+    aux2 = aux2.rotacionX(rad);
+    aux3 = aux3.rotacionX(rad);
+
+    return Triangulo(aux1.punto(),aux2.punto(),aux3.punto());
+
+
+}
+
+//Rota en el eje Y el triangulo. Para ello rota los 3 puntos que lo componen y lo vuelve a hacer
+Triangulo Triangulo::rotateY(float rad){
+    CoordenadasHomogeneas aux1(getX());
+    CoordenadasHomogeneas aux2(getY());
+    CoordenadasHomogeneas aux3(getZ());
+
+    aux1 = aux1.rotacionY(rad);
+    aux2 = aux2.rotacionY(rad);
+    aux3 = aux3.rotacionY(rad);
+
+    return Triangulo(aux1.punto(),aux2.punto(),aux3.punto());
+
+
+}
+
+//Rota en el eje Z el triangulo. Para ello rota los 3 puntos que lo componen y lo vuelve a hacer
+Triangulo Triangulo::rotateZ(float rad){
+    CoordenadasHomogeneas aux1(getX());
+    CoordenadasHomogeneas aux2(getY());
+    CoordenadasHomogeneas aux3(getZ());
+
+    aux1 = aux1.rotacionZ(rad);
+    aux2 = aux2.rotacionZ(rad);
+    aux3 = aux3.rotacionZ(rad);
+
+    return Triangulo(aux1.punto(),aux2.punto(),aux3.punto());
+
+
+}

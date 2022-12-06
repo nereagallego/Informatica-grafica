@@ -18,12 +18,17 @@ class STL : public Primitive {
     STL(const char* path, Punto center, float scale, BSDF emission);
 
     Intersect intersect(Ray r) override;
+    //vector<Triangulo> getTris();
+    STL rotateX(float rad);
+    STL rotateY(float rad);
+    STL rotateZ(float rad);
 
     private:
         std::vector<float> coordsSTL;
         std::vector<float> normalsSTL;
         std::vector<int> trisSTL;
         std::vector<int> solidRangesSTL;
+
 };
 
 std::ostream& operator << (std::ostream& os, const STL& obj);

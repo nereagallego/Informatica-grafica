@@ -3,6 +3,7 @@
 
 
 
+
 using namespace std;
 
 STL::STL(const char* path, Punto center, float scale, BSDF emission)
@@ -38,4 +39,29 @@ Intersect STL::intersect(Ray r) {
         }
     }
     return res;
+}
+
+/*
+vector<Triangulo> STL::getTris()
+{
+    return tris;
+}
+*/
+
+STL STL::rotateX(float rad){
+    for (int i = 0; i < tris.size(); i++){
+        tris[i].rotateX(rad);
+    }
+}
+
+STL STL::rotateY(float rad){
+    for (int i = 0; i < tris.size(); i++){
+        tris[i].rotateY(rad);
+    }
+}
+
+STL STL::rotateZ(float rad){
+    for (int i = 0; i < tris.size(); i++){
+        tris[i].rotateZ(rad);
+    }
 }
