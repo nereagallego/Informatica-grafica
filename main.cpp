@@ -89,8 +89,12 @@ int main(int argc, char *argv[]){
 
       auto stlTest = make_shared<STL>("resources/chair.stl",Punto(-0.5,-0.7,0.25),0.20,BSDF(RGB(0.0,0.5,1), RGB(), RGB()));
      
-     //Rotamos la silla para que se vea bien
-      
+     /*//Rotamos la silla para que se vea bien
+      STL aux = *stlTest;
+      cout << "Paso de aqui" << endl;
+      aux.rotateY(M_PI/2);
+      stlTest = make_shared<STL>(aux);
+*/
 
 
       auto lightPoint = make_shared<Light>(Punto(0,0,0.8),RGB(0.3,0.3,0.3));

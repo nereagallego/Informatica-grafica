@@ -17,6 +17,18 @@ STL::STL(const char* path, Punto center, float scale, BSDF emission)
         for(size_t icorner = 0; icorner < 3; ++icorner) {
             float* c = &coordsSTL[3 * trisSTL[3 * itri + icorner]];
             p[icorner] = Punto(c[0]*scale,c[1]*scale,c[2]*scale)+translation;
+            //Rotar
+            CoordenadasHomogeneas paux(p[icorner]);
+            CoordenadasHomogeneas protate = paux.rotacionY(M_PI/2);
+            protate = protate.rotacionX(M_PI/2);
+           /*
+            cout << "------------------"<< endl;
+            cout << p[icorner];
+            cout << endl;
+            cout << protate.punto();
+            cout << "------------------"<< endl;
+            */
+            p[icorner] = protate.punto();
         }
         tris.push_back(Triangulo(p[0],p[1],p[2],emission));
     }
@@ -55,9 +67,16 @@ STL STL::rotateX(float rad){
 }
 
 STL STL::rotateY(float rad){
+    std::vector<Triangulo> auxV;
+    //cout << "Tamaño es :" << tris.size()<< endl;
     for (int i = 0; i < tris.size(); i++){
-        tris[i].rotateY(rad);
+        BSDF emision = tris[i].getEmision();
+        Triangulo aux = tris[i].rotateY(rad);
+        auxV.push_back(Triangulo(aux.getX(),aux.getY(),aux.getZ(),emision));
+        //cout << "Iteracion" << endl;
+        //cout << "Tamaño i:" << i << endl;
     }
+    tris = auxV;
 }
 
 STL STL::rotateZ(float rad){
