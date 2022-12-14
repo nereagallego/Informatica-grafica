@@ -8,6 +8,7 @@ Description :   This is an example of usage of the KDTree class. It does not
 #include "kdtree.h"
 #include "../math/Punto.h"
 #include "Photon.h"
+#include <list>
 
 /* 
     An additional struct that allows the KD-Tree to access your photon position

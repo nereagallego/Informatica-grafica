@@ -149,7 +149,7 @@ Imagen PhotonMapping::photonMapping(){
                 }
                 
             }
-            float radius = 0.01;
+            float radius = 0.02;
             if( cercano._intersect ) {
                 auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
                 RGB contribucion;

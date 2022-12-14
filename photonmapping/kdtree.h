@@ -4,10 +4,6 @@
 #include <array>
 #include <algorithm>
 #include <cmath>
-#include "exception"
-#include <list>
-
-
 
 namespace nn {
     
@@ -85,7 +81,7 @@ private:
             std::size_t median = (right+left)/2;
             //We find the larger axis
             std::size_t axis = 0; real max_bound = bbmax[0]-bbmin[0];
-            for (std::size_t i = 1;i<N;++i) if ((bbmax[i]-bbmin[i])<max_bound) {
+            for (std::size_t i = 1;i<N;++i) if ((bbmax[i]-bbmin[i])>max_bound) {
                 axis = i; max_bound = bbmax[i]-bbmin[i];
             }
             //Partial ordering over that axis (median contains the median, to the left are smaller, to the right are greater)
@@ -183,16 +179,9 @@ auto kdtree(const C& c, const A& ap) {
 
 
 template<std::size_t N, typename C>
-auto kdtree(const C& c,std::enable_if_t<std::is_arithmetic_v<std::decay_t<decltype(std::declval <typename C::value_type>()[0])>>>* sfinae = nullptr) {   
+auto kdtree(const C& c, std::enable_if_t<std::is_arithmetic_v<std::decay_t<decltype(std::declval<typename C::value_type>()[0])>>>* sfinae = nullptr) {   
     return kdtree<N>(c,RandomAccess());   
 } 
-
-// prueba
-// template<std::size_t N, typename C>
-// typename std::enable_if<std::is_arithmetic<bool>::value>
-// auto kdtree(const C& c, std::enable_if_t<std::is_arithmetic<float>>) {   
-//     return kdtree<N>(c,RandomAccess());   
-// }
 
 template<typename C>
 auto kdtree(const C& c, std::enable_if_t<is_tuple<typename C::value_type>::value && 
