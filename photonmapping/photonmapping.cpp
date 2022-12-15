@@ -160,7 +160,6 @@ Imagen PhotonMapping::photonMapping(){
                 float radius = 0.08;
                 if( cercano._intersect ) {
                     auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
-                    RGB contribucion;
                     //Utiliza box-kernel para la estimación
                     for(auto photon : v){
                         tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(photon->getIncidentDirection(),cercano._punto,cercano._normal);
@@ -171,7 +170,7 @@ Imagen PhotonMapping::photonMapping(){
                         if(type==DIFFUSE || type == ABSORTION){
                             contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
                         } else {
-                            contribucionMaterial = _cam.pathTracing(Ray(dirRay,cercano._punto));
+                            contribucionMaterial = _cam.pathTracing(rayo);
                         }
                         
                         // gaussian kernel ?

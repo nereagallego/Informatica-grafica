@@ -98,7 +98,7 @@ int main(int argc, char *argv[]){
     leftSphere->setEmision(BSDF(RGB(0.1,0.1,0.1), RGB(0.9,0.9,0.9), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    rightSphere->setEmision(BSDF(RGB(0,0,0.8), RGB(), RGB()));
+    rightSphere->setEmision(BSDF(RGB(0.1,0.1,0.1), RGB(), RGB(0.9,0.9,0.9)));
     
     Light lightPoint(Punto(0,0.5,0),RGB(0.3,0.3,0.3));
 
