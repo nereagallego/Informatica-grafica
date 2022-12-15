@@ -17,11 +17,14 @@ STL::STL(const char* path, Punto center, float scale, BSDF emission)
         for(size_t icorner = 0; icorner < 3; ++icorner) {
             float* c = &coordsSTL[3 * trisSTL[3 * itri + icorner]];
             p[icorner] = Punto(c[0]*scale,c[1]*scale,c[2]*scale)+translation;
+            
             //Rotar
             CoordenadasHomogeneas paux(p[icorner]);
             CoordenadasHomogeneas protate = paux.rotacionY(M_PI/2);
-            protate = protate.rotacionX(M_PI/2);
+            //protate = protate.rotacionX(M_PI/2);
+            //protate = protate.rotacionZ(M_PI/2);
            /*
+
             cout << "------------------"<< endl;
             cout << p[icorner];
             cout << endl;
@@ -59,6 +62,8 @@ vector<Triangulo> STL::getTris()
     return tris;
 }
 */
+
+//HAY QUE ROTAR LAS NORMALES DE CADA TRIANGULO TAMBIEN?
 
 STL STL::rotateX(float rad){
     for (int i = 0; i < tris.size(); i++){

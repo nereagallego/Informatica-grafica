@@ -25,6 +25,7 @@ class STL : public Primitive {
 
     private:
         std::vector<float> coordsSTL;
+        //Almacena las normales de los vertices de cada triangulo? Triangulo 1 -> normal[0], normal[1], normal[2]
         std::vector<float> normalsSTL;
         std::vector<int> trisSTL;
         std::vector<int> solidRangesSTL;
