@@ -77,6 +77,7 @@ public:
     float getAnchura() const { return _anchura; }
     float getAltura() const { return _altura; }
     Punto getReferencia() const { return _referenciaPixel;}
+    int getNumRays() const { return numRays;}
     /**
      * @brief Devuelve la imagen con las primitivas que se hayan introducido 
      * previamente

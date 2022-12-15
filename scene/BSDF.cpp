@@ -42,20 +42,25 @@ RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
 
 
 
-tuple<Direccion, RGB> BSDF::sample(const Direccion omega0, const Punto x, const Direccion normal){
+tuple<Direccion, RGB, BSDFType> BSDF::sample(const Direccion omega0, const Punto x, const Direccion normal){
     Direccion sample;
     BSDFType f = roussianRoulete();
 
     if(f == DIFFUSE){
         sample = diffuseEval(x,omega0,normal);
+        return {sample, eval(x,sample,omega0, normal), DIFFUSE};
     } else if(f == SPECULAR){
+       // return {Direccion(), RGB()};
         sample = specularEval(x, omega0, normal);
+        return {sample, eval(x,sample,omega0, normal), SPECULAR};
     } else if(f == REFRACTION){
+      //  return {Direccion(), RGB()};
         sample = refractionEval(x,omega0,normal);//refractionEval(x, omega0, normal);
+        return {sample, eval(x,sample,omega0, normal), REFRACTION};
     } else {
-        return {Direccion(), RGB()};
+        return {Direccion(), RGB(), ABSORTION};
     }
-    return {sample, eval(x,sample,omega0, normal)};
+    
 }
 
 Direccion BSDF::diffuseEval(Punto x, Direccion omega0, Direccion normal){

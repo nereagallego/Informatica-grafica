@@ -106,7 +106,7 @@ public:
     // creo que habrá que añadirle más parámetros
      RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal);
 
-    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal);
+    tuple<Direccion, RGB, BSDFType> sample(const Direccion omega0, const Punto x, const Direccion normal);
 
     
 };

@@ -197,7 +197,7 @@ RGB Camera::pathTracing(Ray r){
         contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
     } else return RGB();
 
-    tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
+    tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
     Direccion dirRay = get<0>(tupla);
     RGB color_BSDF = get<1>(tupla); 
     if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();

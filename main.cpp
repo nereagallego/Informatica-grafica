@@ -95,7 +95,7 @@ int main(int argc, char *argv[]){
     backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
 
     auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    leftSphere->setEmision(BSDF(RGB(0.55,0,0.65), RGB(), RGB()));
+    leftSphere->setEmision(BSDF(RGB(0.1,0.1,0.1), RGB(0.9,0.9,0.9), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
     rightSphere->setEmision(BSDF(RGB(0,0,0.8), RGB(), RGB()));
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]){
     cam.addPrimitive(leftSphere);
     cam.addPrimitive(rightSphere);
 
-    PhotonMapping photonMap(cam,5000000);
+    PhotonMapping photonMap(cam,100000);
     Imagen gen = photonMap.photonMapping();
 
     Imagen res = ToneMapping::gammaCurve(gen,2.2);
