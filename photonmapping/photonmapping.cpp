@@ -158,7 +158,10 @@ Imagen PhotonMapping::photonMapping(){
                     RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
                     // gaussian kernel ?
                     Direccion dist = cercano._punto - photon->getPosition();
-                    contribucion = contribucion + contribucionMaterial * photon->getFlux() * dist.modulo() / (radius);
+                    float alpha = 0.918, beta = 1.953;
+                    float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
+                  //  contribucion = contribucion + contribucionMaterial * photon->getFlux() * dist.modulo() / (radius);
+                    contribucion = contribucion + contribucionMaterial * photon->getFlux() * gaussianKernel;
                 }
                 img._imagenHDR[i][j] = contribucion;
             } else {
