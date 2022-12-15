@@ -149,14 +149,14 @@ Imagen PhotonMapping::photonMapping(){
                 }
                 
             }
-            float radius = 0.02;
+            float radius = 0.08;
             if( cercano._intersect ) {
                 auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
                 RGB contribucion;
                 //Utiliza box-kernel para la estimación
                 for(auto photon : v){
                     RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
-                    contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI *radius);
+                    contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI *radius * radius);
                 }
                 img._imagenHDR[i][j] = contribucion;
             } else {
