@@ -156,7 +156,9 @@ Imagen PhotonMapping::photonMapping(){
                 //Utiliza box-kernel para la estimación
                 for(auto photon : v){
                     RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
-                    contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI *radius * radius);
+                    // gaussian kernel ?
+                    Direccion dist = cercano._punto - photon->getPosition();
+                    contribucion = contribucion + contribucionMaterial * photon->getFlux() * dist.modulo() / (radius);
                 }
                 img._imagenHDR[i][j] = contribucion;
             } else {

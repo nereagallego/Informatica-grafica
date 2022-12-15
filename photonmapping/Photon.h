@@ -33,7 +33,7 @@ class Photon{
         void setFlux(RGB f) { _flux = f;}
         Direccion getIncidentDirection() const { return _incidentDir; }
    
-
+        Punto getPosition() const { return _position;}
 };
 
 
