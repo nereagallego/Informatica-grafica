@@ -35,7 +35,7 @@ vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direc
             RGB color_BSDF = get<1>(tupla);
             BSDFType type = get<2>(tupla);
             //Se le pasa el flujo computado con el BSDF
-            if(type == DIFFUSE || type == ABSORTION)
+            if(type == DIFFUSE)
                 photons.push_back(p);
             _energy = color_BSDF * _energy;
             _direction = dirRay;
@@ -47,15 +47,15 @@ vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direc
 }
 
 //Esta función lanza un foton, lo dispersa por la imagen y devuelve la lista de fotones
-vector<Photon> PhotonMapping::ScatterPhotons(Light l, int nPhotons){
+vector<Photon> PhotonMapping::ScatterPhotons(shared_ptr<Light> l, int nPhotons){
    
     int i = 0;
     vector<Photon> photons;
     //Para cada foton...
     while ( i < nPhotons){
-        Direccion dirAleatoria = l.sample();
+        Direccion dirAleatoria = l->sample();
 
-        Ray r(dirAleatoria,l.getCenter());
+        Ray r(dirAleatoria,l->getCenter());
      // lanzo rayo
      // hago x rebotes max n - i
         Intersect cercano;
@@ -71,17 +71,24 @@ vector<Photon> PhotonMapping::ScatterPhotons(Light l, int nPhotons){
         }
 
         if( cercano._intersect) {
-            Photon p(cercano._punto, r.getDireccion(),l.getPower()*4*M_PI/nPhotons,cercano._normal);
+            Photon p(cercano._punto, r.getDireccion(),l->getPower()*4*M_PI/nPhotons,cercano._normal);
             photons.push_back(p);
             tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
             Direccion dirRay = get<0>(tupla);
             RGB color_BSDF = get<1>(tupla);
+            BSDFType type = get<2>(tupla);
             //Se le pasa el flujo computado con el BSDF
+            
             vector<Photon> rebotes = siguientesRebotes(color_BSDF*p.getFlux(),cercano._punto, dirRay);
+            if(type == DIFFUSE){
+                rebotes.push_back(p);
+            }
             for(Photon ph : rebotes){
                 photons.push_back(ph);
             }
             i++;
+            
+            
         }
         
     }
@@ -111,12 +118,12 @@ Imagen PhotonMapping::photonMapping(){
     int n = 0;
     double total_lights = 0.0;
     list<Photon> photons;
-    for(Light l: _cam.getLights()){
-        total_lights = total_lights + l.getLuminance();
+    for(shared_ptr<Light> l: _cam.getLights()){
+        total_lights = total_lights + l->getLuminance();
     }
 
-    for(Light l : _cam.getLights()){
-        int numberPhotons = (l.getLuminance()/total_lights)*_numPhotons;
+    for(shared_ptr<Light> l : _cam.getLights()){
+        int numberPhotons = (l->getLuminance()/total_lights)*_numPhotons;
         vector<Photon> p = ScatterPhotons(l,numberPhotons);
         for(Photon ph : p){
             photons.push_back(ph);
@@ -143,7 +150,8 @@ Imagen PhotonMapping::photonMapping(){
                 float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAnchura()));
                 float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAltura()));
                 Punto centro(_cam.getReferencia().getX()+r1+_cam.getAnchura()*j,_cam.getReferencia().getY()-r2/2-_cam.getAltura()*i,_cam.getReferencia().getZ());
-                Ray rayo(centro-_cam.getO(),_cam.getO());
+                Direccion dirRayo = centro-_cam.getO();
+                Ray rayo(dirRayo,_cam.getO());
                 RGB contribucion;
                 Intersect cercano;
                 cercano._intersect = false;
@@ -157,29 +165,32 @@ Imagen PhotonMapping::photonMapping(){
                     }
                     
                 }
+                
                 float radius = 0.08;
                 if( cercano._intersect ) {
-                    auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
-                    //Utiliza box-kernel para la estimación
-                    for(auto photon : v){
-                        tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(photon->getIncidentDirection(),cercano._punto,cercano._normal);
-                        Direccion dirRay = get<0>(tupla);
-                        RGB color_BSDF = get<1>(tupla);
-                        BSDFType type = get<2>(tupla);
-                        RGB contribucionMaterial;
-                        if(type==DIFFUSE || type == ABSORTION){
+                    tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(dirRayo,cercano._punto,cercano._normal);
+                    Direccion dirRay = get<0>(tupla);
+                    RGB color_BSDF = get<1>(tupla);
+                    BSDFType type = get<2>(tupla);
+                    RGB contribucionMaterial;
+                    if(type == DIFFUSE){
+                        auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+                        //Utiliza box-kernel para la estimación
+                        for(auto photon : v){
                             contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
-                        } else {
-                            contribucionMaterial = _cam.pathTracing(rayo);
+                            
+                            // gaussian kernel ?
+                            Direccion dist = cercano._punto - photon->getPosition();
+                            float alpha = 0.918, beta = 1.953;
+                            float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
+                            contribucion = contribucion + contribucionMaterial * photon->getFlux() * gaussianKernel;
                         }
-                        
-                        // gaussian kernel ?
-                        Direccion dist = cercano._punto - photon->getPosition();
-                        float alpha = 0.918, beta = 1.953;
-                        float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
-                    //  contribucion = contribucion + contribucionMaterial * photon->getFlux() * dist.modulo() / (radius);
-                        contribucion = contribucion + contribucionMaterial * photon->getFlux() * gaussianKernel;
-                    }
+                    } else if(type == ABSORTION){
+                        contribucion = contribucion + RGB();
+                    } //else {
+                    //    contribucion = contribucion + _cam.pathTracing(rayo);
+                //    }
+                    
                     img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion / _cam.getNumRays();
                 } else {
                     img._imagenHDR[i][j] = img._imagenHDR[i][j] + RGB() / _cam.getNumRays();

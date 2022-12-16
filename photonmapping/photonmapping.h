@@ -12,7 +12,7 @@ public:
 
     Imagen photonMapping();
 
-    vector<Photon> ScatterPhotons(Light l, int n);
+    vector<Photon> ScatterPhotons(shared_ptr<Light> l, int n);
 
     //Guarda los rebotes dado un foton
     vector<Photon> siguientesRebotes(RGB energia, Punto origen, Direccion dirRayo);
