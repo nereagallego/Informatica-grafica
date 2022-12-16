@@ -54,26 +54,12 @@ class Punto{
     // pretty stdout
     friend ostream& operator<<(ostream& os, const Punto p);
 
-    /**
-     * @brief Devuelve la coordenada X del punto
-     * 
-     * @return float 
-     */
     float getX() const;
-
-    /**
-     * @brief Devuelve la coordenada Y del punto
-     * 
-     * @return float 
-     */
     float getY() const;
-
-    /**
-     * @brief Devuelve la coordenada Z del punto
-     * 
-     * @return float 
-     */
     float getZ() const;
+    void setX(float a) { _x = a;}
+    void setY(float a) { _y = a;}
+    void setZ(float a) { _z = a;}
 
     float operator *(const Direccion d);
 

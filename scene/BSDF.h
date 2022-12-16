@@ -11,6 +11,7 @@
 #include "../math/CoordenadasHomogeneas.h"
 #include <assert.h>
 #include <algorithm>
+#include "../math/rand.h"
 
 using namespace std;
 

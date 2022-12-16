@@ -40,9 +40,8 @@ RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
     return diffuse + specular + refraction;
 }
 
-
-
 tuple<Direccion, RGB, BSDFType> BSDF::sample(const Direccion omega0, const Punto x, const Direccion normal){
+
     Direccion sample;
     BSDFType f = roussianRoulete();
 

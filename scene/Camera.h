@@ -17,6 +17,8 @@
 #include <mutex>
 #include "../accelerator/PoolThreads.h"
 #include "../photonmapping/Photon.h"
+#include "AreaLight.h"
+
 
 using namespace std;
 
@@ -36,12 +38,14 @@ private:
     int _nPixelsh, _nPixelsw;
     float _altura, _anchura;
     Punto _referenciaPixel;
+
     int numRays = 5;
+
 
     uint32_t threads;
 
     vector<shared_ptr<Primitive>> _primitives;
-    vector<Light> _lights;
+    vector<shared_ptr<Light>> _lights;
 
     //photonMapping
     double _numberPhotons = 100.0;
@@ -71,7 +75,7 @@ public:
     Direccion getF();
     Punto getO();
     vector<shared_ptr<Primitive>> getPrimitives()const { return _primitives;}
-    vector<Light> getLights() const{ return _lights; }
+    vector<shared_ptr<Light>> getLights() const{ return _lights; }
     int getNPixelsH() const { return _nPixelsh; }
     int getHPixelsW() const { return _nPixelsw; }
     float getAnchura() const { return _anchura; }
@@ -98,7 +102,7 @@ public:
      * 
      * @param l 
      */
-    void addLight(Light l);
+    void addLight(shared_ptr<Light> l);
 
     /**
      * @brief Calcular la luz directa
@@ -118,7 +122,7 @@ public:
      */
     RGB pathTracing(Ray r);
 
-    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays);
+    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x);
 };
 
 

@@ -26,10 +26,8 @@ public:
     RGB getPower();
 
     double getLuminance(){ return _power.getRed() + _power.getGreen() + _power.getBlue();}
-    Direccion sample()const;
 
-    // int getPhotons();
-    // void setPhotons(int photons);
+    virtual Direccion sample()const;
 };
 
 
