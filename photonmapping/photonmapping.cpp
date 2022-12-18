@@ -95,13 +95,6 @@ vector<Photon> PhotonMapping::ScatterPhotons(shared_ptr<Light> l, int nPhotons){
     return photons;
 }
 
-
-struct PhotonAxisPosition {
-    float operator()(const Photon& p, std::size_t i) const noexcept{
-        return p.position(i);
-    }
-};
-
 using PhotonMap = nn::KDTree<Photon,3,PhotonAxisPosition>;
 
 /*
@@ -172,36 +165,38 @@ Imagen PhotonMapping::photonMapping(){
                     Direccion dirRay = get<0>(tupla);
                     RGB color_BSDF = get<1>(tupla);
                     BSDFType type = get<2>(tupla);
-                    RGB contribucionMaterial;
+                    
                     if(type == DIFFUSE){
                         auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
                         //Utiliza box-kernel para la estimación
                         for(auto photon : v){
-                            contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
+                            RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal) / M_PI;
                             
                             // gaussian kernel ?
                             Direccion dist = cercano._punto - photon->getPosition();
                             float alpha = 0.918, beta = 1.953;
                             float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
-                            contribucion = contribucion + contribucionMaterial * photon->getFlux() * gaussianKernel;
+                            contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
                         }
-                    } else if(type == ABSORTION){
-                        contribucion = contribucion + RGB();
-                    } //else {
-                    //    contribucion = contribucion + _cam.pathTracing(rayo);
-                //    }
+                        img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion;
+                        
+                    } else if(type == SPECULAR || type == REFRACTION){
+                      //  img._imagenHDR[i][j] = img._imagenHDR[i][j]
+                        img._imagenHDR[i][j] = img._imagenHDR[i][j] + _cam.pathTracing(Ray(dirRay,cercano._punto));
+                      //  contribucion = contribucion + _cam.pathTracing(rayo);
+                    }
                     
-                    img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion / _cam.getNumRays();
-                } else {
-                    img._imagenHDR[i][j] = img._imagenHDR[i][j] + RGB() / _cam.getNumRays();
-                }
+                //    img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion / _cam.getNumRays();
+                } //else {
+                //    img._imagenHDR[i][j] = img._imagenHDR[i][j] + RGB() / _cam.getNumRays();
+              //  }
                 if(i*_cam.getHPixelsW() + j >= progress) {
                     cout << "=";
                     cout.flush();
                     progress +=bar;
                 }
             }
-            
+            img._imagenHDR[i][j] = img._imagenHDR[i][j] / _cam.getNumRays();
         }
     }
     cout << "]"<< endl;
