@@ -3,6 +3,7 @@
 #include "../scene/Camera.h"
 #include <list>
 #include "kdtree.h"
+#include <mutex>
 
 struct PhotonAxisPosition {
     float operator()(const Photon& p, std::size_t i) const noexcept{
@@ -15,7 +16,8 @@ class PhotonMapping{
     int _numPhotons; // numero shots(numero de fotones que se quiere lanzar)
 
     uint32_t threads;
-    nn::KDTree<Photon,3,PhotonAxisPosition> fotonmap;
+     nn::KDTree<Photon,3,PhotonAxisPosition> fotonmap;
+     mutex mtx; 
 public:
     PhotonMapping(Camera cam, int n): _cam(cam), _numPhotons(n) {}
 

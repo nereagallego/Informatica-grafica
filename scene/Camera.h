@@ -22,7 +22,7 @@
 
 using namespace std;
 
-const int NTHREADS = 24;
+const int NTHREADS = 10;
 
 struct Pixel {
     int x, y;

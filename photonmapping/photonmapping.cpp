@@ -100,7 +100,7 @@ using PhotonMap = nn::KDTree<Photon,3,PhotonAxisPosition>;
 /*
     Example function to generate the photon map with the given photons
 */
-PhotonMap generation_photon_map(list<Photon> givenPhotons){
+nn::KDTree<Photon,3,PhotonAxisPosition> generation_photon_map(list<Photon> givenPhotons){
     std::list<Photon> photons = givenPhotons;        // Create a list of photons
     auto map = PhotonMap(photons, PhotonAxisPosition());
     return map;
@@ -127,12 +127,15 @@ Imagen PhotonMapping::photonMapping(){
     }
 
     // añadir los fotones al kdtree
-    PhotonMap fotonmap= generation_photon_map(photons);
+    nn::KDTree<Photon,3,PhotonAxisPosition> fotonmap= generation_photon_map(photons);
+  //  fotonmap = fotonMap;
 
     /*********************************POST**********************/
     
-    std::cout << "[";
+   
+    cout << "[" ;
     cout.flush();
+    
     float bar = 5 * _cam.getNPixelsH() * _cam.getHPixelsW() / 100;
     float progress = bar;
     for(int i = 0; i < _cam.getNPixelsH(); i ++){
@@ -181,15 +184,11 @@ Imagen PhotonMapping::photonMapping(){
                         img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion;
                         
                     } else if(type == SPECULAR || type == REFRACTION){
-                      //  img._imagenHDR[i][j] = img._imagenHDR[i][j]
+                      
                         img._imagenHDR[i][j] = img._imagenHDR[i][j] + _cam.pathTracing(Ray(dirRay,cercano._punto));
                       //  contribucion = contribucion + _cam.pathTracing(rayo);
                     }
-                    
-                //    img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion / _cam.getNumRays();
-                } //else {
-                //    img._imagenHDR[i][j] = img._imagenHDR[i][j] + RGB() / _cam.getNumRays();
-              //  }
+                } 
                 if(i*_cam.getHPixelsW() + j >= progress) {
                     cout << "=";
                     cout.flush();

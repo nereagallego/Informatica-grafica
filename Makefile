@@ -104,7 +104,7 @@ ${RAND}.o: ${RAND}.h ${RAND}.cpp
 	${CC} -c ${RAND}.cpp -o ${RAND}.o ${CPPFLAGS}
 
 ${PHOTONMAPPING}.o: ${PHOTONMAPPING}.h ${PHOTONMAPPING}.cpp 
-	${CC} -c ${PHOTONMAPPING}.cpp -o ${PHOTONMAPPING}.o ${CPPFLAGS}
+	${CC} -c ${PHOTONMAPPING}.cpp -o ${PHOTONMAPPING}.o ${CPPFLAGS} ${LDFLAGS}
 
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
