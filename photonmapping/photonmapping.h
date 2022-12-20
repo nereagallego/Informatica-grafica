@@ -31,7 +31,5 @@ public:
 
     void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x);
 
-    RGB rayTracing(Ray r);
-
     RGB photonDensityStim(Intersect cercano, Ray rayo, const vector<const Photon*>& v);
 };

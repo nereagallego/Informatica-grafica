@@ -153,6 +153,20 @@ Imagen PhotonMapping::photonMapping(){
                     cercano._intersect = false;
                     cercano._t = INFINITY;
 
+                    for(shared_ptr<Light> l : _cam.getLights()){
+                        shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
+                        if(aL != nullptr){
+                            Intersect inter  = aL->intersect(rayo);
+                            if(inter._intersect){
+                            // cout << "Intersecta con el area Light" << endl;
+                               img._imagenHDR[i][j] = img._imagenHDR[i][j] + aL->getPower();
+                               break; break;
+                            }
+                            
+                            
+                        }
+                    }
+
                     for(auto p : _cam.getPrimitives()){
                         Intersect intersect = p->intersect(rayo); 
                         if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
@@ -196,57 +210,6 @@ Imagen PhotonMapping::photonMapping(){
 
 
     return img;
-}
-
-
-RGB PhotonMapping::rayTracing(Ray r){
-    RGB contribucion;
-    Intersect cercano;
-    cercano._intersect = false;
-    cercano._t = INFINITY;
-    for(shared_ptr<Light> l : _cam.getLights()){
-        shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
-        if(aL != nullptr){
-            Intersect inter  = aL->intersect(r);
-            if(inter._intersect){
-               // cout << "Intersecta con el area Light" << endl;
-                return aL->getPower();
-            }           
-        }
-    }
-
-    for(auto p : _cam.getPrimitives()){
-        Intersect intersect = p->intersect(r); 
-        if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-            cercano = intersect;
-
-        }
-        
-    }
-
-    if( cercano._intersect ) {
-        tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(),cercano._punto,cercano._normal);
-        Direccion dirRay = get<0>(tupla);
-        RGB color_BSDF = get<1>(tupla);
-        BSDFType type = get<2>(tupla);
-        
-        if(type == DIFFUSE){
-            auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
-            
-            contribucion = contribucion + photonDensityStim(cercano,r, v);
-            return contribucion;
-            
-        } else if(type == SPECULAR || type == REFRACTION){
-            //  img._imagenHDR[i][j] = img._imagenHDR[i][j] + nextEventEstimation(rayo.getDireccion(),cercano);
-            return rayTracing(Ray(dirRay,cercano._punto));
-            //  contribucion = contribucion + _cam.pathTracing(rayo);
-        }
-    } else return RGB();
-
-
-   // contribucion = contribucion +rayTracing(Ray(dirRay,cercano._punto));
-
-    return contribucion;
 }
 
 RGB PhotonMapping::photonDensityStim(Intersect cercano, Ray rayo, const vector<const Photon*>& v ){
