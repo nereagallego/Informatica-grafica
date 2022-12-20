@@ -148,7 +148,8 @@ Imagen PhotonMapping::photonMapping(){
                 Direccion dirRayo = centro-_cam.getO();
                 Ray rayo(dirRayo,_cam.getO());
                 RGB contribucion;
-                while(true){
+                bool breakW = false;
+                while(!breakW){
                     Intersect cercano;
                     cercano._intersect = false;
                     cercano._t = INFINITY;
@@ -160,7 +161,7 @@ Imagen PhotonMapping::photonMapping(){
                             if(inter._intersect){
                             // cout << "Intersecta con el area Light" << endl;
                                img._imagenHDR[i][j] = img._imagenHDR[i][j] + aL->getPower();
-                               break; break;
+                               breakW = true;
                             }
                             
                             
@@ -187,7 +188,7 @@ Imagen PhotonMapping::photonMapping(){
                             
                             contribucion = contribucion + photonDensityStim(cercano,rayo, v);
                             img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion;
-                            break;
+                            breakW = true;
                             
                         } else if(type == SPECULAR || type == REFRACTION){
                         //  img._imagenHDR[i][j] = img._imagenHDR[i][j] + nextEventEstimation(rayo.getDireccion(),cercano);
