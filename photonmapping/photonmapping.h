@@ -18,9 +18,9 @@ class PhotonMapping{
     uint32_t threads;
      nn::KDTree<Photon,3,PhotonAxisPosition> fotonmap;
      mutex mtx;
-     float radius = 0.08; 
+    float radius; 
 public:
-    PhotonMapping(Camera cam, int n): _cam(cam), _numPhotons(n) {}
+    PhotonMapping(Camera cam, int n): _cam(cam), _numPhotons(n), radius(0.08f) {}
 
     Imagen photonMapping();
 
@@ -35,5 +35,5 @@ public:
 
     RGB nextEventEstimation(Direccion direccionRayo, Intersect intersection);
 
-    RGB diffuseEvalPhoton(Intersect cercano, Ray rayo);
+    RGB photonDensityStim(Intersect cercano, Ray rayo, const vector<const Photon*>& v);
 };

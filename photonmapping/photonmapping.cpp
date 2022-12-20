@@ -169,17 +169,18 @@ Imagen PhotonMapping::photonMapping(){
                     BSDFType type = get<2>(tupla);
                     
                     if(type == DIFFUSE){
-                        auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
-                        //Utiliza box-kernel para la estimación
-                        for(auto photon : v){
-                            RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal) / M_PI;
+                         auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+                        // //Utiliza box-kernel para la estimación
+                        // for(auto photon : v){
+                        //     RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal) / M_PI;
                             
-                            // gaussian kernel ?
-                            Direccion dist = cercano._punto - photon->getPosition();
-                            float alpha = 0.918, beta = 1.953;
-                            float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
-                            contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
-                        }
+                        //     // gaussian kernel ?
+                        //     Direccion dist = cercano._punto - photon->getPosition();
+                        //     float alpha = 0.918, beta = 1.953;
+                        //     float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
+                        //     contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
+                        // }
+                        contribucion = contribucion + photonDensityStim(cercano,rayo, v);
                         img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion;
                         
                     } else if(type == SPECULAR || type == REFRACTION){
@@ -307,6 +308,22 @@ RGB PhotonMapping::nextEventEstimation(Direccion direccionRayo, Intersect inters
             }
             contribucion = contribucion + contribucionLuz;
         } 
+    }
+    return contribucion;
+}
+
+RGB PhotonMapping::photonDensityStim(Intersect cercano, Ray rayo, const vector<const Photon*>& v ){
+    RGB contribucion;
+    //auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+    //Utiliza box-kernel para la estimación
+    for(auto photon : v){
+        RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal) / M_PI;
+        
+        // gaussian kernel ?
+        Direccion dist = cercano._punto - photon->getPosition();
+        float alpha = 0.918, beta = 1.953;
+        float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
+        contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
     }
     return contribucion;
 }
