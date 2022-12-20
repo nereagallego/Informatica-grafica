@@ -33,7 +33,5 @@ public:
 
     RGB rayTracing(Ray r);
 
-    RGB nextEventEstimation(Direccion direccionRayo, Intersect intersection);
-
     RGB photonDensityStim(Intersect cercano, Ray rayo, const vector<const Photon*>& v);
 };

@@ -148,47 +148,41 @@ Imagen PhotonMapping::photonMapping(){
                 Direccion dirRayo = centro-_cam.getO();
                 Ray rayo(dirRayo,_cam.getO());
                 RGB contribucion;
-                Intersect cercano;
-                cercano._intersect = false;
-                cercano._t = INFINITY;
+                while(true){
+                    Intersect cercano;
+                    cercano._intersect = false;
+                    cercano._t = INFINITY;
 
-                for(auto p : _cam.getPrimitives()){
-                    Intersect intersect = p->intersect(rayo); 
-                    if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-                        cercano = intersect;
+                    for(auto p : _cam.getPrimitives()){
+                        Intersect intersect = p->intersect(rayo); 
+                        if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+                            cercano = intersect;
 
+                        }
+                        
                     }
                     
+                    if( cercano._intersect ) {
+                        tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(rayo.getDireccion(),cercano._punto,cercano._normal);
+                        Direccion dirRay = get<0>(tupla);
+                        RGB color_BSDF = get<1>(tupla);
+                        BSDFType type = get<2>(tupla);
+                        
+                        if(type == DIFFUSE){
+                            auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+                            
+                            contribucion = contribucion + photonDensityStim(cercano,rayo, v);
+                            img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion;
+                            break;
+                            
+                        } else if(type == SPECULAR || type == REFRACTION){
+                        //  img._imagenHDR[i][j] = img._imagenHDR[i][j] + nextEventEstimation(rayo.getDireccion(),cercano);
+                            rayo = Ray(dirRay,cercano._punto);
+                        //  contribucion = contribucion + _cam.pathTracing(rayo);
+                        }
+                    } 
                 }
                 
-                float radius = 0.08;
-                if( cercano._intersect ) {
-                    tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(dirRayo,cercano._punto,cercano._normal);
-                    Direccion dirRay = get<0>(tupla);
-                    RGB color_BSDF = get<1>(tupla);
-                    BSDFType type = get<2>(tupla);
-                    
-                    if(type == DIFFUSE){
-                         auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
-                        // //Utiliza box-kernel para la estimación
-                        // for(auto photon : v){
-                        //     RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal) / M_PI;
-                            
-                        //     // gaussian kernel ?
-                        //     Direccion dist = cercano._punto - photon->getPosition();
-                        //     float alpha = 0.918, beta = 1.953;
-                        //     float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
-                        //     contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
-                        // }
-                        contribucion = contribucion + photonDensityStim(cercano,rayo, v);
-                        img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion;
-                        
-                    } else if(type == SPECULAR || type == REFRACTION){
-                      //  img._imagenHDR[i][j] = img._imagenHDR[i][j] + nextEventEstimation(rayo.getDireccion(),cercano);
-                        img._imagenHDR[i][j] = img._imagenHDR[i][j] + rayTracing(rayo);
-                      //  contribucion = contribucion + _cam.pathTracing(rayo);
-                    }
-                } 
                 if(i*_cam.getHPixelsW() + j >= progress) {
                     cout << "=";
                     cout.flush();
@@ -230,85 +224,28 @@ RGB PhotonMapping::rayTracing(Ray r){
         
     }
 
-    tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
-    Direccion dirRay = get<0>(tupla);
-    RGB color_BSDF = get<1>(tupla); 
-    BSDFType type = get<2>(tupla);
-    if(cercano._intersect && (type == DIFFUSE)){
-        auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
-        //Utiliza box-kernel para la estimación
-        for(auto photon : v){
-            RGB contribucionMaterial = cercano._emision.eval(cercano._punto,r.getDireccion(),photon->getIncidentDirection(),cercano._normal) / M_PI;
+    if( cercano._intersect ) {
+        tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(),cercano._punto,cercano._normal);
+        Direccion dirRay = get<0>(tupla);
+        RGB color_BSDF = get<1>(tupla);
+        BSDFType type = get<2>(tupla);
+        
+        if(type == DIFFUSE){
+            auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
             
-            // gaussian kernel ?
-            Direccion dist = cercano._punto - photon->getPosition();
-            float alpha = 0.918, beta = 1.953;
-            float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
-            contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
+            contribucion = contribucion + photonDensityStim(cercano,r, v);
+            return contribucion;
+            
+        } else if(type == SPECULAR || type == REFRACTION){
+            //  img._imagenHDR[i][j] = img._imagenHDR[i][j] + nextEventEstimation(rayo.getDireccion(),cercano);
+            return rayTracing(Ray(dirRay,cercano._punto));
+            //  contribucion = contribucion + _cam.pathTracing(rayo);
         }
-       return contribucion;
-    }  else 
-    if(cercano._intersect && (type == SPECULAR || type == REFRACTION)){
-        contribucion = contribucion +rayTracing(Ray(dirRay,cercano._punto));
-    } else if(!cercano._intersect) return RGB();
-    if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
+    } else return RGB();
+
 
    // contribucion = contribucion +rayTracing(Ray(dirRay,cercano._punto));
 
-    return contribucion;
-}
-
-
-RGB PhotonMapping::nextEventEstimation(Direccion direccionRayo, Intersect intersection){
-    RGB contribucion;
-    for(shared_ptr<Light> l : _cam.getLights()){
-        shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
-        
-        Direccion dir = l->getCenter() - intersection._punto;
-        Direccion rayoLuzDirection = dir.normalizar();
-        Ray rayoLuz(rayoLuzDirection, intersection._punto);
-
-        Intersect cercano;
-        cercano._intersect = false;
-        cercano._t = rayoLuzDirection.modulo();
-
-        for (auto p : _cam.getPrimitives())
-        {
-
-            Intersect inter = p->intersect(rayoLuz);
-            if (inter._intersect && inter._t < cercano._t && inter._t > 0)
-            {
-                cercano = inter;
-            }
-        }
-        RGB contribucionLuz;
-        
-        
-
-        if (!cercano._intersect)
-        {
-            if(aL != nullptr){
-            //    Direccion f = aL->getCenter() - intersection._punto;
-                RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());;
-                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
-
-            //    double contribucionGeometrica1 = abs(intersection._normal* f.normalizar());
-            //    Direccion d = intersection._punto - aL->getCenter();
-                double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar()) * abs(aL->getNormal() * rayoLuzDirection.normalizar()*-1);
-                contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
-
-           } else {
-                double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
-
-                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
-
-                RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
-
-                contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
-            }
-            contribucion = contribucion + contribucionLuz;
-        } 
-    }
     return contribucion;
 }
 
