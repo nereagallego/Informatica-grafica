@@ -127,7 +127,8 @@ Imagen PhotonMapping::photonMapping(){
     }
 
     // añadir los fotones al kdtree
-    nn::KDTree<Photon,3,PhotonAxisPosition> fotonmap= generation_photon_map(photons);
+  //  nn::KDTree<Photon,3,PhotonAxisPosition> 
+    fotonmap= generation_photon_map(photons);
 
     /*********************************POST**********************/
     
@@ -186,16 +187,18 @@ Imagen PhotonMapping::photonMapping(){
                         if(type == DIFFUSE){
                             auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
                             
-                            contribucion = contribucion + photonDensityStim(cercano,rayo, v);
-                            img._imagenHDR[i][j] = img._imagenHDR[i][j] + contribucion;
+                          //  contribucion = contribucion + photonDensityStim(cercano,rayo, v);
+                            img._imagenHDR[i][j] = img._imagenHDR[i][j] +  photonDensityStim(cercano,rayo, v);
                             breakW = true;
                             
                         } else if(type == SPECULAR || type == REFRACTION){
-                        //  img._imagenHDR[i][j] = img._imagenHDR[i][j] + nextEventEstimation(rayo.getDireccion(),cercano);
                             rayo = Ray(dirRay,cercano._punto);
-                        //  contribucion = contribucion + _cam.pathTracing(rayo);
+                        } else {
+                            breakW = true;
                         }
-                    } 
+                    }  else {
+                        breakW = true;
+                    }
                 }
                 
                 if(i*_cam.getHPixelsW() + j >= progress) {
@@ -218,13 +221,96 @@ RGB PhotonMapping::photonDensityStim(Intersect cercano, Ray rayo, const vector<c
     //auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
     //Utiliza box-kernel para la estimación
     for(auto photon : v){
-        RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal) / M_PI;
+        RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
         
-        // gaussian kernel ?
+        // cone filter ?
         Direccion dist = cercano._punto - photon->getPosition();
+        if(dist.modulo() > radius) throw logic_error("Distancia mayor que el radio");
         float alpha = 0.918, beta = 1.953;
         float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
-        contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
+        float k = 2;
+        float wr = 1 - dist.modulo() / (radius * k);
+       // contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
+        contribucion = contribucion + contribucionMaterial * photon->getFlux() * wr / ((1 - 2 / (3*k)) * M_PI * radius * radius);
     }
     return contribucion;
+}
+
+void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x, nn::KDTree<Photon,3,PhotonAxisPosition>& fotonmap){
+    pair<int, int> n;
+    n = jobs.pop();
+    int acum = x;
+    while (n.first >= 0 && n.second >= 0) //A value less than 0 marks the end of the list
+    {
+        RGB suma;
+        for(int i = 0; i < nRays; i++){
+           //Se crea un rayo aleatorio por pixel de la imagen
+            float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAnchura()));
+            float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAltura()));
+            Punto centro(_cam.getReferencia().getX()+r1+_cam.getAnchura()*n.second,_cam.getReferencia().getY()-r2/2-_cam.getAltura()*n.first,_cam.getReferencia().getZ());
+            Direccion dirRayo = centro-_cam.getO();
+            Ray rayo(dirRayo,_cam.getO());
+            RGB contribucion;
+            bool breakW = false;
+            while(!breakW){
+                Intersect cercano;
+                cercano._intersect = false;
+                cercano._t = INFINITY;
+
+                for(shared_ptr<Light> l : _cam.getLights()){
+                    shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
+                    if(aL != nullptr){
+                        Intersect inter  = aL->intersect(rayo);
+                        if(inter._intersect){
+                        // cout << "Intersecta con el area Light" << endl;
+                            suma = suma + aL->getPower();
+                            breakW = true;
+                        }
+                        
+                        
+                    }
+                }
+
+                for(auto p : _cam.getPrimitives()){
+                    Intersect intersect = p->intersect(rayo); 
+                    if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+                        cercano = intersect;
+
+                    }
+                    
+                }
+                
+                if( cercano._intersect ) {
+                    tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(rayo.getDireccion(),cercano._punto,cercano._normal);
+                    Direccion dirRay = get<0>(tupla);
+                    RGB color_BSDF = get<1>(tupla);
+                    BSDFType type = get<2>(tupla);
+                    
+                    if(type == DIFFUSE){
+                        mtx.lock();
+                        auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+                        mtx.unlock();
+                        //  contribucion = contribucion + photonDensityStim(cercano,rayo, v);
+                        suma = suma +  photonDensityStim(cercano,rayo, v);
+                        breakW = true;
+                        
+                    } else if(type == SPECULAR || type == REFRACTION){
+                        rayo = Ray(dirRay,cercano._punto);
+                    } else {
+                        breakW = true;
+                    }
+                }  else {
+                    breakW = true;
+                }
+            }
+        }
+        
+                //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
+        Pixel calculated = {n.first,n.second,suma/nRays};
+        result.push(calculated);
+        if(n.first*_cam.getHPixelsW() + n.second == acum - 1){ cout << "="; cout.flush(); }
+        else if(n.first*_cam.getHPixelsW() + n.second > acum - 1) acum = acum + x;
+        n = jobs.pop();
+    }
+    return;
 }

@@ -16,7 +16,7 @@ class PhotonMapping{
     int _numPhotons; // numero shots(numero de fotones que se quiere lanzar)
 
     uint32_t threads;
-     nn::KDTree<Photon,3,PhotonAxisPosition> fotonmap;
+    nn::KDTree<Photon,3,PhotonAxisPosition> fotonmap;
      mutex mtx;
     float radius; 
 public:
@@ -29,7 +29,7 @@ public:
     //Guarda los rebotes dado un foton
     vector<Photon> siguientesRebotes(RGB energia, Punto origen, Direccion dirRayo);
 
-    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x);
+    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x, nn::KDTree<Photon,3,PhotonAxisPosition>& fotonmap);
 
     RGB photonDensityStim(Intersect cercano, Ray rayo, const vector<const Photon*>& v);
 };
