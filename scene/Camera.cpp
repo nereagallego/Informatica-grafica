@@ -12,22 +12,6 @@ Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int
     _nPixelsw = nPixelsw;
 }
 
-Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int nPixelsw, double numberPhotons){
-    _L = l;
-    cout << "L: " << _L << " mod: " << _L.modulo() << endl;
-    _U = u;
-    cout << "U: " << _U << " mod: " << _U.modulo() << endl;
-    _F = f;
-    _O = o;
-    _altura = _U.modulo() * 2/nPixelsh;
-    _anchura = _L.modulo() * 2 / nPixelsw;
-    cout << _altura << " "  << _anchura << endl;
-    _referenciaPixel = _O + _F + _L + _U;
-    cout << _referenciaPixel << endl;
-    _nPixelsh = nPixelsh;
-    _nPixelsw = nPixelsw;
-    _numberPhotons = numberPhotons;
-}
 
 Punto Camera::getO(){
     return _O;

@@ -39,7 +39,7 @@ private:
     float _altura, _anchura;
     Punto _referenciaPixel;
 
-    int numRays = 20;
+    int numRays =20;
 
 
     uint32_t threads;
@@ -50,8 +50,16 @@ private:
     //photonMapping
     double _numberPhotons = 100.0;
 
-    
+    /**
+     * @brief devuelve el máximo de 4 números de tipo float
+     */
     float max(float a, float b, float c, float d) const;
+
+    /**
+     * @brief Función auxiliar para la parelización de la computación del color 
+     *        de cada píxel
+    */
+    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x);
 
 public:
     /**
@@ -67,8 +75,6 @@ public:
      * @param nPixelsw anchura en píxeles
      */
     Camera(Direccion l, Direccion u , Direccion f, Punto o, int nPixelsh, int nPixelsw);
-
-     Camera(Direccion l, Direccion u , Direccion f, Punto o, int nPixelsh, int nPixelsw, double numberPhotons);
 
     Direccion getL();
     Direccion getU();
@@ -122,7 +128,8 @@ public:
      */
     RGB pathTracing(Ray r);
 
-    void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x);
+
+
 };
 
 

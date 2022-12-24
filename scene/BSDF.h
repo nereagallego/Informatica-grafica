@@ -102,11 +102,24 @@ public:
     /**
      * @brief evalua el coeficiente difuso
      * 
+     * @param x punto de intersección donde se evalua
+     * @param omegai direccion de salida donde se evalua
+     * @param omega0 dirección de entrada donde se evalua
+     * @param normal normal a la superficie
      * @return RGB 
      */
-    // creo que habrá que añadirle más parámetros
-     RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal);
+    RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal);
 
+    /**
+     * @brief samplea una muestra dada la dirección de entrada, el punto de 
+     *        entrada y la dirección normal a la superficie. 
+     *        Devuelve la dirección de salida, el color de salida y el tipo de 
+     *        material que es
+     * 
+     * @param omega0 dirección de entrada
+     * @param x punto de sampleo
+     * @param normal dirección normal a la superficie
+     */
     tuple<Direccion, RGB, BSDFType> sample(const Direccion omega0, const Punto x, const Direccion normal);
 
     
