@@ -13,9 +13,9 @@ class Punto;
 
 
 class Direccion{
-    private:
+private:
     float _x, _y ,_z;
-    public:
+public:
     /**
      * @brief Construct a new Direccion object
      * 
