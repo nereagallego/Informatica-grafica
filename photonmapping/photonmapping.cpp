@@ -107,7 +107,7 @@ nn::KDTree<Photon,3,PhotonAxisPosition> generation_photon_map(list<Photon> given
 }
 
 Imagen PhotonMapping::photonMapping(){
-    Imagen img(_cam.getNPixelsH(), _cam.getHPixelsW(),255,255);
+    Imagen img(_cam.getNPixelsH(), _cam.getNPixelsW(),255,255);
     int n = 0;
     double total_lights = 0.0;
     list<Photon> photons;
@@ -132,85 +132,124 @@ Imagen PhotonMapping::photonMapping(){
 
     /*********************************POST**********************/
     
-   
+    srand (time(NULL));
+    ConcurrentQueue<pair<int,int>> jobs;
+    ConcurrentQueue<Pixel> result;
+    int x = 5*_cam.getNPixelsH() * _cam.getNPixelsW() / 100;
     cout << "[" ;
     cout.flush();
-    
-    float bar = 5 * _cam.getNPixelsH() * _cam.getHPixelsW() / 100;
-    float progress = bar;
     for(int i = 0; i < _cam.getNPixelsH(); i ++){
-        for(int j = 0; j < _cam.getHPixelsW(); j ++){
-            img._imagenHDR[i][j] = RGB(0,0,0);
-            for(int k = 0; k < _cam.getNumRays(); k++){
-                //Se crea un rayo aleatorio por pixel de la imagen
-                float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAnchura()));
-                float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAltura()));
-                Punto centro(_cam.getReferencia().getX()+r1+_cam.getAnchura()*j,_cam.getReferencia().getY()-r2/2-_cam.getAltura()*i,_cam.getReferencia().getZ());
-                Direccion dirRayo = centro-_cam.getO();
-                Ray rayo(dirRayo,_cam.getO());
-                RGB contribucion;
-                bool breakW = false;
-                while(!breakW){
-                    Intersect cercano;
-                    cercano._intersect = false;
-                    cercano._t = INFINITY;
-
-                    for(shared_ptr<Light> l : _cam.getLights()){
-                        shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
-                        if(aL != nullptr){
-                            Intersect inter  = aL->intersect(rayo);
-                            if(inter._intersect){
-                            // cout << "Intersecta con el area Light" << endl;
-                               img._imagenHDR[i][j] = img._imagenHDR[i][j] + aL->getPower();
-                               breakW = true;
-                            }
-                            
-                            
-                        }
-                    }
-
-                    for(auto p : _cam.getPrimitives()){
-                        Intersect intersect = p->intersect(rayo); 
-                        if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-                            cercano = intersect;
-
-                        }
-                        
-                    }
-                    
-                    if( cercano._intersect ) {
-                        tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(rayo.getDireccion(),cercano._punto,cercano._normal);
-                        Direccion dirRay = get<0>(tupla);
-                        RGB color_BSDF = get<1>(tupla);
-                        BSDFType type = get<2>(tupla);
-                        
-                        if(type == DIFFUSE){
-                            auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
-                            
-                          //  contribucion = contribucion + photonDensityStim(cercano,rayo, v);
-                            img._imagenHDR[i][j] = img._imagenHDR[i][j] +  photonDensityStim(cercano,rayo, v);
-                            breakW = true;
-                            
-                        } else if(type == SPECULAR || type == REFRACTION){
-                            rayo = Ray(dirRay,cercano._punto);
-                        } else {
-                            breakW = true;
-                        }
-                    }  else {
-                        breakW = true;
-                    }
-                }
-                
-                if(i*_cam.getHPixelsW() + j >= progress) {
-                    cout << "=";
-                    cout.flush();
-                    progress +=bar;
-                }
-            }
-            img._imagenHDR[i][j] = img._imagenHDR[i][j] / _cam.getNumRays();
+        for(int j = 0; j < _cam.getNPixelsW(); j ++){
+            jobs.push(make_pair(i, j));
         }
     }
-    cout << "]"<< endl;
+
+    for(int i = 0; i<NTHREADS; i++) {
+        jobs.push(make_pair(-1,-1));
+    }
+    
+    vector<thread> threads;  
+    for (int i = 0; i<NTHREADS; i++) {
+        threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x, nn::KDTree<Photon,3,PhotonAxisPosition>& fotonmap){ work(jobs,result,_cam.getNumRays(), x, fotonmap); }, std::ref(jobs),std::ref(result),_cam.getNumRays(),x, std::ref(fotonmap)));
+    }
+
+    //Wait for end
+    for (auto &th : threads) {
+        th.join();
+    }
+
+    cout << "]" << endl;
+    cout.flush();
+
+    queue<Pixel> qresult = result.getQueue();
+    while (!qresult.empty())
+    {
+        Pixel a = qresult.front();
+
+        img._imagenHDR[a.x][a.y] = a.contribution;
+        qresult.pop();
+
+    }
+    return img;
+   
+    // cout << "[" ;
+    // cout.flush();
+    
+    // float bar = 5 * _cam.getNPixelsH() * _cam.getHPixelsW() / 100;
+    // float progress = bar;
+    // for(int i = 0; i < _cam.getNPixelsH(); i ++){
+    //     for(int j = 0; j < _cam.getHPixelsW(); j ++){
+    //         img._imagenHDR[i][j] = RGB(0,0,0);
+    //         for(int k = 0; k < _cam.getNumRays(); k++){
+    //             //Se crea un rayo aleatorio por pixel de la imagen
+    //             float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAnchura()));
+    //             float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_cam.getAltura()));
+    //             Punto centro(_cam.getReferencia().getX()+r1+_cam.getAnchura()*j,_cam.getReferencia().getY()-r2/2-_cam.getAltura()*i,_cam.getReferencia().getZ());
+    //             Direccion dirRayo = centro-_cam.getO();
+    //             Ray rayo(dirRayo,_cam.getO());
+    //             RGB contribucion;
+    //             bool breakW = false;
+    //             while(!breakW){
+    //                 Intersect cercano;
+    //                 cercano._intersect = false;
+    //                 cercano._t = INFINITY;
+
+    //                 for(shared_ptr<Light> l : _cam.getLights()){
+    //                     shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
+    //                     if(aL != nullptr){
+    //                         Intersect inter  = aL->intersect(rayo);
+    //                         if(inter._intersect){
+    //                         // cout << "Intersecta con el area Light" << endl;
+    //                            img._imagenHDR[i][j] = img._imagenHDR[i][j] + aL->getPower();
+    //                            breakW = true;
+    //                         }
+                            
+                            
+    //                     }
+    //                 }
+
+    //                 for(auto p : _cam.getPrimitives()){
+    //                     Intersect intersect = p->intersect(rayo); 
+    //                     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+    //                         cercano = intersect;
+
+    //                     }
+                        
+    //                 }
+                    
+    //                 if( cercano._intersect ) {
+    //                     tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(rayo.getDireccion(),cercano._punto,cercano._normal);
+    //                     Direccion dirRay = get<0>(tupla);
+    //                     RGB color_BSDF = get<1>(tupla);
+    //                     BSDFType type = get<2>(tupla);
+                        
+    //                     if(type == DIFFUSE){
+    //                         auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+                            
+    //                       //  contribucion = contribucion + photonDensityStim(cercano,rayo, v);
+    //                         img._imagenHDR[i][j] = img._imagenHDR[i][j] +  photonDensityStim(cercano,rayo, v);
+    //                         breakW = true;
+                            
+    //                     } else if(type == SPECULAR || type == REFRACTION){
+    //                         rayo = Ray(dirRay,cercano._punto);
+    //                     } else {
+    //                         breakW = true;
+    //                     }
+    //                 }  else {
+    //                     breakW = true;
+    //                 }
+    //             }
+                
+    //             if(i*_cam.getHPixelsW() + j >= progress) {
+    //                 cout << "=";
+    //                 cout.flush();
+    //                 progress +=bar;
+    //             }
+    //         }
+    //         img._imagenHDR[i][j] = img._imagenHDR[i][j] / _cam.getNumRays();
+    //     }
+    // }
+    // cout << "]"<< endl;
 
 
     return img;
@@ -308,8 +347,8 @@ void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<P
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
         Pixel calculated = {n.first,n.second,suma/nRays};
         result.push(calculated);
-        if(n.first*_cam.getHPixelsW() + n.second == acum - 1){ cout << "="; cout.flush(); }
-        else if(n.first*_cam.getHPixelsW() + n.second > acum - 1) acum = acum + x;
+        if(n.first*_cam.getNPixelsW() + n.second == acum - 1){ cout << "="; cout.flush(); }
+        else if(n.first*_cam.getNPixelsW() + n.second > acum - 1) acum = acum + x;
         n = jobs.pop();
     }
     return;

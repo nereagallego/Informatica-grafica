@@ -22,7 +22,7 @@
 
 using namespace std;
 
-const int NTHREADS = 10;
+const int NTHREADS = 24;
 
 struct Pixel {
     int x, y;
@@ -39,7 +39,7 @@ private:
     float _altura, _anchura;
     Punto _referenciaPixel;
 
-    int numRays = 1;
+    int numRays = 20;
 
 
     uint32_t threads;
@@ -77,7 +77,7 @@ public:
     vector<shared_ptr<Primitive>> getPrimitives()const { return _primitives;}
     vector<shared_ptr<Light>> getLights() const{ return _lights; }
     int getNPixelsH() const { return _nPixelsh; }
-    int getHPixelsW() const { return _nPixelsw; }
+    int getNPixelsW() const { return _nPixelsw; }
     float getAnchura() const { return _anchura; }
     float getAltura() const { return _altura; }
     Punto getReferencia() const { return _referenciaPixel;}
