@@ -63,6 +63,12 @@ class Punto{
 
     float operator *(const Direccion d);
 
+    /**
+     * @brief Access to component i
+     * 
+     * @param i index of access
+     * @return float
+    */
     float operator [](const int i) const{
         if(i == 0) return _x;
         else if(i == 1) return _y;
