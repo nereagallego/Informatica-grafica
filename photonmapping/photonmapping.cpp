@@ -179,15 +179,16 @@ RGB PhotonMapping::photonDensityStim(Intersect cercano, Ray rayo, const vector<c
     for(auto photon : v){
         RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
         
-        // cone filter ?
+        // gaussian kernel ?
         Direccion dist = cercano._punto - photon->getPosition();
         if(dist.modulo() > radius) throw logic_error("Distancia mayor que el radio");
         float alpha = 0.918, beta = 1.953;
-        float gaussianKernel = alpha * (1 - ((1 - exp(-beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-exp(-beta))));
+        float gaussianKernel = alpha * (1 - ((1 - 1/exp(beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-1/exp(beta))));
         float k = 2;
         float wr = 1 - dist.modulo() / (radius * k);
        // contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
-        contribucion = contribucion + contribucionMaterial * photon->getFlux() * wr / ((1 - 2 / (3*k)) * M_PI * radius * radius);
+        // contribucion = contribucion + contribucionMaterial * photon->getFlux() * wr / ((1 - 2 / (3*k)) * M_PI * radius * radius);
+        contribucion = contribucion + contribucionMaterial * photon->getFlux() * gaussianKernel;
     }
     return contribucion;
 }

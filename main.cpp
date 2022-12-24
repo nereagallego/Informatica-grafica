@@ -109,7 +109,7 @@ int main(int argc, char *argv[]){
     cam.addPrimitive(leftSphere);
     cam.addPrimitive(rightSphere);
 
-    PhotonMapping photonMap(cam,1000000);
+    PhotonMapping photonMap(cam,2000000);
     Imagen gen = photonMap.photonMapping();
 
     Imagen res = ToneMapping::gammaCurve(gen,4.4);
