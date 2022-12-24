@@ -175,7 +175,6 @@ Imagen PhotonMapping::photonMapping(){
 
 RGB PhotonMapping::photonDensityStim(Intersect cercano, Ray rayo, const vector<const Photon*>& v ){
     RGB contribucion;
-    //auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
     //Utiliza box-kernel para la estimación
     for(auto photon : v){
         RGB contribucionMaterial = cercano._emision.eval(cercano._punto,rayo.getDireccion(),photon->getIncidentDirection(),cercano._normal);
