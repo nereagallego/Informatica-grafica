@@ -9,6 +9,17 @@ class AreaLight : public Light{
     
     Plano _p;
 public:
+
+    
+    /**
+     * @brief Construye un area light dado su normal, la distnacia, el centro y 
+     *        la intensidad de la luz
+     * 
+     * @param normal normal de la luz
+     * @param d distancia del centro focal de la cámara a la luz
+     * @param center punto de centro de la luz
+     * @param power potencia de la luz
+     */
     AreaLight(Direccion normal,float d,Punto center, RGB power):  _p(Plano(normal,d)), Light(center,power) {
         if(normal * center + d != 0) throw logic_error("el centro no pertenece al plano de la luz de area");
         
@@ -19,6 +30,12 @@ public:
     float getDistancia() { return _p.getDistancia();}
     BSDF getEmission() { return _p.getEmision();}
 
+    /**
+     * @brief función virtual para calcular la intersección de un rayo con la 
+     *        luz de área
+     * 
+     * @param r rayo con el que intersecta
+     */
     virtual Intersect intersect(Ray r) = 0;
 };
 
@@ -26,6 +43,19 @@ public:
 class SquareLight : public AreaLight {
     Punto _p1, _p2, _p3, _p4;
 public:
+
+    /**
+     * @brief devuelve una luz cuadrad dada su normal, la distancia del punto 
+     *        focal de la cámara a la luz, el centro de la luz, la potencia de 
+     *        la luz, y los cuatro puntos que definen el cuadrado de la luz. 
+     *        Solo funciona cuando los cuatro puntos forman un cuadrado en el 
+     *        plano que se define la luz.
+     * 
+     * @param normal normal de la luz
+     * @param d distancia del centro focal de la cámara a la luz
+     * @param center punto de centro de la luz
+     * @param power potencia de la luz
+     */
     SquareLight(Direccion normal,float d,Punto center, RGB power, Punto p1, Punto p2, Punto p3, Punto p4): _p1(p1), _p2(p2), _p3(p3), _p4(p4), AreaLight(normal, d, center, power) {
         if(normal * p1 + d != 0) throw logic_error("el punto p1 no pertenece al plano de la luz de area");
         if(normal * p2 + d != 0) throw logic_error("el punto p2 no pertenece al plano de la luz de area"); 
@@ -33,6 +63,13 @@ public:
         if(normal * p4 + d != 0) throw logic_error("el punto p4 no pertenece al plano de la luz de area");
     }
 
+
+    /**
+     * @brief función para calcular la intersección de un rayo con la 
+     *        luz de área
+     * 
+     * @param r rayo con el que intersecta
+     */
     Intersect intersect(Ray r) override {
         Intersect s;
         s._emision = this->getEmission();
@@ -59,8 +96,26 @@ public:
 class CircleLight : public AreaLight {
     double _radius;
 public:
+
+    /**
+     * @brief devuelve una luz cuadrad dada su normal, la distancia del punto 
+     *        focal de la cámara a la luz, el centro de la luz, la potencia de 
+     *        la luz, y el radio del círculo
+     * 
+     * @param normal normal de la luz
+     * @param d distancia del centro focal de la cámara a la luz
+     * @param center punto de centro de la luz
+     * @param power potencia de la luz
+     * @param radius radio del círculo
+     */
     CircleLight(Direccion normal,float d,Punto center, RGB power, double radius): _radius(radius), AreaLight(normal, d, center, power) {}
 
+    /**
+     * @brief función para calcular la intersección de un rayo con la 
+     *        luz de área
+     * 
+     * @param r rayo con el que intersecta
+     */
     Intersect intersect(Ray r) override {
         Intersect s;
         s._emision = this->getEmission();
