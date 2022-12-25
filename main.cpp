@@ -18,7 +18,7 @@ using namespace std;
 int main(int argc, char *argv[]){
     if(argc < 2) cout << "uso: ./main <nombre_fichero>" << endl;
     else{
-      /*
+      
       cout << "entro en main" << endl;
       string filename = argv[1];
       Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
@@ -69,9 +69,16 @@ int main(int argc, char *argv[]){
     
       return 0;
     }
-    */
+    
 
     /*--------------------------------------PRUEBA 2-----------------------------------*/
+    /*
+      cimg_library::CImg<float> src("resources/rock_wall.jpg");
+      int width = src.width();
+      int height = src.height();
+
+      cout << "La altura es " << height << " y la anchura " << width << endl;
+
 
       string filename = argv[1];
       Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
@@ -84,7 +91,7 @@ int main(int argc, char *argv[]){
       floorPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
       auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
       ceilingPlane->setEmision(BSDF(RGB(0.6,0.60,0.6), RGB(), RGB()));
-      auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
+      auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1, src);
       backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
 
       auto stlTest = make_shared<STL>("resources/chair.stl",Punto(-0.5,-0.7,0.25),0.20,BSDF(RGB(0.0,1,0.5), RGB(), RGB()));
@@ -94,7 +101,7 @@ int main(int argc, char *argv[]){
       cout << "Paso de aqui" << endl;
       aux.rotateY(M_PI/2);
       stlTest = make_shared<STL>(aux);
-*/
+
 
 
       auto lightPoint = make_shared<Light>(Punto(0,0,0.8),RGB(0.3,0.3,0.3));
@@ -119,5 +126,5 @@ int main(int argc, char *argv[]){
     
       return 0;
     }
-
+  */
 }

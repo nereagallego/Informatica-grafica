@@ -11,6 +11,7 @@ Direccion Plano::getNormal(){
 Intersect Plano::intersect(Ray r) {
     Intersect s;
     s._emision = this->getEmision();
+    //s._texture = this->getTexture();
     float denominador = r.getDireccion() * _normal;
     if(denominador == 0){ s._intersect = false; return s;}
     else s._intersect = true;

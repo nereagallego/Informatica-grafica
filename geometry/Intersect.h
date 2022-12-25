@@ -4,6 +4,7 @@
 
 #include "../math/Punto.h"
 #include "Primitive.h"
+#include "../image/CImg.h"
 using namespace std;
 
 struct Intersect{
@@ -11,8 +12,8 @@ struct Intersect{
     bool _intersect;
     Punto _punto;
     BSDF _emision;
-    Direccion _normal;
-   
+    Direccion _normal; 
+    cimg_library::CImg<float> _texture;
 };
 
 #endif

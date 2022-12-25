@@ -11,6 +11,7 @@ using namespace std;
 class Primitive{
     // color del objeto
     BSDF _emision;
+    //cimg_library::CImg<float> _texture;
 public:
     /**
      * @brief Construct a new Primitive object
@@ -19,12 +20,17 @@ public:
      */
     Primitive(BSDF emision): _emision(emision){};
 
+   // Primitive(cimg_library::CImg<float> texture): _texture(texture){}; 
+
+
+    //Primitive(BSDF emision, cimg_library::CImg<float> texture): _emision(emision), _texture(texture){};
+
     /**
      * @brief Construct a new Primitive object
      * Se le asigna color negro por defecto
      * 
      */
-    Primitive(): _emision(BSDF()) {}
+    Primitive(): _emision(BSDF()){}
 
     /**
      * @brief Destroy the Primitive object
@@ -39,6 +45,10 @@ public:
     BSDF getEmision(){
         return _emision;
     }
+
+    //cimg_library::CImg<float> getTexture(){
+     //   return _texture;
+    //}
 
     /**
      * @brief virtual intersect function with a ray

@@ -13,6 +13,10 @@ CC = g++         # compilador
 #---------------------------------------------------------
 # opciones compilación y enlazado ("linkado")
 CPPFLAGS = -std=c++11 -g# opciones compilación  # opciones de "linkado"
+
+CIMGFLAGS= -std=c++11 -g -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+
+
 LDFLAGS  = -pthread
 #---------------------------------------------------------
 # vars
@@ -46,8 +50,8 @@ STL=${GEO}/Stl
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o -o ${EJEC} ${CPPFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o 
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o -o ${EJEC} ${CIMGFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -98,6 +102,7 @@ ${RAND}.o: ${RAND}.h ${RAND}.cpp
 
 ${STL}.o: ${STL}.h ${STL}.cpp
 	${CC} -c ${STL}.cpp -o ${STL}.o ${CPPFLAGS}
+
 
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}

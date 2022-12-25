@@ -6,6 +6,9 @@
 #include "../math/Direccion.h"
 #include "Primitive.h"
 
+#include "../image/CImg.h"
+
+
 using namespace std;
 
 class Ray;
@@ -21,7 +24,9 @@ public:
      * @param normal direccioón normal al plano
      * @param d disancia del plano al origen
      */
-    Plano(Direccion normal,float d): _normal(normal), _distancia(d) {};
+    Plano(Direccion normal,float d): _normal(normal), _distancia(d){};
+
+    //Plano(Direccion normal,float d, cimg_library::CImg<float> texture): _normal(normal), _distancia(d), Primitive(texture){};
 
     /**
      * @brief Construct a new Plano object
@@ -31,6 +36,8 @@ public:
      * @param emision color del plano
      */
     Plano(Direccion normal, float d, BSDF emision): _normal(normal), _distancia(d), Primitive(emision) {};
+
+    //Plano(Direccion normal, float d, BSDF emision, cimg_library::CImg<float> texture): _normal(normal), _distancia(d), Primitive(emision,texture){};
 
     float getDistancia();
     Direccion getNormal();

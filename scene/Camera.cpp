@@ -178,7 +178,6 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 }
 
 
-
 RGB Camera::pathTracing(Ray r){
   //  if(n > i) return RGB();
     RGB contribucion;
@@ -197,17 +196,22 @@ RGB Camera::pathTracing(Ray r){
             
         }
     }
-
+    
+    
     for(auto p : _primitives){
-        Intersect intersect = p->intersect(r); 
+        Intersect intersect = p->intersect(r);
         if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
             cercano = intersect;
-
         }
         
     }
 
     if( cercano._intersect ) {
+        //Mirar si hay que cargar la textura
+        /*if(cercano._texture() != nullptr){
+            
+        }*/
+
         //Se traza la luz directa y se obtiene su contribucion
         contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
     } else return RGB();
