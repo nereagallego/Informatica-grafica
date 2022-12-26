@@ -12,6 +12,7 @@ float Esfera::getRadio(){
 Intersect Esfera::intersect(Ray r){
     Intersect s;
     s._emision = this->getEmision();
+    s._texture = this->getTexture();
     s._intersect = true;
     Direccion aux = r.getPunto() - _centro;
     float a = r.getDireccion() * r.getDireccion();

@@ -18,6 +18,13 @@ using namespace std;
 int main(int argc, char *argv[]){
     if(argc < 2) cout << "uso: ./main <nombre_fichero>" << endl;
     else{
+
+      cimg_library::CImg<unsigned char> src("resources/rock_wall.jpg");
+      int width = src.width();
+      int height = src.height();
+
+      cout << "La altura es " << height << " y la anchura " << width << endl;
+      cout << "y el tamaño es " << src.size() << endl;
       
       cout << "entro en main" << endl;
       string filename = argv[1];
@@ -33,6 +40,7 @@ int main(int argc, char *argv[]){
       ceilingPlane->setEmision(BSDF(RGB(0.6,0.60,0.6), RGB(), RGB()));
       auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
       backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
+      //backPlane->setTexture(src);
 
       auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
       leftSphere->setEmision(BSDF(RGB(0.1,0.1,0.1), RGB(0.7,0.7,0.7), RGB()));

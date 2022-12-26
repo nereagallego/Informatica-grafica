@@ -41,6 +41,7 @@ Imagen Camera::dibujar(){
             jobs.push(make_pair(i, j));
         }
     }
+    
 
     for(int i = 0; i<NTHREADS; i++) {
         jobs.push(make_pair(-1,-1));
@@ -50,6 +51,8 @@ Imagen Camera::dibujar(){
     for (int i = 0; i<NTHREADS; i++) {
         threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x){ work(jobs,result,numRays, x); }, std::ref(jobs),std::ref(result),numRays,x));
     }
+
+    
 
     //Wait for end
     for (auto &th : threads) {
@@ -84,7 +87,7 @@ void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &
             float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
             Punto centro(_referenciaPixel.getX()+r1+_anchura*n.second,_referenciaPixel.getY()-r2/2-_altura*n.first,_referenciaPixel.getZ());
             Ray rayo(centro-_O,_O);
-            suma = suma + pathTracing(rayo);
+            suma = suma + pathTracing(rayo, n.first, n.second);
         }
         
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
@@ -178,7 +181,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 }
 
 
-RGB Camera::pathTracing(Ray r){
+RGB Camera::pathTracing(Ray r, int rowPixel, int colPixel){
   //  if(n > i) return RGB();
     RGB contribucion;
     Intersect cercano;
@@ -207,13 +210,38 @@ RGB Camera::pathTracing(Ray r){
     }
 
     if( cercano._intersect ) {
+
+        
         //Mirar si hay que cargar la textura
-        /*if(cercano._texture() != nullptr){
+        if(cercano._texture.size() > 0 ){
+            //Hacer el mapeo de la textura en plano
+            //Si es plano....
+            //cout << "Entro a cargar textura " << endl;
+            //Cociente entre la imagen a generar y la textura que se va a cargar
+            double rowCociente = cercano._texture.height() / _nPixelsh;
+            double colCociente = cercano._texture.width() / _nPixelsw;
+
+            //Para un pixel dado...
+            int auxRow = (int) rowPixel / rowCociente;
+            int auxCol = (int) colPixel / colCociente;
+
+            double auxR = static_cast<double>(cercano._texture(auxRow,auxCol,0,0));
+            double auxG = static_cast<double>(cercano._texture(auxRow,auxCol,0,1));
+            double auxB = static_cast<double>(cercano._texture(auxRow,auxCol,0,2));
+
+            RGB pixelTexture = RGB(auxR,auxG,auxB);
+
+            //cout << "He sumado la contribucion y es:  " << pixelTexture << endl;;
+
+            contribucion = pixelTexture + nextEventEstimation(r.getDireccion(), cercano);
+
+
+        }else{
             
-        }*/
+            contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
+        }
 
         //Se traza la luz directa y se obtiene su contribucion
-        contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
     } else return RGB();
 
     tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
@@ -221,6 +249,6 @@ RGB Camera::pathTracing(Ray r){
     RGB color_BSDF = get<1>(tupla); 
     if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
     
-    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto));
+    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto), rowPixel, colPixel);
     return contribucion;
 }

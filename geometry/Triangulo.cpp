@@ -23,6 +23,7 @@ Punto Triangulo::getZ(){
 Intersect Triangulo::intersect(Ray r) {
     Intersect s;
     s._emision = this->getEmision();
+    s._texture = this->getTexture();
     s._intersect = true;
     Direccion d1 = _y - _x;
     Direccion d2 = _z - _x;

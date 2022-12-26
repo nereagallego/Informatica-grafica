@@ -11,7 +11,7 @@ using namespace std;
 class Primitive{
     // color del objeto
     BSDF _emision;
-    //cimg_library::CImg<float> _texture;
+    cimg_library::CImg<double> _texture;
 public:
     /**
      * @brief Construct a new Primitive object
@@ -20,10 +20,10 @@ public:
      */
     Primitive(BSDF emision): _emision(emision){};
 
-   // Primitive(cimg_library::CImg<float> texture): _texture(texture){}; 
+   Primitive(cimg_library::CImg<double> texture): _texture(texture){}; 
 
 
-    //Primitive(BSDF emision, cimg_library::CImg<float> texture): _emision(emision), _texture(texture){};
+    Primitive(BSDF emision, cimg_library::CImg<double> texture): _emision(emision), _texture(texture){};
 
     /**
      * @brief Construct a new Primitive object
@@ -46,9 +46,13 @@ public:
         return _emision;
     }
 
-    //cimg_library::CImg<float> getTexture(){
-     //   return _texture;
-    //}
+    cimg_library::CImg<unsigned char> getTexture(){
+        return _texture;
+    }
+
+    void setTexture(cimg_library::CImg<unsigned char> texture){
+        _texture = texture;
+    }
 
     /**
      * @brief virtual intersect function with a ray
