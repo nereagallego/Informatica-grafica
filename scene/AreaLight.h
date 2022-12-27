@@ -4,6 +4,7 @@
 #include "Light.h"
 #include "../geometry/Plano.h"
 #include "../scene/BSDF.h"
+#include "../math/rand.h"
 
 class AreaLight : public Light{
     
@@ -90,6 +91,13 @@ public:
         s._intersect = s._intersect && s._punto.getX() >= _p1.getX() && s._punto.getX() <= _p3.getX() && s._punto.getY() >= _p1.getY() && s._punto.getY() <= _p3.getY() && s._punto.getZ() >= _p1.getZ() && s._punto.getZ() <= _p3.getZ();
        
         return s;
+    }
+
+    Punto samplePoint() const override {
+        Direccion dd1 = _p1 - _p2, dd2 = _p2 - _p3;
+        float d1 = dd1.modulo()/2 , d2 = dd2.modulo()/2;
+        float f1 = Rand::fRand(-d1,d1), f2 = Rand::fRand(-d2,d2);
+        return _center + dd1.normalizar() * f1 + dd2.normalizar() * f2;
     }
 };
 

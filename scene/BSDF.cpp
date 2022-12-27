@@ -33,6 +33,7 @@ void BSDF::setRefractIndex(double a){
 }
 
 RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
+  //  if(_emiter) return _emision;
     RGB diffuse = _probDiffuse > 0.00005 ? _diffuseCoefficient / (_probDiffuse * M_PI) : RGB();
     RGB specular = _probSpecular > 0.00005 ? _specularCoefficient * delta(omega0,omegai) / _probSpecular : RGB();
     RGB refraction = _probRefract > 0.00005 ? _refractCoefficient * delta(omegai, omega0) /_probRefract : RGB();
@@ -40,6 +41,9 @@ RGB BSDF::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal){
 }
 
 tuple<Direccion, RGB, BSDFType> BSDF::sample(const Direccion omega0, const Punto x, const Direccion normal){
+    // if(_emiter){
+    //     return {Direccion(), _emision, EMITER};
+    // }
 
     Direccion sample;
     BSDFType f = roussianRoulete();

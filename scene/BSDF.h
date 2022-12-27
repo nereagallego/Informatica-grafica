@@ -15,13 +15,15 @@
 
 using namespace std;
 
-enum BSDFType { DIFFUSE, SPECULAR, REFRACTION, ABSORTION};
+enum BSDFType { DIFFUSE, SPECULAR, REFRACTION, ABSORTION, EMITER};
 
 class BSDF{
     RGB _diffuseCoefficient, _specularCoefficient, _refractCoefficient;
+    RGB _emision;
 
     double _refractIndex;
     double _probDiffuse, _probSpecular, _probRefract;
+    bool _emiter;
 
     /**
      * @brief Devuelve la dirección de la luz cuando el elemento es difuso
@@ -61,6 +63,7 @@ public:
     _specularCoefficient(ks),
     _refractCoefficient(kt),
     _refractIndex(1),
+    _emiter(false),
     _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), 
     _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), 
     _probRefract(max(_refractCoefficient.getRed(),max(_refractCoefficient.getGreen(), _refractCoefficient.getBlue()))) 
@@ -72,12 +75,16 @@ public:
     _specularCoefficient(ks),
     _refractCoefficient(kt),
     _refractIndex(nf),
+    _emiter(false),
     _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), 
     _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), 
     _probRefract(max(_refractCoefficient.getRed(),max(_refractCoefficient.getGreen(), _refractCoefficient.getBlue()))) 
         {
             assert((_probDiffuse + _probRefract + _probSpecular)<=1);
         }
+
+    BSDF(RGB emision): _emiter(true), _emision(emision) {}
+    
     BSDF():
     _diffuseCoefficient(RGB()),
     _specularCoefficient(RGB()),
@@ -85,7 +92,8 @@ public:
     _refractIndex(1),
     _probDiffuse(0),
     _probRefract(0),
-    _probSpecular(0)
+    _probSpecular(0),
+    _emiter(false)
     {}
     RGB getDifuseCoefficient() const;
     void setDifuseCoefficient(RGB emision);

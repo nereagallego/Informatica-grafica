@@ -18,7 +18,7 @@ Intersect Esfera::intersect(Ray r){
     float b = r.getDireccion() * aux * 2;
     float c = aux * aux - _radio * _radio;
     float radicando = b * b - 4 * a * c;
-    if (radicando < 0) s._intersect = false;
+    if (radicando < 0.00005) s._intersect = false;
     float delta = sqrt(radicando);
     float r1 = (- b - delta) / (2 * a);
     float r2 = (- b + delta) / (2 * a);

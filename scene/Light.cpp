@@ -16,3 +16,7 @@ Direccion Light::sample() const{
     double phiInverse = 2 * M_PI * phi;
     return Direccion(sin(thethaInverse)*cos(phiInverse),sin(thethaInverse)*sin(phiInverse),cos(thethaInverse)).normalizar();
 }
+
+Punto Light::samplePoint() const {
+    return _center;
+}

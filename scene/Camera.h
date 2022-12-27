@@ -39,7 +39,7 @@ private:
     float _altura, _anchura;
     Punto _referenciaPixel;
 
-    int numRays =20;
+    int numRays = 5;
 
 
     uint32_t threads;
