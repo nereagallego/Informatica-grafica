@@ -55,7 +55,7 @@ vector<Photon> PhotonMapping::ScatterPhotons(shared_ptr<Light> l, int nPhotons){
     while ( i < nPhotons){
         Direccion dirAleatoria = l->sample();
 
-        Ray r(dirAleatoria,l->getCenter());
+        Ray r(dirAleatoria,l->samplePoint());
      // lanzo rayo
      // hago x rebotes max n - i
         Intersect cercano;
@@ -263,9 +263,9 @@ void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<P
         }
         
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
-        Pixel calculated = {n.first,n.second,suma/nRays};
+        Pixel calculated = {n.first,n.second,suma/nRays*(1-0.1*0.1)+(0.1*0.1*0.1)};
         result.push(calculated);
-        if(n.first*_cam.getNPixelsW() + n.second == acum - 1){ cout << "="; cout.flush(); }
+        if(n.first*_cam.getNPixe lsW() + n.second == acum - 1){ cout << "="; cout.flush(); }
         else if(n.first*_cam.getNPixelsW() + n.second > acum - 1) acum = acum + x;
         n = jobs.pop();
     }
