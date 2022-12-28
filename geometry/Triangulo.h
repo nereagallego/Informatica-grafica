@@ -13,7 +13,7 @@ class Ray;
 class Triangulo : public Primitive{
 private:
     Punto _x, _y, _z;
-    Direccion _normal;
+    Direccion _normal,_ejeU, _ejeV;
     float _distancia;
 public:
     /**
@@ -67,7 +67,12 @@ public:
     Triangulo rotateX(float rad);
     Triangulo rotateY(float rad);
     Triangulo rotateZ(float rad);
+
+
+    tuple<double,double> getUV(Punto p);
 };
+
+
 
 
 

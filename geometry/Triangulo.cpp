@@ -23,7 +23,6 @@ Punto Triangulo::getZ(){
 Intersect Triangulo::intersect(Ray r) {
     Intersect s;
     s._emision = this->getEmision();
-    s._texture = this->getTexture();
     s._intersect = true;
     Direccion d1 = _y - _x;
     Direccion d2 = _z - _x;
@@ -63,8 +62,11 @@ Intersect Triangulo::intersect(Ray r) {
     }
     s._t = tt;
     s._punto = r.getPunto() + r.getDireccion() * s._t;
-    
     s._normal = this->getNormal();
+
+    tuple<double,double> x = getUV(s._punto);
+    s._u = get<0>(x);
+    s._v = get<1>(x);
     return s;
 }
 
@@ -111,4 +113,8 @@ Triangulo Triangulo::rotateZ(float rad){
     return Triangulo(aux1.punto(),aux2.punto(),aux3.punto());
 
 
+}
+
+tuple<double,double> Triangulo::getUV(Punto p){
+    return {_ejeU * p, _ejeV * p};
 }

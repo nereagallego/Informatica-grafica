@@ -13,7 +13,7 @@ struct Intersect{
     Punto _punto;
     BSDF _emision;
     Direccion _normal; 
-    cimg_library::CImg<unsigned char> _texture;
+    double _u, _v;
 };
 
 #endif

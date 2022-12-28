@@ -19,6 +19,7 @@ private:
 
     Punto _centro;
     float _radio;
+    Direccion  _ejeU, _ejeV;
 public:
     /**
      * @brief Construct a new Esfera object
@@ -49,6 +50,8 @@ public:
      * @return Intersect 
      */
     Intersect intersect(Ray r) override;
+
+    tuple<double,double> getUV(Punto p);
 };
 
 #endif

@@ -11,7 +11,6 @@ Direccion Plano::getNormal(){
 Intersect Plano::intersect(Ray r) {
     Intersect s;
     s._emision = this->getEmision();
-    s._texture = this->getTexture();
     float denominador = r.getDireccion() * _normal;
     if(denominador == 0){ s._intersect = false; return s;}
     else s._intersect = true;
@@ -25,5 +24,13 @@ Intersect Plano::intersect(Ray r) {
         s._normal = this->getNormal().normalizar() *-1;
       //  cout << "desde dentro";
     }
+
+    tuple<double,double> x = getUV(s._punto);
+    s._u = get<0>(x);
+    s._v = get<1>(x);
     return s;
+}
+
+tuple<double,double> Plano::getUV(Punto p){
+    return {_ejeU * p, _ejeV * p};
 }

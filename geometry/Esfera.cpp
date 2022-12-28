@@ -12,7 +12,6 @@ float Esfera::getRadio(){
 Intersect Esfera::intersect(Ray r){
     Intersect s;
     s._emision = this->getEmision();
-    s._texture = this->getTexture();
     s._intersect = true;
     Direccion aux = r.getPunto() - _centro;
     float a = r.getDireccion() * r.getDireccion();
@@ -37,4 +36,13 @@ Intersect Esfera::intersect(Ray r){
     }
     //s._normal = d.normalizar();
     return s;
+}
+
+
+tuple<double,double> Esfera::getUV(Punto p){
+   double phi = atan2(p.getZ(), -p.getX()) + M_PI;
+   double theta= acos(-p.getY());
+
+   return {phi,theta};
+
 }
