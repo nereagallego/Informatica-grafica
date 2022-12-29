@@ -11,6 +11,7 @@
 #include "scene/Light.h"
 #include "scene/AreaLight.h"
 #include "geometry/Stl.h"
+#include "image/CImg.h"
 
 
 using namespace std;
@@ -19,12 +20,12 @@ int main(int argc, char *argv[]){
     if(argc < 2) cout << "uso: ./main <nombre_fichero>" << endl;
     else{
 
-      //cimg_library::CImg<unsigned char> src("resources/rock_wall.jpg");
-      //int width = src.width();
-      //int height = src.height();
+      cimg_library::CImg<unsigned char> src("resources/rock_wall.jpg");
+      int width = src.width();
+      int height = src.height();
 
-      //cout << "La altura es " << height << " y la anchura " << width << endl;
-      //cout << "y el tamaño es " << src.size() << endl;
+      cout << "La altura es " << height << " y la anchura " << width << endl;
+      cout << "y el tamaño es " << src.size() << endl;
       
       cout << "entro en main" << endl;
       string filename = argv[1];
