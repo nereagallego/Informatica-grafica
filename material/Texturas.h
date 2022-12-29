@@ -7,13 +7,14 @@ class Textura : public BSDF {
 
 cimg_library::CImg<unsigned char> _texture;
 
-    Textura(RGB emision, RGB ks, RGB kt, cimg_library::CImg<unsigned char> img): 
+public:
+    Textura(RGB emision, RGB ks, RGB kt,const cimg_library::CImg<unsigned char>& img): 
     BSDF(emision, ks, kt),
     _texture(img)
     {   }
 
 
-    Textura(RGB emision, RGB ks, RGB kt, double nf,cimg_library::CImg<unsigned char> img): 
+    Textura(RGB emision, RGB ks, RGB kt, double nf,const cimg_library::CImg<unsigned char>& img): 
     BSDF(emision, ks, kt, nf),
     _texture(img)
         {}

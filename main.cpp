@@ -12,6 +12,7 @@
 #include "scene/AreaLight.h"
 #include "geometry/Stl.h"
 #include "image/CImg.h"
+#include "material/Texturas.h"
 
 
 using namespace std;
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]){
       auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
       ceilingPlane->setEmision(BSDF(RGB(0.6,0.60,0.6), RGB(), RGB()));
       auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
-      backPlane->setEmision(BSDF(RGB(0.6,0.6,0.6), RGB(), RGB()));
+      backPlane->setEmision(Textura(RGB(0.6,0.6,0.6), RGB(), RGB(),src));
       //backPlane->setTexture(src);
 
       auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
