@@ -34,13 +34,9 @@ public:
      */
     ~Primitive() = default;
 
-    void setEmision(BSDF emision) {
-        _emision = emision;
-    }
+    void setEmision(BSDF emision) ;
 
-    BSDF getEmision(){
-        return _emision;
-    }
+    BSDF getEmision();
 
 
     /**
@@ -49,7 +45,7 @@ public:
      * @param r rayo con el que intersecta
      * @return Intersect 
      */
-    virtual Intersect intersect(Ray r) = 0;
+    virtual struct Intersect intersect(Ray r) = 0;
 };
 
 #endif

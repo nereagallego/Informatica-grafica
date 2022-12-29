@@ -1,6 +1,7 @@
 #ifndef BSDF_HPP
 #define BSDF_HPP
 
+#include <iostream>
 #include "../color/RGB.h"
 #include "../math/Direccion.h"
 #include "../math/Punto.h"
@@ -17,7 +18,9 @@ using namespace std;
 
 enum BSDFType { DIFFUSE, SPECULAR, REFRACTION, ABSORTION};
 
+
 class BSDF{
+protected:
     RGB _diffuseCoefficient, _specularCoefficient, _refractCoefficient;
 
     double _refractIndex;
@@ -87,6 +90,19 @@ public:
     _probRefract(0),
     _probSpecular(0)
     {}
+
+    // BSDF(shared_ptr<BSDF> b): 
+    // _diffuseCoefficient(b->getDifuseCoefficient()), 
+    // _specularCoefficient(b->getSpecularCoefficient()), 
+    // _refractCoefficient(b->getRefractCoefficient()), 
+    // _refractIndex(b->getRefractIndex()),
+    // _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), 
+    // _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), 
+    // _probRefract(max(_refractCoefficient.getRed(),max(_refractCoefficient.getGreen(), _refractCoefficient.getBlue()))) 
+    //     {
+    //         assert((_probDiffuse + _probRefract + _probSpecular)<=1);
+    //     }
+
     RGB getDifuseCoefficient() const;
     void setDifuseCoefficient(RGB emision);
     RGB getSpecularCoefficient() const;
@@ -103,9 +119,9 @@ public:
      * @return RGB 
      */
     // creo que habrá que añadirle más parámetros
-     RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal);
+    virtual RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal, const double u, const double v);
 
-    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal);
+    virtual tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal, const double u, const double v);
 };
 
 #endif

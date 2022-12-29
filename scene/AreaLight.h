@@ -35,6 +35,7 @@ public:
 
     Intersect intersect(Ray r) override {
         Intersect s;
+       // s._emision = make_shared<BSDF>(this->getEmission());
         s._emision = this->getEmission();
         float denominador = r.getDireccion() * this->getNormal();
         if(denominador == 0){ s._intersect = false; return s;}
@@ -63,6 +64,7 @@ public:
 
     Intersect intersect(Ray r) override {
         Intersect s;
+       // s._emision = make_shared<BSDF>(this->getEmission());
         s._emision = this->getEmission();
         float denominador = r.getDireccion() * this->getNormal();
         if(denominador == 0){ s._intersect = false; return s;}

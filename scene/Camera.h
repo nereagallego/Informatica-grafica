@@ -106,7 +106,7 @@ public:
      * @param n 
      * @return RGB 
      */
-    RGB pathTracing(Ray r, int rowPixel, int colPixel);
+    RGB pathTracing(Ray r);
 
     void work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x);
 };

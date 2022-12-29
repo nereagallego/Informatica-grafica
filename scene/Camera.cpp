@@ -87,7 +87,7 @@ void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &
             float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
             Punto centro(_referenciaPixel.getX()+r1+_anchura*n.second,_referenciaPixel.getY()-r2/2-_altura*n.first,_referenciaPixel.getZ());
             Ray rayo(centro-_O,_O);
-            suma = suma + pathTracing(rayo, n.first, n.second);
+            suma = suma + pathTracing(rayo);
         }
         
                 //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
@@ -158,7 +158,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
             if(aL != nullptr){
             //    Direccion f = aL->getCenter() - intersection._punto;
                 RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());;
-                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
+                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal,intersection._u, intersection._v);
 
             //    double contribucionGeometrica1 = abs(intersection._normal* f.normalizar());
             //    Direccion d = intersection._punto - aL->getCenter();
@@ -168,7 +168,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
            } else {
                 double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
 
-                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
+                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal,intersection._u, intersection._v);
 
                 RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
 
@@ -181,7 +181,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
 }
 
 
-RGB Camera::pathTracing(Ray r, int rowPixel, int colPixel){
+RGB Camera::pathTracing(Ray r){
   //  if(n > i) return RGB();
     RGB contribucion;
     Intersect cercano;
@@ -211,44 +211,17 @@ RGB Camera::pathTracing(Ray r, int rowPixel, int colPixel){
 
     if( cercano._intersect ) {
 
-        
-        //Mirar si hay que cargar la textura
-        if(cercano._texture.size() > 0 ){
-            //Hacer el mapeo de la textura en plano
-            //Si es plano....
-            //cout << "Entro a cargar textura " << endl;
-            //Cociente entre la imagen a generar y la textura que se va a cargar
-            double rowCociente = cercano._texture.height() / _nPixelsh;
-            double colCociente = cercano._texture.width() / _nPixelsw;
-
-            //Para un pixel dado...
-            int auxRow = (int) rowPixel / rowCociente;
-            int auxCol = (int) colPixel / colCociente;
-
-            double auxR = static_cast<double>(cercano._texture(auxRow,auxCol,0,0));
-            double auxG = static_cast<double>(cercano._texture(auxRow,auxCol,0,1));
-            double auxB = static_cast<double>(cercano._texture(auxRow,auxCol,0,2));
-
-            RGB pixelTexture = RGB(auxR,auxG,auxB);
-
-            //cout << "He sumado la contribucion y es:  " << pixelTexture << endl;;
-
-            contribucion = pixelTexture + nextEventEstimation(r.getDireccion(), cercano);
-
-
-        }else{
-            
-            contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
-        }
+        contribucion = contribucion + nextEventEstimation(r.getDireccion(), cercano);
+    
 
         //Se traza la luz directa y se obtiene su contribucion
     } else return RGB();
 
-    tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
+    tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal, cercano._u, cercano._v);
     Direccion dirRay = get<0>(tupla);
     RGB color_BSDF = get<1>(tupla); 
     if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();
     
-    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto), rowPixel, colPixel);
+    contribucion = contribucion + color_BSDF *pathTracing(Ray(dirRay,cercano._punto));
     return contribucion;
 }

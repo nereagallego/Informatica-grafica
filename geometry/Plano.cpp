@@ -10,6 +10,7 @@ Direccion Plano::getNormal(){
 
 Intersect Plano::intersect(Ray r) {
     Intersect s;
+   // s._emision = make_shared<BSDF>(this->getEmision());
     s._emision = this->getEmision();
     float denominador = r.getDireccion() * _normal;
     if(denominador == 0){ s._intersect = false; return s;}

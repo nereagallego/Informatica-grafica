@@ -1,11 +1,16 @@
 #ifndef INTERSECT_HPP
-#define INTERSECT
+#define INTERSECT_HPP
 
 
 #include "../math/Punto.h"
 #include "Primitive.h"
 #include "../image/CImg.h"
+#include "../scene/BSDF.h"
+#include <memory>
+
 using namespace std;
+
+class BSDF;
 
 struct Intersect{
     float _t;
@@ -14,6 +19,9 @@ struct Intersect{
     BSDF _emision;
     Direccion _normal; 
     double _u, _v;
+
+    friend ostream& operator<<(ostream& os, const Intersect& it);
 };
+
 
 #endif

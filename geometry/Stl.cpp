@@ -19,8 +19,8 @@ STL::STL(const char* path, Punto center, float scale, BSDF emission)
             p[icorner] = Punto(c[0]*scale,c[1]*scale,c[2]*scale)+translation;
             
             //Rotar
-            CoordenadasHomogeneas paux(p[icorner]);
-            CoordenadasHomogeneas protate = paux.rotacionY(M_PI/2);
+            //CoordenadasHomogeneas paux(p[icorner]);
+            //CoordenadasHomogeneas protate = paux.rotacionY(M_PI/2);
             //protate = protate.rotacionX(M_PI/2);
             //protate = protate.rotacionZ(M_PI/2);
            /*
@@ -31,7 +31,7 @@ STL::STL(const char* path, Punto center, float scale, BSDF emission)
             cout << protate.punto();
             cout << "------------------"<< endl;
             */
-            p[icorner] = protate.punto();
+            //p[icorner] = protate.punto();
         }
         tris.push_back(Triangulo(p[0],p[1],p[2],emission));
     }
