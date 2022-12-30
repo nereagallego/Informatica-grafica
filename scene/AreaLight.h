@@ -17,7 +17,7 @@ public:
     virtual ~AreaLight() { /* whatever goes here, or nothing... */ }
     Direccion getNormal() { return _p.getNormal();}
     float getDistancia() { return _p.getDistancia();}
-    BSDF getEmission() { return _p.getEmision();}
+    shared_ptr<BSDF> getEmission() { return _p.getEmision();}
 
     virtual Intersect intersect(Ray r) = 0;
 };

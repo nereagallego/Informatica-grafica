@@ -13,3 +13,19 @@ RGB Textura::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal,
 RGB Textura::muestrea(const double u, const double v, const Punto p){
     return RGB(_texture(u,v,0,0),_texture(u,v,0,1),_texture(u,v,0,2));
 }
+
+tuple<Direccion, RGB> Textura::sample(const Direccion omega0, const Punto x, const Direccion normal, const double u, const double v){
+    Direccion sample;
+    BSDFType f = roussianRoulete();
+
+    if(f == DIFFUSE){
+        sample = diffuseEval(x,omega0,normal);
+    } else if(f == SPECULAR){
+        sample = specularEval(x, omega0, normal);
+    } else if(f == REFRACTION){
+        sample = refractionEval(x,omega0,normal);//refractionEval(x, omega0, normal);
+    } else {
+        return {Direccion(), RGB()};
+    }
+    return {sample, eval(x,sample,omega0, normal,u,v)};
+}

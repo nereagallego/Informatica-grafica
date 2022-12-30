@@ -1,9 +1,9 @@
 #include "Primitive.h"
 
-void Primitive::setEmision(BSDF emision) {
+void Primitive::setEmision(shared_ptr<BSDF> emision) {
     _emision = emision;
 }
 
-BSDF Primitive::getEmision(){
+shared_ptr<BSDF> Primitive::getEmision(){
     return _emision;
 }

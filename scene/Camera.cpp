@@ -34,43 +34,55 @@ Imagen Camera::dibujar(){
     ConcurrentQueue<pair<int,int>> jobs;
     ConcurrentQueue<Pixel> result;
     int x = 10*_nPixelsh * _nPixelsw / 100;
-    cout << "[" ;
-    cout.flush();
+    // cout << "[" ;
+    // cout.flush();
+    // for(int i = 0; i < _nPixelsh; i ++){
+    //     for(int j = 0; j < _nPixelsw; j ++){
+    //         jobs.push(make_pair(i, j));
+    //     }
+    // }
+    
+
+    // for(int i = 0; i<NTHREADS; i++) {
+    //     jobs.push(make_pair(-1,-1));
+    // }
+    
+    // vector<thread> threads;  
+    // for (int i = 0; i<NTHREADS; i++) {
+    //     threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x){ work(jobs,result,numRays, x); }, std::ref(jobs),std::ref(result),numRays,x));
+    // }
+
+    
+
+    // //Wait for end
+    // for (auto &th : threads) {
+    //     th.join();
+    // }
     for(int i = 0; i < _nPixelsh; i ++){
         for(int j = 0; j < _nPixelsw; j ++){
-            jobs.push(make_pair(i, j));
+            RGB suma;
+            for(int i = 0; i < numRays; i++){
+                float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
+                float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
+                Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
+                Ray rayo(centro-_O,_O);
+                suma = suma + pathTracing(rayo);
+            }
+            img._imagenHDR[i][j] = suma/numRays;
         }
     }
-    
-
-    for(int i = 0; i<NTHREADS; i++) {
-        jobs.push(make_pair(-1,-1));
-    }
-    
-    vector<thread> threads;  
-    for (int i = 0; i<NTHREADS; i++) {
-        threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x){ work(jobs,result,numRays, x); }, std::ref(jobs),std::ref(result),numRays,x));
-    }
-
-    
-
-    //Wait for end
-    for (auto &th : threads) {
-        th.join();
-    }
-
     cout << "]" << endl;
     cout.flush();
 
-    queue<Pixel> qresult = result.getQueue();
-    while (!qresult.empty())
-    {
-        Pixel a = qresult.front();
+    // queue<Pixel> qresult = result.getQueue();
+    // while (!qresult.empty())
+    // {
+    //     Pixel a = qresult.front();
 
-        img._imagenHDR[a.x][a.y] = a.contribution;
-        qresult.pop();
+    //     img._imagenHDR[a.x][a.y] = a.contribution;
+    //     qresult.pop();
 
-    }
+    // }
     return img;
 }
 
@@ -158,7 +170,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
             if(aL != nullptr){
             //    Direccion f = aL->getCenter() - intersection._punto;
                 RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());;
-                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal,intersection._u, intersection._v);
+                RGB contribucionMaterial = intersection._emision->eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal,intersection._u, intersection._v);
 
             //    double contribucionGeometrica1 = abs(intersection._normal* f.normalizar());
             //    Direccion d = intersection._punto - aL->getCenter();
@@ -168,7 +180,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
            } else {
                 double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar());
 
-                RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal,intersection._u, intersection._v);
+                RGB contribucionMaterial = intersection._emision->eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal,intersection._u, intersection._v);
 
                 RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());
 
@@ -217,7 +229,7 @@ RGB Camera::pathTracing(Ray r){
         //Se traza la luz directa y se obtiene su contribucion
     } else return RGB();
 
-    tuple<Direccion,RGB> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal, cercano._u, cercano._v);
+    tuple<Direccion,RGB> tupla = cercano._emision->sample(r.getDireccion(), cercano._punto,cercano._normal, cercano._u, cercano._v);
     Direccion dirRay = get<0>(tupla);
     RGB color_BSDF = get<1>(tupla); 
     if(color_BSDF.getRed() == 0 && color_BSDF.getGreen() == 0 && color_BSDF.getBlue() == 0) return RGB();

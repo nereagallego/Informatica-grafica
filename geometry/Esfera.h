@@ -19,7 +19,6 @@ private:
 
     Punto _centro;
     float _radio;
-    Direccion  _ejeU, _ejeV;
 public:
     /**
      * @brief Construct a new Esfera object
@@ -37,7 +36,7 @@ public:
      * @param radio radio de la esfera
      * @param emision color de la esfera
      */
-    Esfera(Punto centro, float radio, BSDF emision): Primitive(emision), _radio(radio),  _centro(centro) {}
+    Esfera(Punto centro, float radio, shared_ptr<BSDF> emision): Primitive(emision), _radio(radio),  _centro(centro) {};
 
     Punto getCentro();
     float getRadio();

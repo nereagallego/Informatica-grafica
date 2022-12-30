@@ -119,9 +119,9 @@ public:
      * @return RGB 
      */
     // creo que habrá que añadirle más parámetros
-    virtual RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal, const double u, const double v);
+    virtual RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal, const double u, const double v) = 0;
 
-    virtual tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal, const double u, const double v);
+    virtual tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal, const double u, const double v) = 0;
 };
 
 #endif

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-STL::STL(const char* path, Punto center, float scale, BSDF emission)
+STL::STL(const char* path, Punto center, float scale, shared_ptr<BSDF> emission)
 {
     stl_reader::ReadStlFile(path, coordsSTL, normalsSTL, trisSTL, solidRangesSTL);
 
@@ -75,7 +75,7 @@ STL STL::rotateY(float rad){
     std::vector<Triangulo> auxV;
     //cout << "Tamaño es :" << tris.size()<< endl;
     for (int i = 0; i < tris.size(); i++){
-        BSDF emision = tris[i].getEmision();
+        shared_ptr<BSDF> emision = tris[i].getEmision();
         Triangulo aux = tris[i].rotateY(rad);
         auxV.push_back(Triangulo(aux.getX(),aux.getY(),aux.getZ(),emision));
         //cout << "Iteracion" << endl;

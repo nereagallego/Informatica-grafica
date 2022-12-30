@@ -4,13 +4,15 @@
 #include "../scene/BSDF.h"
 #include "Ray.h"
 #include "Intersect.h"
+#include <memory>
+#include "../material/SimpleBSDF.h"
 
 using namespace std;
 
 // abstract class 
 class Primitive{
     // color del objeto
-    BSDF _emision;
+    shared_ptr<BSDF> _emision;
    
 public:
     /**
@@ -18,7 +20,7 @@ public:
      * 
      * @param emision color del objeto
      */
-    Primitive(BSDF emision): _emision(emision){};
+    Primitive(shared_ptr<BSDF> emision): _emision(emision){};
 
 
     /**
@@ -26,7 +28,7 @@ public:
      * Se le asigna color negro por defecto
      * 
      */
-    Primitive(): _emision(BSDF()){}
+    Primitive(): _emision(make_shared<SimpleBSDF>(RGB(0,0,0),RGB(0,0,0),RGB(0,0,0))){}
 
     /**
      * @brief Destroy the Primitive object
@@ -34,9 +36,9 @@ public:
      */
     ~Primitive() = default;
 
-    void setEmision(BSDF emision) ;
+    void setEmision(shared_ptr<BSDF> emision) ;
 
-    BSDF getEmision();
+    shared_ptr<BSDF> getEmision();
 
 
     /**

@@ -27,5 +27,7 @@ public:
     // creo que habrá que añadirle más parámetros
     RGB eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal, const double u, const double v) override;
 
+    tuple<Direccion, RGB> sample(const Direccion omega0, const Punto x, const Direccion normal, const double u, const double v) override;
+
     RGB muestrea(const double u, const double v, const Punto p);
 };

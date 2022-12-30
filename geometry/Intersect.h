@@ -16,7 +16,7 @@ struct Intersect{
     float _t;
     bool _intersect;
     Punto _punto;
-    BSDF _emision;
+    shared_ptr<BSDF> _emision;
     Direccion _normal; 
     double _u, _v;
 
