@@ -12,7 +12,7 @@
 #include "geometry/Stl.h"
 #include "image/CImg.h"
 #include "material/Texturas.h"
-#include <jpeglib.h>
+//#include <jpeglib.h>
 #include "material/SimpleBSDF.h"
 
 using namespace std;

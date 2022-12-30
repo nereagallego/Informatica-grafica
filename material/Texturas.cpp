@@ -11,7 +11,16 @@ RGB Textura::eval(Punto x, Direccion omegai, Direccion omega0, Direccion normal,
 
 
 RGB Textura::muestrea(const double u, const double v, const Punto p){
-    return RGB(_texture(u,v,0,0),_texture(u,v,0,1),_texture(u,v,0,2));
+    int auxU = u*_texture.height();
+    int auxV = v*_texture.width();
+    //cout << "Los valores de aux son " << u<< "  " << v << endl;
+    if(auxV > 0 && auxU > 0 && auxU <= _texture.height() && auxV <= _texture.width()){
+        cout << "Los valores de aux son " << u<< "  " << v << endl;
+        cout << " y el RGB es " << RGB();
+        return RGB(_texture(auxU,auxV,0,0),_texture(auxU,auxV,0,1),_texture(auxU,auxV,0,2));
+    }else{
+        return RGB();
+    }
 }
 
 tuple<Direccion, RGB> Textura::sample(const Direccion omega0, const Punto x, const Direccion normal, const double u, const double v){
