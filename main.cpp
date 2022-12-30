@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
       
       cout << "entro en main" << endl;
       string filename = argv[1];
-      Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 5, 5);
+      Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 255, 255);
       cout << "creo la camara" << endl;
       auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
       leftPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.92549,0.5098,0.94117647), RGB(), RGB()));
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]){
       cout << gen._imagenHDR.size() << " " << gen._imagenHDR[0].size() << endl;
       cout << gen.getWidth() << " " << gen.getHeight() << endl;
     //  gen.exportFile("prueba2.ppm");
-      Imagen res = ToneMapping::gammaCurve(gen,2.2);
+      Imagen res = ToneMapping::gammaCurve(gen,4.4);
       res.exportFile(filename);
 
     

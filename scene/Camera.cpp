@@ -34,55 +34,43 @@ Imagen Camera::dibujar(){
     ConcurrentQueue<pair<int,int>> jobs;
     ConcurrentQueue<Pixel> result;
     int x = 10*_nPixelsh * _nPixelsw / 100;
-    // cout << "[" ;
-    // cout.flush();
-    // for(int i = 0; i < _nPixelsh; i ++){
-    //     for(int j = 0; j < _nPixelsw; j ++){
-    //         jobs.push(make_pair(i, j));
-    //     }
-    // }
-    
-
-    // for(int i = 0; i<NTHREADS; i++) {
-    //     jobs.push(make_pair(-1,-1));
-    // }
-    
-    // vector<thread> threads;  
-    // for (int i = 0; i<NTHREADS; i++) {
-    //     threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x){ work(jobs,result,numRays, x); }, std::ref(jobs),std::ref(result),numRays,x));
-    // }
-
-    
-
-    // //Wait for end
-    // for (auto &th : threads) {
-    //     th.join();
-    // }
+    cout << "[" ;
+    cout.flush();
     for(int i = 0; i < _nPixelsh; i ++){
         for(int j = 0; j < _nPixelsw; j ++){
-            RGB suma;
-            for(int i = 0; i < numRays; i++){
-                float r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_anchura));
-                float r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/_altura));
-                Punto centro(_referenciaPixel.getX()+r1+_anchura*j,_referenciaPixel.getY()-r2/2-_altura*i,_referenciaPixel.getZ());
-                Ray rayo(centro-_O,_O);
-                suma = suma + pathTracing(rayo);
-            }
-            img._imagenHDR[i][j] = suma/numRays;
+            jobs.push(make_pair(i, j));
         }
     }
+    
+
+    for(int i = 0; i<NTHREADS; i++) {
+        jobs.push(make_pair(-1,-1));
+    }
+    
+    vector<thread> threads;  
+    for (int i = 0; i<NTHREADS; i++) {
+        threads.push_back(std::thread([&](ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x){ work(jobs,result,numRays, x); }, std::ref(jobs),std::ref(result),numRays,x));
+    }
+
+    
+
+    //Wait for end
+    for (auto &th : threads) {
+        th.join();
+    }
+
     cout << "]" << endl;
     cout.flush();
 
-    // queue<Pixel> qresult = result.getQueue();
-    // while (!qresult.empty())
-    // {
-    //     Pixel a = qresult.front();
+    queue<Pixel> qresult = result.getQueue();
+    while (!qresult.empty())
+    {
+        Pixel a = qresult.front();
 
-    //     img._imagenHDR[a.x][a.y] = a.contribution;
-    //     qresult.pop();
+        img._imagenHDR[a.x][a.y] = a.contribution;
+        qresult.pop();
 
-    // }
+    }
     return img;
 }
 
