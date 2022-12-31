@@ -14,12 +14,17 @@ RGB Textura::muestrea(const double u, const double v, const Punto p){
     int auxU = u*_texture.height();
     int auxV = v*_texture.width();
     //cout << "Los valores de aux son " << u<< "  " << v << endl;
-    if(auxV > 0 && auxU > 0 && auxU <= _texture.height() && auxV <= _texture.width()){
-        cout << "Los valores de aux son " << u<< "  " << v << endl;
-        cout << " y el RGB es " << RGB();
-        return RGB(_texture(auxU,auxV,0,0),_texture(auxU,auxV,0,1),_texture(auxU,auxV,0,2));
+    if(auxV > 0 && auxU > 0 && auxU < _texture.height() && auxV < _texture.width()){
+        //cout << "Los valores de aux son " << u<< "  " << v << endl;
+        //cout << " y el RGB es " << RGB();
+        RGB val(_texture(auxU,auxV,0,0),_texture(auxU,auxV,0,1),_texture(auxU,auxV,0,2));
+        return val / 255;
     }else{
-        return RGB();
+        //Es negativo o por encima del valor de las dimensiones
+        auxU = (_texture.height() + (auxU % _texture.height())) % _texture.height();
+        auxV = (_texture.width() + (auxV % _texture.width())) % _texture.width();
+        RGB val(_texture(auxU,auxV,0,0),_texture(auxU,auxV,0,1),_texture(auxU,auxV,0,2));
+        return val / 255;
     }
 }
 

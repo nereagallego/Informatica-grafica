@@ -26,13 +26,13 @@ public:
      */
     Plano(Direccion normal,float d): 
         _normal(normal.normalizar()), 
-        _distancia(d)//,
-     //   _ejeU(perpendicular(normal)),
-     //   _ejeV(crossProduct(_normal, _ejeU)) 
+        _distancia(d),
+        _ejeU(perpendicular(normal).normalizar()),
+        _ejeV(crossProduct(_normal, _ejeU)) 
         {
-            Direccion d1(normal.getY(), normal.getX()*-1,0);
-            _ejeU = d1.normalizar();
-            _ejeV = crossProduct(_normal,_ejeU);
+         //   Direccion d1(normal.getY(), normal.getX()*-1,0);
+         //   _ejeU = d1.normalizar();
+         //   _ejeV = crossProduct(_normal,_ejeU);
         };
 
     //Plano(Direccion normal,float d, cimg_library::CImg<float> texture): _normal(normal), _distancia(d), Primitive(texture){};
@@ -47,13 +47,13 @@ public:
     Plano(Direccion normal, float d, shared_ptr<BSDF> emision): 
         _normal(normal.normalizar()), 
         _distancia(d), 
-        Primitive(emision)//,
-        //_ejeU(perpendicular(normal)),
-       // _ejeV(crossProduct(_normal, _ejeU)) {};
+        Primitive(emision),
+        _ejeU(perpendicular(normal).normalizar()),
+        _ejeV(crossProduct(_normal, _ejeU))
         {
-            Direccion d1(normal.getY(), normal.getX()*-1,0);
-            _ejeU = d1.normalizar();
-            _ejeV = crossProduct(_normal,_ejeU);
+          //  Direccion d1(normal.getY(), normal.getX()*-1,0);
+          //  _ejeU = d1.normalizar();
+          //  _ejeV = crossProduct(_normal,_ejeU);
         };
 
     //Plano(Direccion normal, float d, BSDF emision, cimg_library::CImg<float> texture): _normal(normal), _distancia(d), Primitive(emision,texture){};
