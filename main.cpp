@@ -29,9 +29,16 @@ int main(int argc, char *argv[]){
       cout << "La altura es " << height << " y la anchura " << width << endl;
       cout << "y el tamaño es " << src.size() << endl;
       
+      cimg_library::CImg<unsigned char> wood("resources/wood_planks.jpg");
+      width = wood.width();
+      height = wood.height();
+
+      cout << "La altura es " << height << " y la anchura " << width << endl;
+      cout << "y el tamaño es " << src.size() << endl;
+
       cout << "entro en main" << endl;
       string filename = argv[1];
-      Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 1028, 1028);
+      Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 512, 512);
       cout << "creo la camara" << endl;
       auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
       leftPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.92549,0.5098,0.94117647), RGB(), RGB()));
@@ -49,8 +56,8 @@ int main(int argc, char *argv[]){
       leftSphere->setEmision(make_shared<SimpleBSDF>(RGB(0.1,0.1,0.1), RGB(0.7,0.7,0.7), RGB()));
 
       auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-      rightSphere->setEmision(make_shared<SimpleBSDF>(RGB(0.1,0.1,0.1), RGB(), RGB(0.7, 0.7, 0.7),1.5));
-      
+      //rightSphere->setEmision(make_shared<SimpleBSDF>(RGB(0.1,0.1,0.1), RGB(), RGB(0.7, 0.7, 0.7),1.5));
+      rightSphere->setEmision(make_shared<Textura>(RGB(1,1,1), RGB(), RGB(),wood));
      auto lightPoint = make_shared<Light>(Punto(0,0,0.8),RGB(0.3,0.3,0.3));
       auto areaLight = make_shared<SquareLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(0.5,0.5,0.5),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
        auto cicleLight = make_shared<CircleLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(0.5,0.5,0.5),0.3);
