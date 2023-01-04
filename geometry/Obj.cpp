@@ -5,6 +5,7 @@ Intersect Obj::intersect(Ray r) {
     Intersect interseccion;
     interseccion._intersect = false;
     interseccion._t = INFINITY;
+    
 
     for (int i = 0; i < _loader.LoadedMeshes.size(); i++)
         {
@@ -36,10 +37,12 @@ Intersect Obj::intersect(Ray r) {
                 Intersect it = t.intersect(r);
                 if(it._intersect && it._t < interseccion._t && it._t > 0){
                     interseccion = it;
+
+                    
                 }
             }
 
         }
-
+    interseccion._emision = this->getEmision();
     return interseccion;
 }
