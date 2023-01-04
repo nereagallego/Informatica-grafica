@@ -50,8 +50,8 @@ int main(int argc, char *argv[]){
       Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 255, 255);
       cout << "creo la camara" << endl;
 
-      auto sofa = make_shared<Obj>("resources/sofa.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
-      sofa->setEmision(make_shared<SimpleBSDF>(RGB(1,1,1), RGB(), RGB()));
+    //  auto sofa = make_shared<Obj>("resources/sofa.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
+    //  sofa->setEmision(make_shared<SimpleBSDF>(RGB(1,0,0), RGB(), RGB()));
 
       auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
       leftPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.92549,0.5098,0.94117647), RGB(), RGB()));
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
     //  cam.addLight(lightPoint);
       cam.addLight(cicleLight);
 
-        cam.addPrimitive(sofa);
+      //  cam.addPrimitive(sofa);
 
        cam.addPrimitive(leftPlane);
        cam.addPrimitive(rightPlane);
