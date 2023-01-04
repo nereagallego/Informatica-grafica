@@ -50,14 +50,15 @@ TEXTURES=${MATERIAL}/Texturas
 SIMPLE=${MATERIAL}/SimpleBSDF
 PRIMITIVE=${GEO}/Primitive
 INTERSECT=${GEO}/Intersect
-OBJ = ${GEO}/Obj
+OBJ =${GEO}/Obj
+CUAD=${GEO}/Cuadrado
 #---------------------------------------------------------
 #directorio y clase para manejo de logs
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o  ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o -o ${EJEC} ${CIMGFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o ${CUAD}.o
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o  ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o ${CUAD}.o -o ${EJEC} ${CIMGFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -124,10 +125,13 @@ ${INTERSECT}.o: ${INTERSECT}.h ${INTERSECT}.cpp
 ${OBJ}.o: ${OBJ}.h ${OBJ}.cpp
 	${CC} -c ${OBJ}.cpp -o ${OBJ}.o ${CPPFLAGS}
 
+${CUAD}.o: ${CUAD}.h ${CUAD}.cpp
+	${CC} -c ${CUAD}.cpp -o ${CUAD}.o ${CPPFLAGS}
+
 
 ${EJEC}.o: ${EJEC}.cpp 
 	${CC} -c ${EJEC}.cpp ${CPPFLAGS}
 #---------------------------------------------------------
 # Cuidado con lo que se pone aquí, que se borra sin preguntar
 clean:
-	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM0}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o ${SIMPLE}.o ${PRIMITIVE}.o ${INTERSECT}.o ${OBJ}.o
+	$(RM) ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${EJEC} ${ESFERA}.o ${TRANSFORMPPM0}.o ${RGB}.o ${EJEC} ${RAY}.o ${PLANO}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o ${SIMPLE}.o ${PRIMITIVE}.o ${INTERSECT}.o ${OBJ}.o ${CUAD}.o
