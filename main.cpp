@@ -47,18 +47,18 @@ int main(int argc, char *argv[]){
 
       cout << "entro en main" << endl;
       string filename = argv[1];
-      Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 255, 255);
+      Camera cam(Direccion(-2,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 518, 1036);
       
       cout << "creo la camara" << endl;
 
 
-      auto sofa = make_shared<Obj>("resources/craneo.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
-      sofa->setEmision(make_shared<SimpleBSDF>(RGB(0.96078,0.96078,0.96078), RGB(), RGB()));
+      auto sofa = make_shared<Obj>("resources/estrellica.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
+      sofa->setEmision(make_shared<SimpleBSDF>(RGB(0.5,0.5,0), RGB(0.5,0.5,0), RGB()));
     //  auto sofa = make_shared<Obj>("resources/sofa.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
     //  sofa->setEmision(make_shared<SimpleBSDF>(RGB(1,0,0), RGB(), RGB()));
 
       auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
-      leftPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.92549,0.5098,0.94117647), RGB(), RGB()));
+      leftPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.72549,0.3098,0.74117647), RGB(0.2,0.2,0.2), RGB()));
       auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
       rightPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.37647, 0.25098, 0.74117647), RGB(), RGB()));
       auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);

@@ -33,7 +33,7 @@ Imagen Camera::dibujar(){
     srand (time(NULL));
     ConcurrentQueue<pair<int,int>> jobs;
     ConcurrentQueue<Pixel> result;
-    int x = 10*_nPixelsh * _nPixelsw / 100;
+    int x = 5*_nPixelsh * _nPixelsw / 100;
     cout << "[" ;
     cout.flush();
     for(int i = 0; i < _nPixelsh; i ++){
