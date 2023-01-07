@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int nPixelsw){
+Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int nPixelsw, int numRayos){
     _L = l;
     _U = u;
     _F = f;
@@ -10,6 +10,7 @@ Camera::Camera(Direccion l, Direccion u, Direccion f, Punto o, int nPixelsh, int
     _referenciaPixel = _O + _F + _L + _U;
     _nPixelsh = nPixelsh;
     _nPixelsw = nPixelsw;
+    numRays = numRayos;
 }
 
 Punto Camera::getO(){
@@ -132,7 +133,7 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
        // if(aL != nullptr) cout << "Es un area Light" << endl;
         //else cout << "No es un area light" << endl;
         //cout << "calculo la contribucion de luz" << endl;
-        Direccion dir = l->getCenter() - intersection._punto;
+        Direccion dir = l->samplePoint() - intersection._punto;
         Direccion rayoLuzDirection = dir.normalizar();
         Ray rayoLuz(rayoLuzDirection, intersection._punto);
 

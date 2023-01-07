@@ -47,26 +47,26 @@ int main(int argc, char *argv[]){
 
       cout << "entro en main" << endl;
       string filename = argv[1];
-      Camera cam(Direccion(-2,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 518, 1036);
+      Camera cam(Direccion(-2,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 518, 1036, 2);
       
       cout << "creo la camara" << endl;
 
 
-      auto sofa = make_shared<Obj>("resources/estrellica.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
-      sofa->setEmision(make_shared<SimpleBSDF>(RGB(0.5,0.5,0), RGB(0.5,0.5,0), RGB()));
+      auto sofa = make_shared<Obj>("resources/diamond5.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1), 0.25);
+      sofa->setEmision(make_shared<SimpleBSDF>(RGB(0.407,0.508,0.541176), RGB(), RGB(0.4,0.4,0.4)));
     //  auto sofa = make_shared<Obj>("resources/sofa.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
     //  sofa->setEmision(make_shared<SimpleBSDF>(RGB(1,0,0), RGB(), RGB()));
 
-      auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
+      auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 2);
       leftPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.72549,0.3098,0.74117647), RGB(0.2,0.2,0.2), RGB()));
-      auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
+      auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 2);
       rightPlane->setEmision(make_shared<SimpleBSDF>(RGB(0.37647, 0.25098, 0.74117647), RGB(), RGB()));
       auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);
       floorPlane->setEmision(make_shared<SimpleBSDF>(RGB(1,1,1), RGB(), RGB()));
       auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
       ceilingPlane->setEmision(make_shared<SimpleBSDF>(RGB(1,1,1), RGB(), RGB()));
       auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
-      backPlane->setEmision(make_shared<Textura>(RGB(1,1,1), RGB(), RGB(),src));
+      backPlane->setEmision(make_shared<SimpleBSDF>(RGB(1,1,1), RGB(), RGB()));
       //backPlane->setTexture(src);
 
       auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]){
 
       auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
       //rightSphere->setEmision(make_shared<SimpleBSDF>(RGB(0.1,0.1,0.1), RGB(), RGB(0.7, 0.7, 0.7),1.5));
-      rightSphere->setEmision(make_shared<Textura>(RGB(0.5,0.5,0.5), RGB(), RGB(0.5,0.5,0.5),wood));
+      rightSphere->setEmision(make_shared<SimpleBSDF>(RGB(0.5,0.5,0.5), RGB(), RGB(0.5,0.5,0.5), 1.5));
      auto lightPoint = make_shared<Light>(Punto(0,0,0.8),RGB(0.3,0.3,0.3));
       auto areaLight = make_shared<SquareLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(0.5,0.5,0.5),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
        auto cicleLight = make_shared<CircleLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(0.5,0.5,0.5),0.3);
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]){
     //  cam.addLight(lightPoint);
       cam.addLight(cicleLight);
 
-        cam.addPrimitive(sofa);
+      //  cam.addPrimitive(sofa);
 
        cam.addPrimitive(leftPlane);
        cam.addPrimitive(rightPlane);

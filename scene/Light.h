@@ -9,7 +9,7 @@ using namespace std;
 
 class Light
 {
-private:
+protected:
     Punto _center;
     RGB _power;
 public:
@@ -26,6 +26,7 @@ public:
 
     double getLuminance(){ return _power.getRed() + _power.getGreen() + _power.getBlue();}
     virtual Direccion sample()const;
+    virtual Punto samplePoint();
 };
 
 

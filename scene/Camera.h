@@ -6,8 +6,7 @@
 #include "../geometry/Primitive.h"
 #include "../geometry/Ray.h"
 #include "../image/Imagen.h"
-#include "../math/Matrix4.h"
-#include "../math/CoordenadasHomogeneas.h"
+
 #include <memory>
 #include <time.h>
 #include <vector>
@@ -37,7 +36,7 @@ private:
     int _nPixelsh, _nPixelsw;
     float _altura, _anchura;
     Punto _referenciaPixel;
-    int numRays = 5;
+    int numRays;
     mutex mtx;
 
     uint32_t threads;
@@ -61,7 +60,7 @@ public:
      * @param nPixelsh altura en píxeles
      * @param nPixelsw anchura en píxeles
      */
-    Camera(Direccion l, Direccion u , Direccion f, Punto o, int nPixelsh, int nPixelsw);
+    Camera(Direccion l, Direccion u , Direccion f, Punto o, int nPixelsh, int nPixelsw, int numRayos);
 
     Direccion getL();
     Direccion getU();

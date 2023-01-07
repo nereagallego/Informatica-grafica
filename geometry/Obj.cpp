@@ -29,9 +29,18 @@ Intersect Obj::intersect(Ray r) {
                 CoordenadasHomogeneas wx(x);
                 CoordenadasHomogeneas wy(y);
                 CoordenadasHomogeneas wz(z);
+
+                
+
                 x = wx.cambioBase(T).punto();
                 y = wy.cambioBase(T).punto();
                 z = wz.cambioBase(T).punto();
+
+                wx.escala(valorEscalado,valorEscalado,valorEscalado);
+                wy.escala(valorEscalado,valorEscalado,valorEscalado);
+                wz.escala(valorEscalado,valorEscalado,valorEscalado);
+
+
 
                 Triangulo t(x,y,z);
                 Intersect it = t.intersect(r);

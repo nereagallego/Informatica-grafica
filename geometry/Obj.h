@@ -10,14 +10,15 @@ private:
     objl::Loader _loader;
     Punto _centro;
     Direccion _ejeX, _ejeY, _ejeZ;
+    float valorEscalado;
 public:
 
-    Obj(string lod, Direccion ejeX, Direccion ejeY, Direccion ejeZ, Punto p, shared_ptr<BSDF> emision): Primitive(emision), _centro(p), _ejeX(ejeX), _ejeY(ejeY), _ejeZ(ejeZ) 
+    Obj(string lod, Direccion ejeX, Direccion ejeY, Direccion ejeZ, Punto p, shared_ptr<BSDF> emision, float escalado): Primitive(emision), _centro(p), _ejeX(ejeX), _ejeY(ejeY), _ejeZ(ejeZ), valorEscalado(escalado) 
     {
         _loader.LoadFile(lod);
     }
 
-    Obj(string lod, Direccion ejeX, Direccion ejeY, Direccion ejeZ, Punto p):  _centro(p), _ejeX(ejeX), _ejeY(ejeY), _ejeZ(ejeZ) 
+    Obj(string lod, Direccion ejeX, Direccion ejeY, Direccion ejeZ, Punto p, float escalado):  _centro(p), _ejeX(ejeX), _ejeY(ejeY), _ejeZ(ejeZ) , valorEscalado(escalado)
     {
         _loader.LoadFile(lod);
     }
