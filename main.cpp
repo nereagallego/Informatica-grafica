@@ -47,13 +47,13 @@ int main(int argc, char *argv[]){
 
       cout << "entro en main" << endl;
       string filename = argv[1];
-      Camera cam(Direccion(-2,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 518, 1036, 2);
+      Camera cam(Direccion(-2,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 518, 1036, 500);
       
       cout << "creo la camara" << endl;
 
 
-      auto sofa = make_shared<Obj>("resources/diamond5.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1), 0.25);
-      sofa->setEmision(make_shared<SimpleBSDF>(RGB(0.407,0.508,0.541176), RGB(), RGB(0.4,0.4,0.4)));
+    //  auto sofa = make_shared<Obj>("resources/diamond5.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1), 0.25);
+    //  sofa->setEmision(make_shared<SimpleBSDF>(RGB(0.407,0.508,0.541176), RGB(), RGB(0.4,0.4,0.4)));
     //  auto sofa = make_shared<Obj>("resources/sofa.obj", cam.getL(), cam.getU(), cam.getF(), Punto(0,0,1));
     //  sofa->setEmision(make_shared<SimpleBSDF>(RGB(1,0,0), RGB(), RGB()));
 
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
       auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
       ceilingPlane->setEmision(make_shared<SimpleBSDF>(RGB(1,1,1), RGB(), RGB()));
       auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
-      backPlane->setEmision(make_shared<SimpleBSDF>(RGB(1,1,1), RGB(), RGB()));
+      backPlane->setEmision(make_shared<Textura>(RGB(1,1,1), RGB(), RGB(),src));
       //backPlane->setTexture(src);
 
       auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
