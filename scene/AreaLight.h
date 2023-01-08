@@ -6,7 +6,7 @@
 #include "../scene/BSDF.h"
 #include "../math/rand.h"
 
-class AreaLight : public Light{
+class AreaLight : public Light {
     
     Plano _p;
 public:
@@ -145,5 +145,22 @@ public:
         s._intersect = s._intersect && d.modulo() <= _radius;
         return s;
     }
+
+    // Punto samplePoint() const override {
+        
+    //     float rad = Rand::fRand(0,_radius);
+    //     float theta = Rand::fRand(0,1) * 2 * M_PI;
+    //     Punto point(rad*sin(M_PI/2)*cos(theta), rad*sin(M_PI/2)*sin(theta), rad*cos(M_PI/2));
+    //     Direccion ejeX = perpendicular(this->getNormal()).normalizar();
+    //     Direccion ejeY = crossProduct(ejeX,this->getNormal());
+    //     Direccion ejeZ = this->getNormal();
+
+    //     float v[4][4] = {{ejeX.getX(),ejeY.getX(),ejeZ.getX(),_center.getX()},{ejeX.getY(),ejeY.getY(),ejeZ.getY(),_center.getY()},{ejeX.getZ(),ejeY.getZ(),ejeZ.getZ(),_center.getZ()},{0,0,0,1}};
+    //     Matrix4 T(v);
+
+    //     CoordenadasHomogeneas w(point);
+
+    //     return w.cambioBase(T).punto();
+    // }
 };
 #endif

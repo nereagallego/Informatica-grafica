@@ -97,7 +97,7 @@ int main(int argc, char *argv[]){
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
     rightSphere->setEmision(BSDF(RGB(), RGB(), RGB(1,1,1), 1.5));
     
-    auto areaLight = make_shared<SquareLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(0.5,0.5,0.5),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
+    auto areaLight = make_shared<SquareLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(1,1,1),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
 
     cam.addLight(areaLight);
 
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]){
     cam.addPrimitive(leftSphere);
     cam.addPrimitive(rightSphere);
 
-    PhotonMapping photonMap(cam,2000000);
+    PhotonMapping photonMap(cam,30000,0.08f);
     Imagen gen = photonMap.photonMapping();
 
     Imagen res = ToneMapping::gammaCurve(gen,4.4);
