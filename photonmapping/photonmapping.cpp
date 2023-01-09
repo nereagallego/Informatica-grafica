@@ -232,7 +232,7 @@ void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<P
                     
                     if(type == DIFFUSE){
                         mtx.lock();
-                        auto v = fotonmap.nearest_neighbors(cercano._punto,100,radius);
+                        auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
                         mtx.unlock();
                         //  contribucion = contribucion + photonDensityStim(cercano,rayo, v);
                         suma = suma +  photonDensityStim(cercano,rayo, v);
