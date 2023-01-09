@@ -78,11 +78,11 @@ int main(int argc, char *argv[]){
 
   /*-------------------------------------PRUEBA PHOTON MAPPING---------------------------------*/
     cout << "entro en main" << endl;
-    Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
+    Camera cam(Direccion(-2,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 259, 518);
     cout << "creo la camara" << endl;
-    auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
+    auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 2);
     leftPlane->setEmision(BSDF(RGB(0.8,0,0), RGB(), RGB()));
-    auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
+    auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 2);
     rightPlane->setEmision(BSDF(RGB(0, 0.8, 0), RGB(), RGB()));
     auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);
     floorPlane->setEmision(BSDF(RGB(0.8,0.8,0.8), RGB(), RGB()));
@@ -91,11 +91,11 @@ int main(int argc, char *argv[]){
     auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
     backPlane->setEmision(BSDF(RGB(0.8,0.8,0.8), RGB(), RGB()));
 
-    auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    leftSphere->setEmision(BSDF(RGB(0.4,0.3,0.318), RGB(0.6,0.6,0.6), RGB()));
+    auto leftSphere = make_shared<Esfera>(Punto(-0.8,-0.7,0.25),0.3);
+    leftSphere->setEmision(BSDF(RGB(), RGB(1,1,1), RGB()));
 
-    auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    rightSphere->setEmision(BSDF(RGB(), RGB(0.4,0.4,0.4), RGB(0.6,0.6,0.6)));
+    auto rightSphere = make_shared<Esfera>(Punto(0.8,-0.7,-0.25),0.3);
+    rightSphere->setEmision(BSDF(RGB(), RGB(), RGB(1,1,1),1.5));
     
     auto areaLight = make_shared<SquareLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(1,1,1),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
 

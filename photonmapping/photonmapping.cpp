@@ -77,34 +77,6 @@ vector<Photon> PhotonMapping::ScatterPhotons(shared_ptr<Light> l, int nPhotons){
             }
             i++;
 
-        //Se mira con que intersecta el fotón
-        // for(auto p : _cam.getPrimitives()){
-        //     Intersect intersect = p->intersect(r); 
-        //     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-        //         cercano = intersect;
-        //     }
-        // }
-
-        // if( cercano._intersect) {
-        //     Photon p(cercano._punto, r.getDireccion(),l->getPower()*4*M_PI/nPhotons,cercano._normal);
-        // //    photons.push_back(p);
-        //     tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
-        //     Direccion dirRay = get<0>(tupla);
-        //     RGB color_BSDF = get<1>(tupla);
-        //     BSDFType type = get<2>(tupla);
-        //     //Se le pasa el flujo computado con el BSDF
-            
-        //     vector<Photon> rebotes = siguientesRebotes(color_BSDF*p.getFlux(),cercano._punto, dirRay);
-        //     if(type == DIFFUSE){
-        //         rebotes.push_back(p);
-        //     }
-        //     for(Photon ph : rebotes){
-        //         photons.push_back(ph);
-        //     }
-        //     i++;
-            
-            
-        // }
         
     }
     return photons;
@@ -260,7 +232,7 @@ void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<P
                     
                     if(type == DIFFUSE){
                         mtx.lock();
-                        auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
+                        auto v = fotonmap.nearest_neighbors(cercano._punto,100,radius);
                         mtx.unlock();
                         //  contribucion = contribucion + photonDensityStim(cercano,rayo, v);
                         suma = suma +  photonDensityStim(cercano,rayo, v);

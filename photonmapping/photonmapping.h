@@ -64,7 +64,7 @@ public:
      * @param cam parámetros de la cámara
      * @param n numero de fotones
     */
-    PhotonMapping(Camera cam, int n): _cam(cam), _numPhotons(n), radius(0.08f) {}
+    PhotonMapping(Camera cam, int n): _cam(cam), _numPhotons(n), radius(1.0f) {}
 
     /**
      * @brief return a image computed with photon mapping
