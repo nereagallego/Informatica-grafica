@@ -10,6 +10,7 @@ vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direc
     Punto _origin = origen;
     Direccion _direction = dirRayo;
     BSDFType _type = DIFFUSE;
+    bool first = true;
     while(_type != ABSORTION){
         Ray r(_direction,_origin);
 
@@ -37,11 +38,11 @@ vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direc
             BSDFType type = get<2>(tupla);
             _type = type;
             //Se le pasa el flujo computado con el BSDF
-            if(type == DIFFUSE)
+            if(type == DIFFUSE)// && ! first)
             {
                 photons.push_back(p);
                 _energy = color_BSDF * _energy;
-            }
+            } //else if(type==DIFFUSE && first) first = false;
                 
             _direction = dirRay;
             _origin = cercano._punto;
@@ -204,7 +205,7 @@ RGB PhotonMapping::photonDensityStim(Intersect cercano, Ray rayo, const vector<c
         // contribucion = contribucion + contribucionMaterial * photon->getFlux() * wr / ((1 - 2 / (3*k)) * M_PI * radius * radius);
         contribucion = contribucion + contribucionMaterial * photon->getFlux() * gaussianKernel;
     }
-    return contribucion;
+    return contribucion ;//+ _cam.nextEventEstimation(rayo.getDireccion(),cercano);
 }
 
 void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x, nn::KDTree<Photon,3,PhotonAxisPosition>& fotonmap){
