@@ -5,11 +5,12 @@
 vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direccion dirRayo){
     vector<Photon> photons;
     //Si la energía es 0, absorbe
-    if(energia.getRed() == 0 && energia.getBlue() == 0 && energia.getGreen() == 0) return photons;
+//    if(energia.getRed() == 0 && energia.getBlue() == 0 && energia.getGreen() == 0) return photons;
     RGB _energy = energia;
     Punto _origin = origen;
     Direccion _direction = dirRayo;
-    while(_energy.getRed() != 0 ||_energy.getGreen() != 0 || _energy.getBlue() != 0){
+    BSDFType _type = DIFFUSE;
+    while(_type != ABSORTION){
         Ray r(_direction,_origin);
 
         Intersect cercano;
@@ -26,7 +27,7 @@ vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direc
 
         if( cercano._intersect ) {
             Photon p(cercano._punto, r.getDireccion(),_energy,cercano._normal);
-            photons.push_back(p);
+        //    photons.push_back(p);
             if(cercano._emision.getSpecularCoefficient().getRed() > 0){
               //  cout << "aqui" << endl;
             }
@@ -34,10 +35,14 @@ vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direc
             Direccion dirRay = get<0>(tupla);
             RGB color_BSDF = get<1>(tupla);
             BSDFType type = get<2>(tupla);
+            _type = type;
             //Se le pasa el flujo computado con el BSDF
             if(type == DIFFUSE)
+            {
                 photons.push_back(p);
-            _energy = color_BSDF * _energy;
+                _energy = color_BSDF * _energy;
+            }
+                
             _direction = dirRay;
             _origin = cercano._punto;
 
@@ -54,42 +59,51 @@ vector<Photon> PhotonMapping::ScatterPhotons(shared_ptr<Light> l, int nPhotons){
     //Para cada foton...
     while ( i < nPhotons){
         Direccion dirAleatoria = l->sample();
-
-        Ray r(dirAleatoria,l->samplePoint());
+        Punto x = l->samplePoint();
+        Ray r(dirAleatoria,x);
      // lanzo rayo
      // hago x rebotes max n - i
         Intersect cercano;
         cercano._intersect = false;
         cercano._t = INFINITY;
 
-        //Se mira con que intersecta el fotón
-        for(auto p : _cam.getPrimitives()){
-            Intersect intersect = p->intersect(r); 
-            if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
-                cercano = intersect;
-            }
-        }
-
-        if( cercano._intersect) {
-            Photon p(cercano._punto, r.getDireccion(),l->getPower()*4*M_PI/nPhotons,cercano._normal);
-            photons.push_back(p);
-            tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
-            Direccion dirRay = get<0>(tupla);
-            RGB color_BSDF = get<1>(tupla);
-            BSDFType type = get<2>(tupla);
-            //Se le pasa el flujo computado con el BSDF
-            
-            vector<Photon> rebotes = siguientesRebotes(color_BSDF*p.getFlux(),cercano._punto, dirRay);
-            if(type == DIFFUSE){
-                rebotes.push_back(p);
-            }
+        vector<Photon> rebotes = siguientesRebotes(l->getPower()*4*M_PI/nPhotons,x, dirAleatoria);
+            // if(type == DIFFUSE){
+            //     rebotes.push_back(p);
+            // }
             for(Photon ph : rebotes){
                 photons.push_back(ph);
             }
             i++;
+
+        //Se mira con que intersecta el fotón
+        // for(auto p : _cam.getPrimitives()){
+        //     Intersect intersect = p->intersect(r); 
+        //     if(intersect._intersect && intersect._t < cercano._t && intersect._t > 0){
+        //         cercano = intersect;
+        //     }
+        // }
+
+        // if( cercano._intersect) {
+        //     Photon p(cercano._punto, r.getDireccion(),l->getPower()*4*M_PI/nPhotons,cercano._normal);
+        // //    photons.push_back(p);
+        //     tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
+        //     Direccion dirRay = get<0>(tupla);
+        //     RGB color_BSDF = get<1>(tupla);
+        //     BSDFType type = get<2>(tupla);
+        //     //Se le pasa el flujo computado con el BSDF
+            
+        //     vector<Photon> rebotes = siguientesRebotes(color_BSDF*p.getFlux(),cercano._punto, dirRay);
+        //     if(type == DIFFUSE){
+        //         rebotes.push_back(p);
+        //     }
+        //     for(Photon ph : rebotes){
+        //         photons.push_back(ph);
+        //     }
+        //     i++;
             
             
-        }
+        // }
         
     }
     return photons;

@@ -81,21 +81,21 @@ int main(int argc, char *argv[]){
     Camera cam(Direccion(-1,0,0),Direccion(0,1,0), Direccion(0,0,3), Punto(0,0,-3.5), 256, 256);
     cout << "creo la camara" << endl;
     auto leftPlane = make_shared<Plano>(Direccion(1,0,0), 1);
-    leftPlane->setEmision(BSDF(RGB(0.9,0,0), RGB(), RGB()));
+    leftPlane->setEmision(BSDF(RGB(0.8,0,0), RGB(), RGB()));
     auto rightPlane = make_shared<Plano> (Direccion(-1, 0, 0), 1);
-    rightPlane->setEmision(BSDF(RGB(0, 0.9, 0), RGB(), RGB()));
+    rightPlane->setEmision(BSDF(RGB(0, 0.8, 0), RGB(), RGB()));
     auto floorPlane = make_shared<Plano>(Direccion(0,1,0), 1);
-    floorPlane->setEmision(BSDF(RGB(0.9,0.9,0.9), RGB(), RGB()));
+    floorPlane->setEmision(BSDF(RGB(0.8,0.8,0.8), RGB(), RGB()));
     auto ceilingPlane = make_shared<Plano>(Direccion(0,-1,0),1);
-    ceilingPlane->setEmision(BSDF(RGB(0.9,0.9,0.9), RGB(), RGB()));
+    ceilingPlane->setEmision(BSDF(RGB(0.8,0.8,0.8), RGB(), RGB()));
     auto backPlane = make_shared<Plano>(Direccion(0,0,-1),1);
-    backPlane->setEmision(BSDF(RGB(0.9,0.9,0.9), RGB(), RGB()));
+    backPlane->setEmision(BSDF(RGB(0.8,0.8,0.8), RGB(), RGB()));
 
     auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    leftSphere->setEmision(BSDF(RGB(0,0,0), RGB(1,1,1), RGB()));
+    leftSphere->setEmision(BSDF(RGB(1,1,1), RGB(), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    rightSphere->setEmision(BSDF(RGB(), RGB(), RGB(1,1,1), 1.5));
+    rightSphere->setEmision(BSDF(RGB(1,1,1), RGB(), RGB()));
     
     auto areaLight = make_shared<SquareLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(1,1,1),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
 
@@ -109,10 +109,10 @@ int main(int argc, char *argv[]){
     cam.addPrimitive(leftSphere);
     cam.addPrimitive(rightSphere);
 
-    PhotonMapping photonMap(cam,30000,0.08f);
+    PhotonMapping photonMap(cam,100000);
     Imagen gen = photonMap.photonMapping();
 
-    Imagen res = ToneMapping::gammaCurve(gen,4.4);
+    Imagen res = ToneMapping::gammaCurve(gen,8.8);
  //   Imagen res2 = ToneMapping::
     res.exportFile(filename);
 
