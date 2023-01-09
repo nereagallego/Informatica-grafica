@@ -92,10 +92,10 @@ int main(int argc, char *argv[]){
     backPlane->setEmision(BSDF(RGB(0.8,0.8,0.8), RGB(), RGB()));
 
     auto leftSphere = make_shared<Esfera>(Punto(-0.5,-0.7,0.25),0.3);
-    leftSphere->setEmision(BSDF(RGB(1,1,1), RGB(), RGB()));
+    leftSphere->setEmision(BSDF(RGB(0.4,0.3,0.318), RGB(0.6,0.6,0.6), RGB()));
 
     auto rightSphere = make_shared<Esfera>(Punto(0.5,-0.7,-0.25),0.3);
-    rightSphere->setEmision(BSDF(RGB(1,1,1), RGB(), RGB()));
+    rightSphere->setEmision(BSDF(RGB(), RGB(0.4,0.4,0.4), RGB(0.6,0.6,0.6)));
     
     auto areaLight = make_shared<SquareLight>(Direccion(0,-1,0),1,Punto(0,1,0),RGB(1,1,1),Punto(-0.5,1,-0.5),Punto(-0.5,1,0.5),Punto(0.5,1,0.5),Punto(0.5,1,-0.5));
 
