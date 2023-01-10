@@ -57,8 +57,8 @@ CUAD=${GEO}/Cuadrado
 all: ${EJEC}
 #---------------------------------------------------------
 # "linkar"
-${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o ${CUAD}.o
-	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${STL}.o ${TEXTURES}.o  ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o ${CUAD}.o -o ${EJEC} ${CIMGFLAGS} ${LDFLAGS}
+${EJEC}: ${EJEC}.o  ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${TEXTURES}.o ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o ${CUAD}.o
+	${CC} ${EJEC}.o ${PUNTO}.o ${DIRECCION}.o ${MATRIZ}.o ${COORD}.o ${ESFERA}.o ${RGB}.o ${TONE}.o ${TRANSFORM}.o ${RAY}.o ${PLANO}.o ${TRI}.o ${CAMERA}.o ${LUZ}.o ${BSDF}.o ${RAND}.o ${TEXTURES}.o  ${PRIMITIVE}.o ${INTERSECT}.o ${SIMPLE}.o ${OBJ}.o ${CUAD}.o -o ${EJEC} ${CIMGFLAGS} ${LDFLAGS}
 
 #---------------------------------------------------------
 # compilar
@@ -107,8 +107,6 @@ ${BSDF}.o: ${BSDF}.h ${BSDF}.cpp
 ${RAND}.o: ${RAND}.h ${RAND}.cpp
 	${CC} -c ${RAND}.cpp -o ${RAND}.o ${CPPFLAGS}
 
-${STL}.o: ${STL}.h ${STL}.cpp
-	${CC} -c ${STL}.cpp -o ${STL}.o ${CPPFLAGS}
 
 ${TEXTURES}.o: ${TEXTURES}.h ${TEXTURES}.cpp
 	${CC} -c ${TEXTURES}.cpp -o ${TEXTURES}.o ${CPPFLAGS}

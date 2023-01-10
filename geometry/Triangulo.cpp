@@ -22,7 +22,6 @@ Punto Triangulo::getZ(){
 
 Intersect Triangulo::intersect(Ray r) {
     Intersect s;
-   // s._emision = make_shared<BSDF>(this->getEmision());
     s._emision = this->getEmision();
     s._intersect = true;
     Direccion d1 = _y - _x;

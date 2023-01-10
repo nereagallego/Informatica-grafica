@@ -10,7 +10,6 @@ Direccion Plano::getNormal(){
 
 Intersect Plano::intersect(Ray r) {
     Intersect s;
-   // s._emision = make_shared<BSDF>(this->getEmision());
     s._emision = this->getEmision();
     float denominador = r.getDireccion() * _normal;
     if(denominador == 0){ s._intersect = false; return s;}
@@ -23,7 +22,6 @@ Intersect Plano::intersect(Ray r) {
     else 
     {
         s._normal = this->getNormal().normalizar() *-1;
-      //  cout << "desde dentro";
     }
 
     tuple<double,double> x = getUV(s._punto);

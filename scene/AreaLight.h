@@ -37,7 +37,7 @@ public:
 
     Intersect intersect(Ray r) override {
         Intersect s;
-       // s._emision = make_shared<BSDF>(this->getEmission());
+
         s._emision = this->getEmission();
         float denominador = r.getDireccion() * this->getNormal();
         if(denominador == 0){ s._intersect = false; return s;}
@@ -51,7 +51,6 @@ public:
         else 
         {
             s._normal = this->getNormal().normalizar() *-1;
-        //  cout << "desde dentro";
         }
         s._intersect = s._intersect && s._punto.getX() >= _p1.getX() && s._punto.getX() <= _p3.getX() && s._punto.getY() >= _p1.getY() && s._punto.getY() <= _p3.getY() && s._punto.getZ() >= _p1.getZ() && s._punto.getZ() <= _p3.getZ();
        
@@ -73,7 +72,6 @@ public:
 
     Intersect intersect(Ray r) override {
         Intersect s;
-       // s._emision = make_shared<BSDF>(this->getEmission());
         s._emision = this->getEmission();
         float denominador = r.getDireccion() * this->getNormal();
         if(denominador == 0){ s._intersect = false; return s;}
@@ -87,7 +85,6 @@ public:
         else 
         {
             s._normal = this->getNormal().normalizar() *-1;
-        //  cout << "desde dentro";
         }
         Direccion d = s._punto - this->getCenter();
         s._intersect = s._intersect && d.modulo() <= _radius;

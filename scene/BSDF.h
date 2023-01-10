@@ -91,18 +91,6 @@ public:
     _probSpecular(0)
     {}
 
-    // BSDF(shared_ptr<BSDF> b): 
-    // _diffuseCoefficient(b->getDifuseCoefficient()), 
-    // _specularCoefficient(b->getSpecularCoefficient()), 
-    // _refractCoefficient(b->getRefractCoefficient()), 
-    // _refractIndex(b->getRefractIndex()),
-    // _probDiffuse(max(_diffuseCoefficient.getRed(),max(_diffuseCoefficient.getGreen(), _diffuseCoefficient.getBlue()))), 
-    // _probSpecular(max(_specularCoefficient.getRed(),max(_specularCoefficient.getGreen(), _specularCoefficient.getBlue()))), 
-    // _probRefract(max(_refractCoefficient.getRed(),max(_refractCoefficient.getGreen(), _refractCoefficient.getBlue()))) 
-    //     {
-    //         assert((_probDiffuse + _probRefract + _probSpecular)<=1);
-    //     }
-
     RGB getDifuseCoefficient() const;
     void setDifuseCoefficient(RGB emision);
     RGB getSpecularCoefficient() const;

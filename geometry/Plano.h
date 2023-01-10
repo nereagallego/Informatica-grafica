@@ -30,12 +30,7 @@ public:
         _ejeU(perpendicular(normal).normalizar()),
         _ejeV(crossProduct(_normal, _ejeU)) 
         {
-         //   Direccion d1(normal.getY(), normal.getX()*-1,0);
-         //   _ejeU = d1.normalizar();
-         //   _ejeV = crossProduct(_normal,_ejeU);
         };
-
-    //Plano(Direccion normal,float d, cimg_library::CImg<float> texture): _normal(normal), _distancia(d), Primitive(texture){};
 
     /**
      * @brief Construct a new Plano object
@@ -51,12 +46,7 @@ public:
         _ejeU(perpendicular(normal).normalizar()),
         _ejeV(crossProduct(_normal, _ejeU))
         {
-          //  Direccion d1(normal.getY(), normal.getX()*-1,0);
-          //  _ejeU = d1.normalizar();
-          //  _ejeV = crossProduct(_normal,_ejeU);
         };
-
-    //Plano(Direccion normal, float d, BSDF emision, cimg_library::CImg<float> texture): _normal(normal), _distancia(d), Primitive(emision,texture){};
 
     float getDistancia();
     Direccion getNormal();

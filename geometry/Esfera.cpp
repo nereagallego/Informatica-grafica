@@ -11,7 +11,6 @@ float Esfera::getRadio(){
 
 Intersect Esfera::intersect(Ray r){
     Intersect s;
-   // s._emision = make_shared<BSDF>(this->getEmision());
     s._emision = this->getEmision();
     s._intersect = true;
     Direccion aux = r.getPunto() - _centro;
@@ -33,9 +32,7 @@ Intersect Esfera::intersect(Ray r){
     s._normal = d.normalizar();
     else {
         s._normal = d.normalizar() * -1;
-       // cout << "desde dentro" << endl;
     }
-    //s._normal = d.normalizar();
     return s;
 }
 

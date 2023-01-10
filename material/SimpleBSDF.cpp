@@ -17,7 +17,7 @@ tuple<Direccion, RGB> SimpleBSDF::sample(const Direccion omega0, const Punto x, 
     } else if(f == SPECULAR){
         sample = specularEval(x, omega0, normal);
     } else if(f == REFRACTION){
-        sample = refractionEval(x,omega0,normal);//refractionEval(x, omega0, normal);
+        sample = refractionEval(x,omega0,normal);
     } else {
         return {Direccion(), RGB()};
     }
