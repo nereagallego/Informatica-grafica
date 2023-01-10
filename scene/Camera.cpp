@@ -87,8 +87,7 @@ void Camera::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &
             Ray rayo(centro-_O,_O);
             suma = suma + pathTracing(rayo);
         }
-        
-                //cout << "El r1 es " << r1 << " y el r2 " << r2 << endl;
+
         Pixel calculated = {n.first,n.second,suma/nRays};
         result.push(calculated);
         if(n.first*_nPixelsw + n.second == acum - 1){ cout << "="; cout.flush(); }
@@ -119,17 +118,14 @@ float Camera::max(const float a, const float b, const float c, const float d) co
 
 void Camera::addLight(shared_ptr<Light> l){
     _lights.push_back(l);
-    cout << "cantidad de luces " << _lights.size() << endl;
+    
 }
 
 RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection){
     RGB contribucion;
     for(shared_ptr<Light> l : _lights){
         shared_ptr<AreaLight> aL = dynamic_pointer_cast<AreaLight>(l);
-        
-       // if(aL != nullptr) cout << "Es un area Light" << endl;
-        //else cout << "No es un area light" << endl;
-        //cout << "calculo la contribucion de luz" << endl;
+
         Direccion dir = l->getCenter() - intersection._punto;
         Direccion rayoLuzDirection = dir.normalizar();
         Ray rayoLuz(rayoLuzDirection, intersection._punto);
@@ -154,12 +150,9 @@ RGB Camera::nextEventEstimation(Direccion direccionRayo, Intersect intersection)
         if (!cercano._intersect)
         {
             if(aL != nullptr){
-            //    Direccion f = aL->getCenter() - intersection._punto;
                 RGB first = l->getPower() / (rayoLuz.getDireccion() * rayoLuz.getDireccion());;
                 RGB contribucionMaterial = intersection._emision.eval(intersection._punto,direccionRayo,rayoLuzDirection,intersection._normal);
 
-            //    double contribucionGeometrica1 = abs(intersection._normal* f.normalizar());
-            //    Direccion d = intersection._punto - aL->getCenter();
                 double contribucionGeometrica = abs(intersection._normal* rayoLuzDirection.normalizar()) * abs(aL->getNormal() * rayoLuzDirection.normalizar()*-1);
                 contribucionLuz = first * contribucionMaterial * contribucionGeometrica;
 
@@ -191,7 +184,6 @@ RGB Camera::pathTracing(Ray r){
         if(aL != nullptr){
             Intersect inter  = aL->intersect(r);
             if(inter._intersect){
-               // cout << "Intersecta con el area Light" << endl;
                 return aL->getPower();
             }
             

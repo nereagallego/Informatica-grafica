@@ -26,7 +26,6 @@ Imagen ToneMapping::clamp(Imagen imagen, float clamp){
     
 
 Imagen ToneMapping::equalize(Imagen imagen){
-//    cout << "equilize" << endl;
     float MAX = imagen.getMax();
     
     Imagen result(imagen.getHeight(), imagen.getWidth(),imagen.getColorResolution(), imagen.getComment(), 1);
@@ -71,7 +70,6 @@ Imagen ToneMapping::clampEqualize(Imagen imagen, float clamp){
 
 
 Imagen ToneMapping::gammaCurve(Imagen Image, float gamma){
- //   Imagen aux = equalize(Image);
     Imagen result(Image.getHeight(), Image.getWidth(),Image.getColorResolution(), Image.getComment(), 1);
     double maxV = Image.getMax();
     double newMax = 0.0;
@@ -87,10 +85,7 @@ Imagen ToneMapping::gammaCurve(Imagen Image, float gamma){
 
             if(x.getBlue() > maxV) x.setBlue(maxV);
             else x.setBlue(pow(x.getBlue(),1/gamma)/pow(maxV,1/gamma));
-     
-         //   x.setBlue(pow(x.getBlue()/aux.getMax(),gamma)*aux.getMax());
- 
-        //    x.setGreen(pow(x.getGreen()/aux.getMax(),gamma)*aux.getMax());
+
             result._imagenHDR[i][j] = x;
             newMax = max(newMax,x.getRed()*255,x.getGreen()*255,x.getBlue()*255);
         }
@@ -114,10 +109,6 @@ Imagen ToneMapping::clampGamma(Imagen Image, float gamma, float clamp_){
 
             if(x.getBlue() > clamp_) x.setBlue(1);
             else x.setBlue(pow(x.getBlue(),1/gamma)/pow(maxV,1/gamma));
-     
-         //   x.setBlue(pow(x.getBlue()/aux.getMax(),gamma)*aux.getMax());
- 
-        //    x.setGreen(pow(x.getGreen()/aux.getMax(),gamma)*aux.getMax());
             result._imagenHDR[i][j] = x;
         }
     }
@@ -125,7 +116,6 @@ Imagen ToneMapping::clampGamma(Imagen Image, float gamma, float clamp_){
 }
 
 Imagen ToneMapping::reinhard(Imagen Image){
-//    Imagen aux = clampEqualize(Image, clamp);
     Imagen result(Image.getHeight(), Image.getWidth(),Image.getColorResolution(), Image.getComment(), 1);
     
     //Para cada pixel...
@@ -142,7 +132,6 @@ Imagen ToneMapping::reinhard(Imagen Image){
 }
 
 Imagen ToneMapping::reinhard2(Imagen Image, float _clamp){
-//    Imagen aux = clampEqualize(Image, clamp);
     Imagen result(Image.getHeight(), Image.getWidth(),Image.getColorResolution(), Image.getComment(), 1);
     
     //Para cada pixel...

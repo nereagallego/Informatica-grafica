@@ -22,7 +22,6 @@ Intersect Plano::intersect(Ray r) {
     else 
     {
         s._normal = this->getNormal().normalizar() *-1;
-      //  cout << "desde dentro";
     }
     return s;
 }

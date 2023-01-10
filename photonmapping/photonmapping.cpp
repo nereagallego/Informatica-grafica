@@ -4,8 +4,7 @@
 
 vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direccion dirRayo){
     vector<Photon> photons;
-    //Si la energía es 0, absorbe
-//    if(energia.getRed() == 0 && energia.getBlue() == 0 && energia.getGreen() == 0) return photons;
+
     RGB _energy = energia;
     Punto _origin = origen;
     Direccion _direction = dirRayo;
@@ -28,21 +27,18 @@ vector<Photon> PhotonMapping::siguientesRebotes(RGB energia, Punto origen, Direc
 
         if( cercano._intersect ) {
             Photon p(cercano._punto, r.getDireccion(),_energy,cercano._normal);
-        //    photons.push_back(p);
-            if(cercano._emision.getSpecularCoefficient().getRed() > 0){
-              //  cout << "aqui" << endl;
-            }
+
             tuple<Direccion,RGB, BSDFType> tupla = cercano._emision.sample(r.getDireccion(), cercano._punto,cercano._normal);
             Direccion dirRay = get<0>(tupla);
             RGB color_BSDF = get<1>(tupla);
             BSDFType type = get<2>(tupla);
             _type = type;
             //Se le pasa el flujo computado con el BSDF
-            if(type == DIFFUSE)// && ! first)
+            if(type == DIFFUSE)
             {
                 photons.push_back(p);
                 _energy = color_BSDF * _energy;
-            } //else if(type==DIFFUSE && first) first = false;
+            } 
                 
             _direction = dirRay;
             _origin = cercano._punto;
@@ -69,9 +65,7 @@ vector<Photon> PhotonMapping::ScatterPhotons(shared_ptr<Light> l, int nPhotons){
         cercano._t = INFINITY;
 
         vector<Photon> rebotes = siguientesRebotes(l->getPower()*4*M_PI/nPhotons,x, dirAleatoria);
-            // if(type == DIFFUSE){
-            //     rebotes.push_back(p);
-            // }
+
             for(Photon ph : rebotes){
                 photons.push_back(ph);
             }
@@ -108,7 +102,7 @@ Imagen PhotonMapping::photonMapping(){
         for(Photon ph : p){
             photons.push_back(ph);
         }
-        cout << photons.size() << endl;
+        
         
         
     }
@@ -173,11 +167,10 @@ RGB PhotonMapping::photonDensityStim(Intersect cercano, Ray rayo, const vector<c
         float gaussianKernel = alpha * (1 - ((1 - 1/exp(beta*dist.modulo()*dist.modulo()/(2 * radius* radius)))/(1-1/exp(beta))));
         float k = 2;
         float wr = 1 - dist.modulo() / (radius * k);
-       // contribucion = contribucion + contribucionMaterial * photon->getFlux() / (M_PI * radius * radius);
-        // contribucion = contribucion + contribucionMaterial * photon->getFlux() * wr / ((1 - 2 / (3*k)) * M_PI * radius * radius);
+
         contribucion = contribucion + contribucionMaterial * photon->getFlux() * gaussianKernel;
     }
-    return contribucion ;//+ _cam.nextEventEstimation(rayo.getDireccion(),cercano);
+    return contribucion ;
 }
 
 void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<Pixel> &result, unsigned int nRays, int x, nn::KDTree<Photon,3,PhotonAxisPosition>& fotonmap){
@@ -206,7 +199,7 @@ void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<P
                     if(aL != nullptr){
                         Intersect inter  = aL->intersect(rayo);
                         if(inter._intersect){
-                        // cout << "Intersecta con el area Light" << endl;
+
                             suma = suma + aL->getPower();
                             breakW = true;
                         }
@@ -234,7 +227,7 @@ void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<P
                         mtx.lock();
                         auto v = fotonmap.nearest_neighbors(cercano._punto,INFINITY,radius);
                         mtx.unlock();
-                        //  contribucion = contribucion + photonDensityStim(cercano,rayo, v);
+                  
                         suma = suma +  photonDensityStim(cercano,rayo, v);
                         breakW = true;
                         
@@ -249,7 +242,7 @@ void PhotonMapping::work(ConcurrentQueue<pair<int,int>> &jobs, ConcurrentQueue<P
             }
         }
         
-        Pixel calculated = {n.first,n.second,suma/nRays};//*(1-0.1*0.1)+(0.1*0.1*0.1)};
+        Pixel calculated = {n.first,n.second,suma/nRays};
         result.push(calculated);
         if(n.first*_cam.getNPixelsW() + n.second == acum - 1){ cout << "="; cout.flush(); }
         else if(n.first*_cam.getNPixelsW() + n.second > acum - 1) acum = acum + x;

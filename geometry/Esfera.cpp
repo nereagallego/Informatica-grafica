@@ -32,8 +32,7 @@ Intersect Esfera::intersect(Ray r){
     s._normal = d.normalizar();
     else {
         s._normal = d.normalizar() * -1;
-       // cout << "desde dentro" << endl;
+   
     }
-    //s._normal = d.normalizar();
     return s;
 }
