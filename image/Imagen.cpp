@@ -86,7 +86,7 @@ Imagen Imagen::readingFile(string PPMfile){
     for (int i = 0; i < _height; i ++){
         for(int j = 0; j < _width; j ++){
             indata >> red >> green >> blue;
-            RGB tuple((stof(red)*_MAX)/_colorResolution,(stof(green)*_MAX)/_colorResolution,(stof(blue)*_MAX)/_colorResolution);
+            RGB tuple((stof(red)*_MAX)/(_colorResolution),(stof(green)*_MAX)/(_colorResolution),(stof(blue)*_MAX)/(_colorResolution));
             _imagenHDR2[i][j] = tuple;
         }   
     }
